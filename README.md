@@ -57,25 +57,17 @@
 │
 ├── index.html              # หน้าแรก (แสดงรายการของหาย)
 ├── admin.html              # หน้า Dashboard ของเจ้าหน้าที่
-│
-├── /pages                  # หน้าย่อย
-│   ├── login.html
-│   ├── item-detail.html
-│   ├── claim-form.html
-│   └── add-item.html
+├── login.html              # หน้าเข้าสู่ระบบของเจ้าหน้าที่
 │
 ├── /assets
 │   ├── /css
-│   │   ├── main.css        # CSS หลัก (Reset, Fonts, Variables)
-│   │   ├── components.css  # CSS ของ Card, Button, Navbar
-│   │   └── responsive.css  # Media Queries
+│   │   ├── main.css        # CSS หลัก (Fonts, Variables)
 │   │
 │   ├── /js
-│   │   ├── data.js         # (สำคัญ) ไฟล์เก็บข้อมูล Mock Data
-│   │   ├── app.js          # JS สำหรับหน้า User ทั่วไป (Search, Render)
-│   │   └── admin.js        # JS สำหรับหน้า Admin (Add, Delete, Edit)
-│   │   └── auth.js         # Auth (Gatekeeper)
+│   │   ├── auth.js         # ทำระบบ Login / Logout
+│   │   ├── config.js       # เก็บ username และ password
+│   │   └── guard.js        # ทำ IIFE สำหรับบังคับเข้าสู่ระบบ
 │   │
-│   └── /images             # รูปภาพประกอบและรูปสินค้าตัวอย่าง
+│   └── /images             # รูปภาพประกอบและรูปสิ่งของ
 │
 └── README.md               # คู่มือการรันโปรเจกต์```
