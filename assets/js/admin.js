@@ -100,6 +100,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 6. Modal Logic
+  const modal = document.getElementById("addItemModal");
+  const openBtn = document.getElementById("openAddItemModalBtn");
+  const closeBtn = document.querySelector(".close-modal");
+  const form = document.getElementById("addItemForm");
+
+  if (openBtn) {
+    openBtn.addEventListener("click", () => {
+      modal.classList.remove("hidden");
+      // Set default date to today
+      const today = new Date().toISOString().split("T")[0];
+      document.getElementById("dateFound").value = today;
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+  }
+
+  // Close modal when clicking outside
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
+
+  // 7. Handle Form Submission
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Stop page from reloading
+
+      const fileInput = document.getElementById("imageUpload");
+      let imageSrc = "https://placehold.co/300x200?text=No+Image"; // Default image
+
+      // Handle Image Upload (Convert file to text)
+      if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+        try {
+          // Wait for the file to be read
+          imageSrc = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result); // Success
+            reader.onerror = (e) => reject(e); // Error
+            reader.readAsDataURL(file); // Start reading
+          });
+        } catch (error) {
+          alert("Failed to read image.");
+        }
+      }
+
+      // Create the new item object
+      const newItem = {
+        name: document.getElementById("itemName").value,
+        category: document.getElementById("category").value,
+        date: document.getElementById("dateFound").value,
+        location: document.getElementById("location").value,
+        image: imageSrc,
+        description: document.getElementById("description").value,
+        contact: document.getElementById("contact").value,
+      };
+
+      // Save to storage
+      try {
+        DataManager.addItem(newItem);
+        alert("Item added successfully!");
+        modal.classList.add("hidden"); // Close modal
+        form.reset(); // Reset form
+        renderDashboard(); // Refresh table
+      } catch (error) {
+        alert("Error: Image might be too large for local storage.");
+      }
+    });
+  }
+
   // Initial Draw
   renderDashboard();
 });

@@ -36,9 +36,9 @@
     <main class="container mt-lg">
       <div class="flex justify-between items-center mb-lg">
         <h1 style="font-size: 1.75rem; font-weight: 700">Dashboard</h1>
-        <a href="pages/add-item.html" class="btn btn-primary">
+        <button id="openAddItemModalBtn" class="btn btn-primary">
           + Add New Item
-        </a>
+        </button>
       </div>
 
       <!-- Stats Cards -->
@@ -98,6 +98,80 @@
         </p>
       </div>
     </footer>
+
+    <!-- Add Item Modal -->
+    <div id="addItemModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2 class="text-center mb-lg">Add New Item</h2>
+        <form id="addItemForm">
+          <div class="form-group">
+            <label for="itemName" class="form-label">Item Name</label>
+            <input type="text" id="itemName" class="form-control" required />
+          </div>
+
+          <div class="grid grid-cols-2 gap-md">
+            <div class="form-group">
+              <label for="category" class="form-label">Category</label>
+              <select id="category" class="form-control" required>
+                <option value="Electronics">Electronics</option>
+                <option value="Personal">Personal</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="dateFound" class="form-label">Date Found</label>
+              <input type="date" id="dateFound" class="form-control" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="location" class="form-label">Location Found</label>
+            <input type="text" id="location" class="form-control" required />
+          </div>
+
+          <div class="form-group">
+            <label for="imageUpload" class="form-label">Item Image</label>
+            <input
+              type="file"
+              id="imageUpload"
+              class="form-control"
+              accept="image/*"
+            />
+            <small class="text-secondary"
+              >Upload an image (will be saved locally)</small
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              id="description"
+              class="form-control"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="contact" class="form-label"
+              >Contact Point (Where to claim)</label
+            >
+            <input
+              type="text"
+              id="contact"
+              class="form-control"
+              value="Security Office"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Add Item
+          </button>
+        </form>
+      </div>
+    </div>
 
     <script src="assets/js/data.js"></script>
     <script src="assets/js/auth.js"></script>
