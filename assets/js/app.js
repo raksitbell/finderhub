@@ -155,7 +155,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="text-center" style="background-color: var(--background-color); padding: 1.5rem; border-radius: var(--radius-md); margin-top: 1rem;">
                     <h3 style="margin-bottom: 0.5rem;">Want to claim this item?</h3>
                     <p style="color: var(--text-secondary); margin-bottom: 1rem;">Please visit the <strong>${item.contact}</strong> to claim this item.</p>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary);">Note: Please bring your ID card for verification.</p>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Note: Please bring your ID card for verification.</p>
+                    <button onclick="closeModal()" class="btn btn-primary" style="min-width: 120px;">OK</button>
                 </div>
             `
                 : ""
@@ -166,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.style.overflow = "hidden";
   };
 
-  const closeModal = () => {
+  window.closeModal = () => {
     modal.classList.add("hidden");
     document.body.style.overflow = "";
   };
