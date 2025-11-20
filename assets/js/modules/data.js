@@ -55,7 +55,7 @@ if (!localStorage.getItem(STORAGE_KEY)) {
  * DataManager Object
  * Contains methods to interact with the data.
  */
-const DataManager = {
+export const DataManager = {
   /**
    * Retrieve all items from storage.
    * @returns {Array} List of items.
@@ -120,6 +120,3 @@ const DataManager = {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
   },
 };
-
-// Expose DataManager globally
-window.DataManager = DataManager;

@@ -6,6 +6,8 @@
  * ------------------------------------------------------------------
  */
 
+import { DataManager } from "./modules/data.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 1. DOM Elements

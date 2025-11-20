@@ -6,6 +6,9 @@
  * ------------------------------------------------------------------
  */
 
+import { DataManager } from "./modules/data.js";
+import { AuthManager } from "./modules/auth.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 1. Initialization & Auth Check
@@ -61,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Action Button (Checkmark or Refresh)
       const toggleAction = isFound
-        ? `<button class="action-btn" onclick="updateStatus('${item.id}', 'returned')" title="Mark as Returned">✅</button>`
-        : `<button class="action-btn" onclick="updateStatus('${item.id}', 'found')" title="Mark as Found">🔄</button>`;
+        ? `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'returned')" title="Mark as Returned">✅</button>`
+        : `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'found')" title="Mark as Found">🔄</button>`;
 
       tr.innerHTML = `
                 <td><img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
@@ -73,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${statusBadge}</td>
                 <td>
                     ${toggleAction}
-                    <button class="action-btn view" onclick="viewItem('${item.id}')" title="View Details">👁️</button>
-                    <button class="action-btn delete" onclick="deleteItem('${item.id}')" title="Delete Item">🗑️</button>
+                    <button type="button" class="action-btn view" onclick="viewItem('${item.id}')" title="View Details">👁️</button>
+                    <button type="button" class="action-btn delete" onclick="deleteItem(event, '${item.id}')" title="Delete Item">🗑️</button>
                 </td>
             `;
       tableBody.appendChild(tr);
@@ -91,27 +94,36 @@ document.addEventListener("DOMContentLoaded", () => {
    * Updates the status of an item.
    * If status is 'returned', opens the claim modal first.
    */
-  window.updateStatus = (id, status) => {
+  window.updateStatus = (event, id, status) => {
+    if (event) event.preventDefault();
+
     if (status === "returned") {
       currentItemIdToReturn = id;
       claimModal.classList.remove("hidden");
       claimForm.reset();
     } else {
-      if (confirm(`Change status to ${status}?`)) {
-        DataManager.updateItemStatus(id, status);
-        renderDashboard();
-      }
+      // Use a slight timeout to ensure the UI doesn't block immediately in some browsers
+      setTimeout(() => {
+        if (confirm(`Change status to ${status}?`)) {
+          DataManager.updateItemStatus(id, status);
+          renderDashboard();
+        }
+      }, 10);
     }
   };
 
   /**
    * Deletes an item after confirmation.
    */
-  window.deleteItem = (id) => {
-    if (confirm("Are you sure you want to delete this item?")) {
-      DataManager.deleteItem(id);
-      renderDashboard();
-    }
+  window.deleteItem = (event, id) => {
+    if (event) event.preventDefault();
+
+    setTimeout(() => {
+      if (confirm("Are you sure you want to delete this item?")) {
+        DataManager.deleteItem(id);
+        renderDashboard();
+      }
+    }, 10);
   };
 
   /**

@@ -14,7 +14,7 @@ const ADMIN_CREDENTIALS = {
   password: "admin1234",
 };
 
-const AuthManager = {
+export const AuthManager = {
   /**
    * Attempts to log in the user.
    * @param {string} username
@@ -61,5 +61,3 @@ const AuthManager = {
     }
   },
 };
-
-window.AuthManager = AuthManager;
