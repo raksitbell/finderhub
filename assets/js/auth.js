@@ -1,63 +1,65 @@
 /**
  * auth.js
- * This file handles User Login and Logout.
- * It uses 'sessionStorage' to remember if you are logged in.
- * (sessionStorage is cleared when you close the browser tab)
+ * ------------------------------------------------------------------
+ * Handles User Authentication (Login/Logout).
+ * Uses 'sessionStorage' to maintain session state.
+ * ------------------------------------------------------------------
  */
 
 const AUTH_KEY = "finderhub_auth";
 
-// Hardcoded admin username and password
+// Mock Credentials (In a real app, this would be on a server)
 const ADMIN_CREDENTIALS = {
   username: "admin",
   password: "admin1234",
 };
 
 const AuthManager = {
-  // 1. Check username and password
+  /**
+   * Attempts to log in the user.
+   * @param {string} username
+   * @param {string} password
+   * @returns {boolean} True if successful, false otherwise.
+   */
   login: (username, password) => {
     if (
       username === ADMIN_CREDENTIALS.username &&
       password === ADMIN_CREDENTIALS.password
     ) {
-      // Save login state
       sessionStorage.setItem(AUTH_KEY, "true");
-      return true; // Login success
+      return true;
     }
-    return false; // Login failed
+    return false;
   },
 
-  // 2. Logout the user
+  /**
+   * Logs out the user and redirects to home.
+   */
   logout: () => {
     sessionStorage.removeItem(AUTH_KEY);
-    // Go back to home page
-    // Go back to home page
-    if (window.location.pathname.includes("/auth/")) {
-      window.location.href = "../index.html";
-    } else {
-      window.location.href = "index.html";
-    }
+    // Redirect logic based on current path
+    const isAuthFolder = window.location.pathname.includes("/auth/");
+    window.location.href = isAuthFolder ? "../index.html" : "index.html";
   },
 
-  // 3. Check if user is currently logged in
+  /**
+   * Checks if the user is currently authenticated.
+   * @returns {boolean}
+   */
   isLoggedIn: () => {
     return sessionStorage.getItem(AUTH_KEY) === "true";
   },
 
-  // 4. Protect admin pages (Redirect if not logged in)
+  /**
+   * Protects admin pages. Redirects to login if not authenticated.
+   */
   checkAuth: () => {
     if (!AuthManager.isLoggedIn()) {
-      alert("คุณไม่มีสิทธิ์เข้าถึงหน้านี้ กรุณาเข้าสู่ระบบ");
-
-      // Check where we are to redirect correctly
-      if (window.location.pathname.includes("/auth/")) {
-        window.location.href = "login.html"; // If inside /auth/ folder
-      } else {
-        window.location.href = "auth/login.html"; // If at root
-      }
+      alert("Access Denied. Please log in.");
+      const isAuthFolder = window.location.pathname.includes("/auth/");
+      window.location.href = isAuthFolder ? "login.html" : "auth/login.html";
     }
   },
 };
 
-// Make AuthManager available to other files
 window.AuthManager = AuthManager;

@@ -84,7 +84,9 @@
       </div>
     </main>
 
-    <!-- Footer -->
+    <!-- ==========================================
+         Footer
+    ========================================== -->
     <footer class="footer">
       <div class="container">
         <p>&copy; 2023 FinderHub. All rights reserved.</p>
@@ -170,6 +172,118 @@
             Add Item
           </button>
         </form>
+      </div>
+    </div>
+
+    <!-- Claim Item Modal -->
+    <div id="claimItemModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" id="closeClaimModal">&times;</span>
+        <h2 class="text-center mb-lg">Item Claim Details</h2>
+        <form id="claimItemForm">
+          <div class="form-group">
+            <label for="claimerName" class="form-label">Claimer Name</label>
+            <input
+              type="text"
+              id="claimerName"
+              class="form-control"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="claimerPhone" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              id="claimerPhone"
+              class="form-control"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+          <div class="flex gap-md mt-lg">
+            <button
+              type="button"
+              class="btn btn-secondary flex-1"
+              id="cancelClaimBtn"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary flex-1">
+              Confirm Return
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- View Item Modal -->
+    <div id="viewItemModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" id="closeViewModal">&times;</span>
+        <h2 class="text-center mb-lg">Item Details</h2>
+        <div id="viewItemContent" class="flex flex-col gap-md">
+          <div class="text-center">
+            <img
+              id="viewItemImage"
+              src=""
+              alt="Item Image"
+              style="
+                max-width: 100%;
+                max-height: 200px;
+                object-fit: contain;
+                border-radius: 8px;
+              "
+            />
+          </div>
+          <div class="grid grid-cols-2 gap-md">
+            <div>
+              <label class="text-secondary text-sm font-bold">Item Name</label>
+              <p id="viewItemName" class="text-lg font-medium"></p>
+            </div>
+            <div>
+              <label class="text-secondary text-sm font-bold">Category</label>
+              <p id="viewItemCategory"></p>
+            </div>
+            <div>
+              <label class="text-secondary text-sm font-bold">Date Found</label>
+              <p id="viewItemDate"></p>
+            </div>
+            <div>
+              <label class="text-secondary text-sm font-bold">Location</label>
+              <p id="viewItemLocation"></p>
+            </div>
+            <div>
+              <label class="text-secondary text-sm font-bold">Status</label>
+              <p id="viewItemStatus"></p>
+            </div>
+            <div>
+              <label class="text-secondary text-sm font-bold"
+                >Contact Point</label
+              >
+              <p id="viewItemContact"></p>
+            </div>
+          </div>
+          <div>
+            <label class="text-secondary text-sm font-bold">Description</label>
+            <p id="viewItemDescription" class="p-sm bg-light rounded"></p>
+          </div>
+
+          <!-- Claimer Details (Hidden by default) -->
+          <div id="viewItemClaimerSection" class="hidden border-t pt-md mt-md">
+            <h3 class="text-md font-bold mb-sm">Claimer Information</h3>
+            <div class="grid grid-cols-2 gap-md">
+              <div>
+                <label class="text-secondary text-sm font-bold">Name</label>
+                <p id="viewItemClaimerName"></p>
+              </div>
+              <div>
+                <label class="text-secondary text-sm font-bold">Phone</label>
+                <p id="viewItemClaimerPhone"></p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 

@@ -1,53 +1,59 @@
 /**
  * app.js
- * This file controls the User Side (Home Page).
- * It handles fetching items, displaying them, searching, and the Item Detail Modal.
+ * ------------------------------------------------------------------
+ * Controls the Public Home Page.
+ * Handles: Fetching items, Displaying items, Search/Filter, and Item Details.
+ * ------------------------------------------------------------------
  */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Get HTML elements we need to control
+  // ==========================================
+  // 1. DOM Elements
+  // ==========================================
   const itemsGrid = document.getElementById("itemsGrid");
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
   const searchBtn = document.getElementById("searchBtn");
   const noResults = document.getElementById("noResults");
 
-  // Modal Elements
+  // Modal
   const modal = document.getElementById("itemModal");
   const modalBody = document.getElementById("modalBody");
   const closeModalBtn = document.querySelector(".close-modal");
 
-  // 1. Get all data from our DataManager
-  // Filter out 'returned' items so they don't show up on the home page
+  // ==========================================
+  // 2. Data Fetching
+  // ==========================================
+  // Only show items that are NOT returned
   let allItems = DataManager.getAllItems().filter(
     (item) => item.status !== "returned"
   );
 
-  // 2. Function to display items on the screen
+  // ==========================================
+  // 3. Rendering Logic
+  // ==========================================
+
+  /**
+   * Renders a list of items to the grid.
+   * @param {Array} itemsToDisplay - List of items to show.
+   */
   const renderItems = (itemsToDisplay) => {
-    // Clear current items
     itemsGrid.innerHTML = "";
 
-    // If no items found, show "No Results" message
     if (itemsToDisplay.length === 0) {
       itemsGrid.classList.add("hidden");
       noResults.classList.remove("hidden");
       return;
     }
 
-    // If items found, show the grid and hide "No Results"
     itemsGrid.classList.remove("hidden");
     noResults.classList.add("hidden");
 
-    // Loop through each item and create a card for it
     itemsToDisplay.forEach((item) => {
-      // Determine color and text based on status
       const isFound = item.status === "found";
       const statusClass = isFound ? "status-found" : "status-returned";
       const statusText = isFound ? "Found" : "Returned";
 
-      // Create HTML for the card
-      // Note: We changed the button to call openModal() instead of a link
       const cardHTML = `
                 <div class="card">
                     <img src="${item.image}" alt="${item.name}" class="card-image">
@@ -67,39 +73,37 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
             `;
-
-      // Add the card to the grid
       itemsGrid.innerHTML += cardHTML;
     });
   };
 
-  // 3. Function to filter items based on Search and Category
+  // ==========================================
+  // 4. Search & Filter Logic
+  // ==========================================
+
   const filterItems = () => {
     const searchText = searchInput.value.toLowerCase();
     const selectedCategory = categoryFilter.value;
 
-    // Filter the list
     const filteredItems = allItems.filter((item) => {
-      // Check if text matches name, description, or location
       const matchesSearch =
         item.name.toLowerCase().includes(searchText) ||
         item.description.toLowerCase().includes(searchText) ||
         item.location.toLowerCase().includes(searchText);
 
-      // Check if category matches (or if "All Categories" is selected)
       const matchesCategory =
         selectedCategory === "" || item.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
 
-    // Display the filtered list
     renderItems(filteredItems);
   };
 
-  // 4. Modal Functions
+  // ==========================================
+  // 5. Modal Logic
+  // ==========================================
 
-  // Open the modal and show item details
   window.openModal = (itemId) => {
     const item = DataManager.getItemById(itemId);
     if (!item) return;
@@ -108,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusClass = isFound ? "status-found" : "status-returned";
     const statusText = isFound ? "Found" : "Returned";
 
-    // Populate modal content
     modalBody.innerHTML = `
             <img src="${item.image}" alt="${
       item.name
@@ -157,39 +160,30 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         `;
 
-    // Show modal
     modal.classList.remove("hidden");
-    document.body.style.overflow = "hidden"; // Prevent background scrolling
+    document.body.style.overflow = "hidden";
   };
 
-  // Close the modal
   const closeModal = () => {
     modal.classList.add("hidden");
-    document.body.style.overflow = ""; // Restore scrolling
+    document.body.style.overflow = "";
   };
 
-  // Event Listeners for Modal
   closeModalBtn.addEventListener("click", closeModal);
-
-  // Close if clicked outside the content
   window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
+    if (e.target === modal) closeModal();
   });
-
-  // Close with Escape key
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      closeModal();
-    }
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
   });
 
-  // 5. Add Event Listeners for Search
+  // ==========================================
+  // 6. Event Listeners
+  // ==========================================
   searchBtn.addEventListener("click", filterItems);
-  searchInput.addEventListener("input", filterItems); // Filter while typing
-  categoryFilter.addEventListener("change", filterItems); // Filter when category changes
+  searchInput.addEventListener("input", filterItems);
+  categoryFilter.addEventListener("change", filterItems);
 
-  // 6. Initial Render (Show all items when page loads)
+  // Initial Render
   renderItems(allItems);
 });
