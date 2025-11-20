@@ -1,8 +1,12 @@
 /**
  * app.js
  * ------------------------------------------------------------------
- * Controls the Public Home Page.
- * Handles: Fetching items, Displaying items, Search/Filter, and Item Details.
+ * Controls the Public Home Page logic.
+ * Responsibilities:
+ * - Fetching and displaying items
+ * - Filtering items by search text and category
+ * - Handling item detail modals
+ * - Handling "Found Item" modal interactions
  * ------------------------------------------------------------------
  */
 
@@ -12,44 +16,52 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 1. DOM Elements
   // ==========================================
-  const itemsGrid = document.getElementById("itemsGrid");
-  const searchInput = document.getElementById("searchInput");
-  const categoryFilter = document.getElementById("categoryFilter");
-  const searchBtn = document.getElementById("searchBtn");
-  const noResults = document.getElementById("noResults");
-
-  // Modal
-  const modal = document.getElementById("itemModal");
-  const modalBody = document.getElementById("modalBody");
-  const closeModalBtn = document.querySelector(".close-modal");
+  const dom = {
+    itemsGrid: document.getElementById("itemsGrid"),
+    searchInput: document.getElementById("searchInput"),
+    categoryFilter: document.getElementById("categoryFilter"),
+    searchBtn: document.getElementById("searchBtn"),
+    noResults: document.getElementById("noResults"),
+    modal: document.getElementById("itemModal"),
+    modalBody: document.getElementById("modalBody"),
+    closeModalBtn: document.querySelector(".close-modal"),
+    foundItemBtn: document.getElementById("foundItemBtn"),
+    foundItemModal: document.getElementById("foundItemModal"),
+    closeFoundModalBtn: document.querySelector(".close-found-modal"),
+    categoryBtns: document.querySelectorAll(".category-btn"),
+  };
 
   // ==========================================
-  // 2. Data Fetching
+  // 2. Data Initialization
   // ==========================================
-  // Only show items that are NOT returned
+
+  /**
+   * Fetch all items and filter out 'returned' items for public view.
+   * @type {Array<Object>}
+   */
   let allItems = DataManager.getAllItems().filter(
     (item) => item.status !== "returned"
   );
 
   // ==========================================
-  // 3. Rendering Logic
+  // 3. Rendering Functions
   // ==========================================
 
   /**
    * Renders a list of items to the grid.
-   * @param {Array} itemsToDisplay - List of items to show.
+   * @param {Array<Object>} itemsToDisplay - List of items to show.
    */
   const renderItems = (itemsToDisplay) => {
-    itemsGrid.innerHTML = "";
+    dom.itemsGrid.innerHTML = "";
 
     if (itemsToDisplay.length === 0) {
-      itemsGrid.classList.add("hidden");
-      noResults.classList.remove("hidden");
+      dom.itemsGrid.classList.add("hidden");
+      dom.noResults.classList.remove("hidden");
       return;
     }
 
-    itemsGrid.classList.remove("hidden");
-    noResults.classList.add("hidden");
+    dom.itemsGrid.classList.remove("hidden");
+    dom.noResults.classList.add("hidden");
 
     itemsToDisplay.forEach((item) => {
       const isFound = item.status === "found";
@@ -57,35 +69,39 @@ document.addEventListener("DOMContentLoaded", () => {
       const statusText = isFound ? "Found" : "Returned";
 
       const cardHTML = `
-                <div class="card">
-                    <img src="${item.image}" alt="${item.name}" class="card-image">
-                    <div class="card-body">
-                        <div class="card-meta justify-between">
-                            <span class="card-badge ${statusClass}">${statusText}</span>
-                            <span>${item.date}</span>
-                        </div>
-                        <h3 class="card-title">${item.name}</h3>
-                        <div class="card-meta">
-                            <span>📍 ${item.location}</span>
-                        </div>
-                        <div class="card-meta">
-                            <span>🏷️ ${item.category}</span>
-                        </div>
-                        <button onclick="openModal('${item.id}')" class="btn btn-outline btn-block mt-md">View Details</button>
-                    </div>
+        <div class="card">
+            <img src="${item.image}" alt="${item.name}" class="card-image">
+            <div class="card-body">
+                <div class="card-meta justify-between">
+                    <span class="card-badge ${statusClass}">${statusText}</span>
+                    <span>${item.date}</span>
                 </div>
-            `;
-      itemsGrid.innerHTML += cardHTML;
+                <h3 class="card-title">${item.name}</h3>
+                <div class="card-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>
+                </div>
+                <div class="card-meta">
+                    <span><i class="fas fa-tag"></i> ${item.category}</span>
+                </div>
+                <button onclick="openModal('${item.id}')" class="btn btn-outline btn-block mt-md">View Details</button>
+            </div>
+        </div>
+      `;
+      dom.itemsGrid.innerHTML += cardHTML;
     });
   };
 
   // ==========================================
-  // 4. Search & Filter Logic
+  // 4. Filter Logic
   // ==========================================
 
+  /**
+   * Filters items based on search text and selected category.
+   * Re-renders the grid with filtered results.
+   */
   const filterItems = () => {
-    const searchText = searchInput.value.toLowerCase();
-    const selectedCategory = categoryFilter.value;
+    const searchText = dom.searchInput.value.toLowerCase();
+    const selectedCategory = dom.categoryFilter.value;
 
     const filteredItems = allItems.filter((item) => {
       const matchesSearch =
@@ -103,9 +119,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ==========================================
-  // 5. Modal Logic
+  // 5. Modal Functions
   // ==========================================
 
+  /**
+   * Opens the Item Detail Modal.
+   * Exposed to global scope for inline onclick handlers.
+   * @param {string} itemId - The ID of the item to display.
+   */
   window.openModal = (itemId) => {
     const item = DataManager.getItemById(itemId);
     if (!item) return;
@@ -114,130 +135,131 @@ document.addEventListener("DOMContentLoaded", () => {
     const statusClass = isFound ? "status-found" : "status-returned";
     const statusText = isFound ? "Found" : "Returned";
 
-    modalBody.innerHTML = `
-            <img src="${item.image}" alt="${
+    dom.modalBody.innerHTML = `
+        <img src="${item.image}" alt="${
       item.name
     }" class="card-image" style="height: 300px; margin-bottom: 1rem;">
-            <div class="flex justify-between items-center mb-md">
-                <h2 style="font-size: 1.5rem; font-weight: 700;">${
-                  item.name
-                }</h2>
-                <span class="card-badge ${statusClass}">${statusText}</span>
+        <div class="flex justify-between items-center mb-md">
+            <h2 style="font-size: 1.5rem; font-weight: 700;">${item.name}</h2>
+            <span class="card-badge ${statusClass}">${statusText}</span>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-md mb-md">
+            <div>
+                <p class="text-secondary">Category</p>
+                <p class="font-semibold">${item.category}</p>
             </div>
-            
-            <div class="grid grid-cols-2 gap-md mb-md">
-                <div>
-                    <p class="text-secondary">Category</p>
-                    <p class="font-semibold">${item.category}</p>
-                </div>
-                <div>
-                    <p class="text-secondary">Date Found</p>
-                    <p class="font-semibold">${item.date}</p>
-                </div>
-                <div>
-                    <p class="text-secondary">Location Found</p>
-                    <p class="font-semibold">${item.location}</p>
-                </div>
-                <div>
-                    <p class="text-secondary">Contact Point</p>
-                    <p class="font-semibold">${item.contact}</p>
-                </div>
+            <div>
+                <p class="text-secondary">Date Found</p>
+                <p class="font-semibold">${item.date}</p>
             </div>
-
-            <div class="mb-lg">
-                <p class="text-secondary mb-sm">Description</p>
-                <p>${item.description}</p>
+            <div>
+                <p class="text-secondary">Location Found</p>
+                <p class="font-semibold">${item.location}</p>
             </div>
+            <div>
+                <p class="text-secondary">Contact Point</p>
+                <p class="font-semibold">${item.contact}</p>
+            </div>
+        </div>
 
-            ${
-              isFound
-                ? `
-                <div class="text-center" style="background-color: var(--background-color); padding: 1.5rem; border-radius: var(--radius-md); margin-top: 1rem;">
-                    <h3 style="margin-bottom: 0.5rem;">Want to claim this item?</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Please visit the <strong>${item.contact}</strong> to claim this item.</p>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Note: Please bring your ID card for verification.</p>
-                    <button onclick="closeModal()" class="btn btn-primary" style="min-width: 120px;">OK</button>
-                </div>
-            `
-                : ""
-            }
-        `;
+        <div class="mb-lg">
+            <p class="text-secondary mb-sm">Description</p>
+            <p>${item.description}</p>
+        </div>
 
-    modal.classList.remove("hidden");
-    document.body.style.overflow = "hidden";
+        ${
+          isFound
+            ? `
+            <div class="text-center" style="background-color: var(--background-color); padding: 1.5rem; border-radius: var(--radius-md); margin-top: 1rem;">
+                <h3 style="margin-bottom: 0.5rem;">Want to claim this item?</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Please visit the <strong>${item.contact}</strong> to claim this item.</p>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Note: Please bring your ID card for verification.</p>
+                <button onclick="closeModal()" class="btn btn-primary" style="min-width: 120px;">OK</button>
+            </div>
+        `
+            : ""
+        }
+    `;
+
+    dom.modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden"; // Prevent background scrolling
   };
 
+  /**
+   * Closes the Item Detail Modal.
+   * Exposed to global scope.
+   */
   window.closeModal = () => {
-    modal.classList.add("hidden");
+    dom.modal.classList.add("hidden");
     document.body.style.overflow = "";
   };
 
-  closeModalBtn.addEventListener("click", closeModal);
+  // ==========================================
+  // 6. Event Listeners
+  // ==========================================
+
+  // Search & Filter
+  dom.searchBtn.addEventListener("click", filterItems);
+  dom.searchInput.addEventListener("input", filterItems);
+  dom.categoryFilter.addEventListener("change", filterItems);
+
+  // Category Buttons
+  dom.categoryBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // Toggle active state
+      dom.categoryBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Update hidden select and trigger filter
+      const category = btn.dataset.category;
+      dom.categoryFilter.value = category;
+      filterItems();
+    });
+  });
+
+  // Item Modal Events
+  dom.closeModalBtn.addEventListener("click", window.closeModal);
   window.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
+    if (e.target === dom.modal) window.closeModal();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    if (e.key === "Escape" && !dom.modal.classList.contains("hidden"))
+      window.closeModal();
   });
 
-  // ==========================================
-  // 5.1 Found Item Modal Logic
-  // ==========================================
-  const foundItemBtn = document.getElementById("foundItemBtn");
-  const foundItemModal = document.getElementById("foundItemModal");
-  const closeFoundModalBtn = document.querySelector(".close-found-modal");
-
-  if (foundItemBtn && foundItemModal) {
-    foundItemBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      foundItemModal.classList.remove("hidden");
-      document.body.style.overflow = "hidden";
-    });
-
+  // Found Item Modal Events
+  if (dom.foundItemBtn && dom.foundItemModal) {
     const closeFoundModal = () => {
-      foundItemModal.classList.add("hidden");
+      dom.foundItemModal.classList.add("hidden");
       document.body.style.overflow = "";
     };
 
-    if (closeFoundModalBtn) {
-      closeFoundModalBtn.addEventListener("click", closeFoundModal);
+    dom.foundItemBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      dom.foundItemModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    });
+
+    if (dom.closeFoundModalBtn) {
+      dom.closeFoundModalBtn.addEventListener("click", closeFoundModal);
     }
 
     window.addEventListener("click", (e) => {
-      if (e.target === foundItemModal) closeFoundModal();
+      if (e.target === dom.foundItemModal) closeFoundModal();
     });
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && !foundItemModal.classList.contains("hidden"))
+      if (
+        e.key === "Escape" &&
+        !dom.foundItemModal.classList.contains("hidden")
+      )
         closeFoundModal();
     });
   }
 
   // ==========================================
-  // 6. Event Listeners
+  // 7. Initial Render
   // ==========================================
-  searchBtn.addEventListener("click", filterItems);
-  searchInput.addEventListener("input", filterItems);
-
-  // Category Buttons Logic
-  const categoryBtns = document.querySelectorAll(".category-btn");
-  categoryBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      // Remove active class from all
-      categoryBtns.forEach((b) => b.classList.remove("active"));
-      // Add active class to clicked
-      btn.classList.add("active");
-
-      // Update hidden select and filter
-      const category = btn.dataset.category;
-      categoryFilter.value = category;
-      filterItems();
-    });
-  });
-
-  // Keep the select listener just in case
-  categoryFilter.addEventListener("change", filterItems);
-
-  // Initial Render
   renderItems(allItems);
 });

@@ -64,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Action Button (Checkmark or Refresh)
       const toggleAction = isFound
-        ? `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'returned')" title="Mark as Returned">✅</button>`
-        : `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'found')" title="Mark as Found">🔄</button>`;
+        ? `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'returned')" title="Mark as Returned"><i class="fas fa-check"></i></button>`
+        : `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'found')" title="Mark as Found"><i class="fas fa-undo"></i></button>`;
 
       tr.innerHTML = `
                 <td><img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
@@ -75,9 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${item.date}</td>
                 <td>${statusBadge}</td>
                 <td>
-                    ${toggleAction}
-                    <button type="button" class="action-btn view" onclick="viewItem('${item.id}')" title="View Details">👁️</button>
-                    <button type="button" class="action-btn delete" onclick="deleteItem(event, '${item.id}')" title="Delete Item">🗑️</button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        ${toggleAction}
+                        <button type="button" class="action-btn view" onclick="viewItem('${item.id}')" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button type="button" class="action-btn delete" onclick="deleteItem(event, '${item.id}')" title="Delete Item"><i class="fas fa-trash"></i></button>
+                    </div>
                 </td>
             `;
       tableBody.appendChild(tr);

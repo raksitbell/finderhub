@@ -1,37 +1,36 @@
 /* main.css */
 
 :root {
-  /* Colors */
-  --primary-color: #4f46e5; /* Indigo 600 */
-  --primary-hover: #4338ca; /* Indigo 700 */
-  --secondary-color: #64748b; /* Slate 500 */
-  --background-color: #f8fafc; /* Slate 50 */
+  /* Colors - User Requested Palette */
+  --primary-color: #1d3557;
+  --primary-hover: #162a45; /* Darker shade of primary */
+  --secondary-color: #457b9d;
+  --background-color: #f8f9fa;
   --surface-color: #ffffff;
-  --text-primary: #1e293b; /* Slate 800 */
-  --text-secondary: #64748b; /* Slate 500 */
-  --border-color: #e2e8f0; /* Slate 200 */
-  --success-color: #10b981; /* Emerald 500 */
-  --warning-color: #f59e0b; /* Amber 500 */
-  --danger-color: #ef4444; /* Red 500 */
+  --text-primary: #2c363f;
+  --text-secondary: #457b9d; /* Using secondary as text-secondary for consistency */
+  --border-color: #d2d2d7;
+  --success-color: #34c759;
+  --warning-color: #ff9f0a;
+  --danger-color: #e63946;
 
-  /* Spacing */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
+  /* Spacing - Increased for Negative Space */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 6rem;
 
   /* Border Radius */
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* Shadows - Softer, diffused shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* Reset & Base Styles */
@@ -42,7 +41,8 @@
 }
 
 body {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", sans-serif;
   background-color: var(--background-color);
   color: var(--text-primary);
   line-height: 1.5;
@@ -109,6 +109,14 @@ img {
 
 .mb-md {
   margin-bottom: var(--spacing-md);
+}
+
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
+
+.mb-xl {
+  margin-bottom: var(--spacing-xl);
 }
 
 .text-center {

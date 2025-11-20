@@ -4,22 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login - FinderHub</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="../assets/css/main.css" />
     <link rel="stylesheet" href="../assets/css/components.css" />
     <link rel="stylesheet" href="../assets/css/responsive.css" />
+
+    <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
+    />
+
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
   </head>
   <body
     class="flex items-center justify-center"
     style="min-height: 100vh; background-color: #f1f5f9"
   >
+    <!-- Login Card -->
     <div
       class="card"
       style="width: 100%; max-width: 400px; padding: var(--spacing-lg)"
     >
+      <!-- Header -->
       <div class="text-center mb-lg">
         <h1
           style="
@@ -34,6 +46,7 @@
         <p class="text-secondary">Please sign in to continue</p>
       </div>
 
+      <!-- Login Form -->
       <form id="loginForm">
         <div class="form-group">
           <label for="username" class="form-label">Username</label>
@@ -44,6 +57,7 @@
           <input type="password" id="password" class="form-control" required />
         </div>
 
+        <!-- Error Message -->
         <div
           id="errorMessage"
           class="text-center mb-md hidden"
@@ -55,16 +69,18 @@
         <button type="submit" class="btn btn-primary btn-block">Sign In</button>
       </form>
 
+      <!-- Back Link -->
       <div class="text-center mt-lg">
         <a
           href="../index.html"
           class="text-secondary"
           style="font-size: 0.875rem"
-          >← Back to Home</a
+          ><i class="fas fa-arrow-left"></i> Back to Home</a
         >
       </div>
     </div>
 
+    <!-- Scripts -->
     <script type="module" src="../assets/js/login.js"></script>
   </body>
 </html>

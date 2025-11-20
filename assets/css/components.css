@@ -1,10 +1,16 @@
-/* components.css */
+/* =========================================
+   Components CSS
+   ========================================= */
 
-/* Navbar */
+/* -----------------------------------------
+   1. Navbar
+   ----------------------------------------- */
 .navbar {
-  background-color: var(--surface-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: var(--spacing-md) 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: var(--spacing-sm) 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -14,15 +20,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 980px; /* Apple-style container width */
 }
 
 .nav-brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
+  letter-spacing: -0.01em;
+}
+
+.nav-brand i {
+  font-size: 1.5rem; /* Larger brand icon */
+  color: var(--primary-color);
 }
 
 .nav-links {
@@ -31,9 +44,10 @@
 }
 
 .nav-link {
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 400;
   color: var(--text-secondary);
-  transition: color 0.2s;
+  transition: color 0.2s ease;
 }
 
 .nav-link:hover,
@@ -41,21 +55,29 @@
   color: var(--primary-color);
 }
 
-/* Buttons */
+/* -----------------------------------------
+   2. Buttons
+   ----------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-md);
+  padding: 0.6rem 1.5rem;
+  border-radius: 980px; /* Pill shape */
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
   border: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   gap: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
+.btn i {
+  font-size: 1.1rem; /* Make icons slightly larger */
+}
+
+/* Button Variants */
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
@@ -63,17 +85,18 @@
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
+  transform: scale(1.02);
 }
 
 .btn-outline {
   background-color: transparent;
   border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  color: var(--primary-color);
 }
 
 .btn-outline:hover {
-  background-color: var(--background-color);
-  border-color: var(--text-secondary);
+  background-color: rgba(0, 102, 204, 0.05);
+  border-color: var(--primary-color);
 }
 
 .btn-danger {
@@ -82,125 +105,140 @@
 }
 
 .btn-danger:hover {
-  background-color: #dc2626;
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
+/* Button Sizes */
 .btn-sm {
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
 }
 
 .btn-block {
   width: 100%;
 }
 
+/* Category Buttons */
 .category-btn {
-  border-radius: 50px;
-  padding: 0.5rem 1.5rem;
-  font-weight: 500;
+  border-radius: 980px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 400;
   transition: all 0.2s;
-  border: 1px solid var(--border-color);
-  background-color: white;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.05);
   color: var(--text-secondary);
+  font-size: 0.9rem;
 }
 
 .category-btn:hover {
-  background-color: var(--background-color);
+  background-color: rgba(0, 0, 0, 0.08);
   color: var(--text-primary);
 }
 
 .category-btn.active {
-  background-color: var(--primary-color);
+  background-color: var(--text-primary);
   color: white;
-  border-color: var(--primary-color);
 }
 
-/* Cards */
+/* -----------------------------------------
+   3. Cards
+   ----------------------------------------- */
 .card {
   background-color: var(--surface-color);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
+  border-radius: 24px; /* Larger radius */
+  border: none; /* Remove border */
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  box-shadow: var(--shadow-sm);
 }
 
 .card-image {
   width: 100%;
-  height: 200px;
+  height: 240px; /* Taller images */
   object-fit: cover;
-  background-color: var(--border-color);
+  background-color: var(--background-color);
 }
 
 .card-body {
-  padding: var(--spacing-md);
+  padding: 2rem; /* Increased padding */
 }
 
 .card-title {
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: 0.5rem;
   color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .card-meta {
   display: flex;
   gap: var(--spacing-sm);
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  margin-bottom: var(--spacing-sm);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
   align-items: center;
 }
 
+.card-meta i {
+  font-size: 1rem;
+  width: 1.2rem;
+  text-align: center;
+}
+
+/* Status Badges */
 .card-badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 980px;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .status-found {
-  background-color: #dcfce7;
-  color: #166534;
+  background-color: rgba(52, 199, 89, 0.1);
+  color: var(--success-color);
 }
 
 .status-returned {
-  background-color: #f1f5f9;
-  color: #475569;
+  background-color: rgba(134, 134, 139, 0.1);
+  color: var(--text-secondary);
 }
 
-/* Forms */
+/* -----------------------------------------
+   4. Forms
+   ----------------------------------------- */
 .form-group {
-  margin-bottom: var(--spacing-md);
+  margin-bottom: 1.5rem;
 }
 
 .form-label {
   display: block;
-  margin-bottom: var(--spacing-xs);
+  margin-bottom: 0.5rem;
   font-weight: 500;
   color: var(--text-primary);
+  font-size: 0.9rem;
 }
 
 .form-control {
   width: 100%;
-  padding: 0.625rem;
+  padding: 0.8rem 1rem;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-family: inherit;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+  background-color: white;
 }
 
 /* Search Bar */
@@ -220,7 +258,9 @@
   align-items: end;
 }
 
-/* Tables */
+/* -----------------------------------------
+   5. Tables
+   ----------------------------------------- */
 .table-container {
   overflow-x: auto;
   background-color: var(--surface-color);
@@ -254,24 +294,35 @@
   border-bottom: none;
 }
 
+/* Action Buttons in Table */
 .action-btn {
-  padding: 0.25rem;
+  padding: 0.4rem;
   color: var(--text-secondary);
   background: none;
   border: none;
   cursor: pointer;
   transition: color 0.2s;
+  font-size: 1rem; /* Reduced icon size */
+  border-radius: 50%; /* Circular hover effect */
+  width: 32px; /* Reduced width */
+  height: 32px; /* Reduced height */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .action-btn:hover {
   color: var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.05); /* Add background on hover */
 }
 
 .action-btn.delete:hover {
   color: var(--danger-color);
 }
 
-/* Footer */
+/* -----------------------------------------
+   6. Footer
+   ----------------------------------------- */
 .footer {
   background-color: var(--surface-color);
   border-top: 1px solid var(--border-color);
@@ -281,7 +332,9 @@
   color: var(--text-secondary);
 }
 
-/* Modal */
+/* -----------------------------------------
+   7. Modal
+   ----------------------------------------- */
 .modal {
   display: flex; /* Use flex to center content */
   justify-content: center;

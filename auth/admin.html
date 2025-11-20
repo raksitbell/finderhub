@@ -11,13 +11,18 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar">
       <div class="container nav-container">
         <a href="admin.html" class="nav-brand">
-          <span>🛡️ FinderHub Admin</span>
+          <span><i class="fas fa-shield-alt"></i> FinderHub Admin</span>
         </a>
         <div class="nav-links">
           <a href="../index.html" class="nav-link">Back to Home</a>
@@ -35,7 +40,7 @@
 
     <!-- Main Content -->
     <main class="container mt-lg">
-      <div class="flex justify-between items-center mb-lg">
+      <div class="flex justify-between items-center mb-md">
         <h1 style="font-size: 1.75rem; font-weight: 700">Dashboard</h1>
         <button id="openAddItemModalBtn" class="btn btn-primary">
           + Add New Item
@@ -43,7 +48,7 @@
       </div>
 
       <!-- Stats Cards -->
-      <div class="grid grid-cols-3 mb-xl">
+      <div class="grid grid-cols-3 mb-md">
         <div class="card p-md text-center">
           <h3 class="text-secondary text-sm uppercase font-bold mb-xs">
             Total Items

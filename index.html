@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FinderHub - Lost & Found System</title>
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/components.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,21 +17,19 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- FontAwesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <!-- ==========================================
          Navbar
     ========================================== -->
     <nav class="navbar">
-      <div
-        class="container nav-container"
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem 0;
-        "
-      >
+      <div class="container nav-container">
         <!-- Logo -->
         <a href="index.html" class="nav-brand">
           <img
@@ -46,15 +47,9 @@
           <input
             type="text"
             id="searchInput"
+            class="form-control"
             placeholder="ค้นหาด้วย 'ประเภท', 'ชื่อ', 'สถานที่', ..."
-            style="
-              width: 100%;
-              padding: 0.75rem 1rem;
-              padding-right: 3rem;
-              border-radius: 50px;
-              border: 1px solid #e2e8f0;
-              background-color: #f8fafc;
-            "
+            style="border-radius: 980px; padding-right: 3rem"
           />
           <button
             id="searchBtn"
@@ -66,10 +61,16 @@
               background: none;
               border: none;
               cursor: pointer;
-              color: #64748b;
+              color: var(--text-secondary);
+              font-size: 1.2rem;
+              padding: 10px;
+              border-radius: 50%;
+              transition: background-color 0.2s;
             "
+            onmouseover="this.style.backgroundColor='rgba(0,0,0,0.05)'"
+            onmouseout="this.style.backgroundColor='transparent'"
           >
-            🔍
+            <i class="fas fa-search"></i>
           </button>
         </div>
 
@@ -79,14 +80,7 @@
             href="#"
             id="foundItemBtn"
             class="btn btn-danger"
-            style="
-              background-color: #ef4444;
-              color: white;
-              padding: 0.5rem 1.5rem;
-              border-radius: 50px;
-              text-decoration: none;
-              font-weight: 500;
-            "
+            style="border-radius: 980px"
           >
             พบทรัพย์สินไม่มีเจ้าของ ?
           </a>
@@ -94,27 +88,29 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="container mt-lg">
-      <!-- Category Filter (Moved here) -->
-      <div class="mb-xl flex justify-center gap-md flex-wrap">
+    <!-- ==========================================
+         Main Content
+    ========================================== -->
+    <main class="container mt-md">
+      <!-- Category Filter -->
+      <div class="mb-md flex justify-center gap-md flex-wrap">
         <button class="btn btn-outline category-btn active" data-category="">
-          📦 ทั้งหมด
+          <i class="fas fa-box"></i> ทั้งหมด
         </button>
         <button
           class="btn btn-outline category-btn"
           data-category="Electronics"
         >
-          📱 โทรศัพท์ / ไอที
+          <i class="fas fa-mobile-alt"></i> โทรศัพท์ / ไอที
         </button>
         <button class="btn btn-outline category-btn" data-category="Personal">
-          👜 กระเป๋า / ถุง
+          <i class="fas fa-shopping-bag"></i> กระเป๋า / ถุง
         </button>
         <button class="btn btn-outline category-btn" data-category="Others">
-          ✏️ หนังสือ / เครื่องเขียน
+          <i class="fas fa-book"></i> หนังสือ / เครื่องเขียน
         </button>
         <button class="btn btn-outline category-btn" data-category="Others">
-          ❓ อื่นๆ
+          <i class="fas fa-question-circle"></i> อื่นๆ
         </button>
 
         <!-- Hidden Select for compatibility with existing JS -->
@@ -131,6 +127,7 @@
         <!-- Items will be injected here by JS -->
       </div>
 
+      <!-- No Results Message -->
       <div id="noResults" class="text-center mt-lg hidden">
         <p style="font-size: 1.25rem; color: var(--text-secondary)">
           No items found matching your criteria.
@@ -138,7 +135,9 @@
       </div>
     </main>
 
-    <!-- Footer -->
+    <!-- ==========================================
+         Footer
+    ========================================== -->
     <footer class="footer">
       <div class="container">
         <p>&copy; 2023 FinderHub. All rights reserved.</p>
@@ -158,6 +157,10 @@
       </div>
     </footer>
 
+    <!-- ==========================================
+         Modals
+    ========================================== -->
+
     <!-- Item Detail Modal -->
     <div id="itemModal" class="modal hidden">
       <div class="modal-content">
@@ -173,7 +176,9 @@
       <div class="modal-content">
         <span class="close-found-modal close-modal">&times;</span>
         <div class="text-center">
-          <div style="font-size: 3rem; margin-bottom: 1rem">📦</div>
+          <div style="font-size: 3rem; margin-bottom: 1rem">
+            <i class="fas fa-box-open"></i>
+          </div>
           <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
             พบทรัพย์สินไม่มีเจ้าของ?
           </h2>
@@ -201,7 +206,7 @@
             <h3
               style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem"
             >
-              📍 สถานที่รับฝากของหาย
+              <i class="fas fa-map-marker-alt"></i> สถานที่รับฝากของหาย
             </h3>
             <p
               style="
@@ -211,10 +216,12 @@
                 margin-bottom: 0.5rem;
               "
             >
-              🏢 <strong>อาคาร 11 ชั้น 1 (ห้อง Control Room)</strong>
+              <i class="fas fa-building"></i>
+              <strong>อาคาร 11 ชั้น 1 (ห้อง Control Room)</strong>
             </p>
             <p style="display: flex; align-items: center; gap: 0.5rem">
-              🕒 <strong>เวลาทำการ:</strong> 08:30 - 16:30 น.
+              <i class="far fa-clock"></i> <strong>เวลาทำการ:</strong> 08:30 -
+              16:30 น.
             </p>
           </div>
 
