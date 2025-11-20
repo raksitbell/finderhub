@@ -31,7 +31,12 @@ const AuthManager = {
   logout: () => {
     sessionStorage.removeItem(AUTH_KEY);
     // Go back to home page
-    window.location.href = "index.html";
+    // Go back to home page
+    if (window.location.pathname.includes("/auth/")) {
+      window.location.href = "../index.html";
+    } else {
+      window.location.href = "index.html";
+    }
   },
 
   // 3. Check if user is currently logged in
@@ -45,10 +50,10 @@ const AuthManager = {
       alert("คุณไม่มีสิทธิ์เข้าถึงหน้านี้ กรุณาเข้าสู่ระบบ");
 
       // Check where we are to redirect correctly
-      if (window.location.pathname.includes("/pages/")) {
-        window.location.href = "login.html"; // If inside /pages/ folder
+      if (window.location.pathname.includes("/auth/")) {
+        window.location.href = "login.html"; // If inside /auth/ folder
       } else {
-        window.location.href = "pages/login.html"; // If at root
+        window.location.href = "auth/login.html"; // If at root
       }
     }
   },
