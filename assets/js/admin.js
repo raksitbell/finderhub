@@ -141,10 +141,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("viewItemCategory").textContent = item.category;
     document.getElementById("viewItemDate").textContent = item.date;
     document.getElementById("viewItemLocation").textContent = item.location;
-    document.getElementById("viewItemStatus").textContent = item.status;
     document.getElementById("viewItemContact").textContent = item.contact;
     document.getElementById("viewItemDescription").textContent =
       item.description;
+
+    // Status Badge
+    const statusBadge = document.getElementById("viewItemStatusBadge");
+    statusBadge.textContent =
+      item.status.charAt(0).toUpperCase() + item.status.slice(1);
+    statusBadge.className = `card-badge status-${item.status}`;
 
     // Show/Hide Claimer Info
     const claimerSection = document.getElementById("viewItemClaimerSection");
@@ -259,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Close Modals (Generic) ---
   const closeButtons = document.querySelectorAll(
-    ".close-modal, #cancelClaimBtn"
+    ".close-modal, #cancelClaimBtn, .close-view-btn"
   );
   closeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {

@@ -227,68 +227,77 @@
     <div id="viewItemModal" class="modal hidden">
       <div class="modal-content">
         <span class="close-modal" id="closeViewModal">&times;</span>
-        <h2 class="text-center mb-lg">Item Details</h2>
-        <div id="viewItemContent" class="flex flex-col gap-md">
-          <div class="text-center">
-            <img
-              id="viewItemImage"
-              src=""
-              alt="Item Image"
-              style="
-                max-width: 100%;
-                max-height: 200px;
-                object-fit: contain;
-                border-radius: 8px;
-              "
-            />
-          </div>
-          <div class="grid grid-cols-2 gap-md">
-            <div>
-              <label class="text-secondary text-sm font-bold">Item Name</label>
-              <p id="viewItemName" class="text-lg font-medium"></p>
-            </div>
-            <div>
-              <label class="text-secondary text-sm font-bold">Category</label>
-              <p id="viewItemCategory"></p>
-            </div>
-            <div>
-              <label class="text-secondary text-sm font-bold">Date Found</label>
-              <p id="viewItemDate"></p>
-            </div>
-            <div>
-              <label class="text-secondary text-sm font-bold">Location</label>
-              <p id="viewItemLocation"></p>
-            </div>
-            <div>
-              <label class="text-secondary text-sm font-bold">Status</label>
-              <p id="viewItemStatus"></p>
-            </div>
-            <div>
-              <label class="text-secondary text-sm font-bold"
-                >Contact Point</label
-              >
-              <p id="viewItemContact"></p>
-            </div>
+
+        <!-- Image -->
+        <img
+          id="viewItemImage"
+          src=""
+          alt="Item Image"
+          class="card-image"
+          style="height: 300px; margin-bottom: 1rem; object-fit: cover"
+        />
+
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-md">
+          <h2
+            id="viewItemName"
+            style="font-size: 1.5rem; font-weight: 700"
+          ></h2>
+          <span id="viewItemStatusBadge" class="card-badge"></span>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="grid grid-cols-2 gap-md mb-md">
+          <div>
+            <p class="text-secondary">Category</p>
+            <p id="viewItemCategory" class="font-semibold"></p>
           </div>
           <div>
-            <label class="text-secondary text-sm font-bold">Description</label>
-            <p id="viewItemDescription" class="p-sm bg-light rounded"></p>
+            <p class="text-secondary">Date Found</p>
+            <p id="viewItemDate" class="font-semibold"></p>
           </div>
+          <div>
+            <p class="text-secondary">Location Found</p>
+            <p id="viewItemLocation" class="font-semibold"></p>
+          </div>
+          <div>
+            <p class="text-secondary">Contact Point</p>
+            <p id="viewItemContact" class="font-semibold"></p>
+          </div>
+        </div>
 
-          <!-- Claimer Details (Hidden by default) -->
-          <div id="viewItemClaimerSection" class="hidden border-t pt-md mt-md">
-            <h3 class="text-md font-bold mb-sm">Claimer Information</h3>
-            <div class="grid grid-cols-2 gap-md">
-              <div>
-                <label class="text-secondary text-sm font-bold">Name</label>
-                <p id="viewItemClaimerName"></p>
-              </div>
-              <div>
-                <label class="text-secondary text-sm font-bold">Phone</label>
-                <p id="viewItemClaimerPhone"></p>
-              </div>
+        <!-- Description -->
+        <div class="mb-lg">
+          <p class="text-secondary mb-sm">Description</p>
+          <p id="viewItemDescription"></p>
+        </div>
+
+        <!-- Claimer Details (Hidden by default) -->
+        <div
+          id="viewItemClaimerSection"
+          class="hidden border-t pt-md mt-md mb-md"
+        >
+          <h3 class="text-md font-bold mb-sm">Claimer Information</h3>
+          <div class="grid grid-cols-2 gap-md">
+            <div>
+              <p class="text-secondary">Name</p>
+              <p id="viewItemClaimerName" class="font-semibold"></p>
+            </div>
+            <div>
+              <p class="text-secondary">Phone</p>
+              <p id="viewItemClaimerPhone" class="font-semibold"></p>
             </div>
           </div>
+        </div>
+
+        <!-- Close Button -->
+        <div class="text-center mt-md">
+          <button
+            class="btn btn-secondary close-view-btn"
+            style="min-width: 120px"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>
