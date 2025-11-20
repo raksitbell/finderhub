@@ -178,10 +178,61 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================
+  // 5.1 Found Item Modal Logic
+  // ==========================================
+  const foundItemBtn = document.getElementById("foundItemBtn");
+  const foundItemModal = document.getElementById("foundItemModal");
+  const closeFoundModalBtn = document.querySelector(".close-found-modal");
+
+  if (foundItemBtn && foundItemModal) {
+    foundItemBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      foundItemModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    });
+
+    const closeFoundModal = () => {
+      foundItemModal.classList.add("hidden");
+      document.body.style.overflow = "";
+    };
+
+    if (closeFoundModalBtn) {
+      closeFoundModalBtn.addEventListener("click", closeFoundModal);
+    }
+
+    window.addEventListener("click", (e) => {
+      if (e.target === foundItemModal) closeFoundModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !foundItemModal.classList.contains("hidden"))
+        closeFoundModal();
+    });
+  }
+
+  // ==========================================
   // 6. Event Listeners
   // ==========================================
   searchBtn.addEventListener("click", filterItems);
   searchInput.addEventListener("input", filterItems);
+
+  // Category Buttons Logic
+  const categoryBtns = document.querySelectorAll(".category-btn");
+  categoryBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      // Remove active class from all
+      categoryBtns.forEach((b) => b.classList.remove("active"));
+      // Add active class to clicked
+      btn.classList.add("active");
+
+      // Update hidden select and filter
+      const category = btn.dataset.category;
+      categoryFilter.value = category;
+      filterItems();
+    });
+  });
+
+  // Keep the select listener just in case
   categoryFilter.addEventListener("change", filterItems);
 
   // Initial Render

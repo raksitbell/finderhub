@@ -20,61 +20,110 @@
          Navbar
     ========================================== -->
     <nav class="navbar">
-      <div class="container nav-container">
+      <div
+        class="container nav-container"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 0;
+        "
+      >
+        <!-- Logo -->
         <a href="index.html" class="nav-brand">
-          <span>🔍 FinderHub</span>
+          <img
+            src="assets/images/FinderHub.png"
+            alt="FinderHub"
+            style="height: 40px"
+          />
         </a>
+
+        <!-- Search Bar -->
+        <div
+          class="header-search"
+          style="flex: 1; max-width: 600px; margin: 0 2rem; position: relative"
+        >
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="ค้นหาด้วย 'ประเภท', 'ชื่อ', 'สถานที่', ..."
+            style="
+              width: 100%;
+              padding: 0.75rem 1rem;
+              padding-right: 3rem;
+              border-radius: 50px;
+              border: 1px solid #e2e8f0;
+              background-color: #f8fafc;
+            "
+          />
+          <button
+            id="searchBtn"
+            style="
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              background: none;
+              border: none;
+              cursor: pointer;
+              color: #64748b;
+            "
+          >
+            🔍
+          </button>
+        </div>
+
+        <!-- Action Button -->
         <div class="nav-links">
-          <a href="index.html" class="nav-link active">Home</a>
-          <a href="auth/login.html" class="nav-link">Admin Login</a>
+          <a
+            href="#"
+            id="foundItemBtn"
+            class="btn btn-danger"
+            style="
+              background-color: #ef4444;
+              color: white;
+              padding: 0.5rem 1.5rem;
+              border-radius: 50px;
+              text-decoration: none;
+              font-weight: 500;
+            "
+          >
+            พบทรัพย์สินไม่มีเจ้าของ ?
+          </a>
         </div>
       </div>
     </nav>
 
     <!-- Main Content -->
     <main class="container mt-lg">
-      <!-- Header -->
-      <div class="text-center mb-md">
-        <h1
-          style="
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-sm);
-          "
+      <!-- Category Filter (Moved here) -->
+      <div class="mb-xl flex justify-center gap-md flex-wrap">
+        <button class="btn btn-outline category-btn active" data-category="">
+          📦 ทั้งหมด
+        </button>
+        <button
+          class="btn btn-outline category-btn"
+          data-category="Electronics"
         >
-          Lost & Found
-        </h1>
-        <p style="color: var(--text-secondary); font-size: 1.125rem">
-          Search and claim lost items found in the building.
-        </p>
-      </div>
+          📱 โทรศัพท์ / ไอที
+        </button>
+        <button class="btn btn-outline category-btn" data-category="Personal">
+          👜 กระเป๋า / ถุง
+        </button>
+        <button class="btn btn-outline category-btn" data-category="Others">
+          ✏️ หนังสือ / เครื่องเขียน
+        </button>
+        <button class="btn btn-outline category-btn" data-category="Others">
+          ❓ อื่นๆ
+        </button>
 
-      <!-- Search & Filter -->
-      <div class="search-bar">
-        <div class="search-grid">
-          <div class="form-group" style="margin-bottom: 0">
-            <label for="searchInput" class="form-label">Search Item</label>
-            <input
-              type="text"
-              id="searchInput"
-              class="form-control"
-              placeholder="What are you looking for?"
-            />
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label for="categoryFilter" class="form-label">Category</label>
-            <select id="categoryFilter" class="form-control">
-              <option value="">All Categories</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Personal">Personal</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-          <button id="searchBtn" class="btn btn-primary" style="height: 42px">
-            Search
-          </button>
-        </div>
+        <!-- Hidden Select for compatibility with existing JS -->
+        <select id="categoryFilter" class="hidden">
+          <option value="">All Categories</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Personal">Personal</option>
+          <option value="Others">Others</option>
+        </select>
       </div>
 
       <!-- Items Grid -->
@@ -93,6 +142,19 @@
     <footer class="footer">
       <div class="container">
         <p>&copy; 2023 FinderHub. All rights reserved.</p>
+        <div style="margin-top: 0.5rem">
+          <a
+            href="auth/login.html"
+            style="
+              font-size: 0.875rem;
+              color: var(--text-secondary);
+              text-decoration: none;
+              opacity: 0.7;
+            "
+          >
+            สำหรับเจ้าหน้าที่
+          </a>
+        </div>
       </div>
     </footer>
 
@@ -102,6 +164,67 @@
         <span class="close-modal">&times;</span>
         <div id="modalBody">
           <!-- Content injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Found Item Modal -->
+    <div id="foundItemModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-found-modal close-modal">&times;</span>
+        <div class="text-center">
+          <div style="font-size: 3rem; margin-bottom: 1rem">📦</div>
+          <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem">
+            พบทรัพย์สินไม่มีเจ้าของ?
+          </h2>
+          <p
+            style="
+              color: var(--text-secondary);
+              margin-bottom: 1.5rem;
+              line-height: 1.6;
+            "
+          >
+            หากคุณพบทรัพย์สินที่ไม่มีเจ้าของ กรุณานำส่งที่ห้องธุรการ (Admin
+            Office) <br />
+            เพื่อให้เจ้าหน้าที่ดำเนินการบันทึกและตามหาเจ้าของต่อไป
+          </p>
+
+          <div
+            style="
+              background-color: #f8fafc;
+              padding: 1.5rem;
+              border-radius: 12px;
+              margin-bottom: 1.5rem;
+              text-align: left;
+            "
+          >
+            <h3
+              style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem"
+            >
+              📍 สถานที่รับฝากของหาย
+            </h3>
+            <p
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+              "
+            >
+              🏢 <strong>อาคาร 11 ชั้น 1 (ห้อง Control Room)</strong>
+            </p>
+            <p style="display: flex; align-items: center; gap: 0.5rem">
+              🕒 <strong>เวลาทำการ:</strong> 08:30 - 16:30 น.
+            </p>
+          </div>
+
+          <button
+            onclick="document.getElementById('foundItemModal').classList.add('hidden')"
+            class="btn btn-primary"
+            style="width: 100%"
+          >
+            รับทราบ
+          </button>
         </div>
       </div>
     </div>
