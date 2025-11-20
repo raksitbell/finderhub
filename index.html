@@ -99,26 +99,33 @@
         </button>
         <button
           class="btn btn-outline category-btn"
-          data-category="Electronics"
+          data-category="โทรศัพท์ / ไอที"
         >
           <i class="fas fa-mobile-alt"></i> โทรศัพท์ / ไอที
         </button>
-        <button class="btn btn-outline category-btn" data-category="Personal">
-          <i class="fas fa-shopping-bag"></i> กระเป๋า / ถุง
+        <button
+          class="btn btn-outline category-btn"
+          data-category="ของใช้ส่วนตัว"
+        >
+          <i class="fas fa-shopping-bag"></i> ของใช้ส่วนตัว
         </button>
-        <button class="btn btn-outline category-btn" data-category="Others">
+        <button
+          class="btn btn-outline category-btn"
+          data-category="หนังสือ / เครื่องเขียน"
+        >
           <i class="fas fa-book"></i> หนังสือ / เครื่องเขียน
         </button>
-        <button class="btn btn-outline category-btn" data-category="Others">
+        <button class="btn btn-outline category-btn" data-category="อื่นๆ">
           <i class="fas fa-question-circle"></i> อื่นๆ
         </button>
 
         <!-- Hidden Select for compatibility with existing JS -->
         <select id="categoryFilter" class="hidden">
           <option value="">All Categories</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Personal">Personal</option>
-          <option value="Others">Others</option>
+          <option value="โทรศัพท์ / ไอที">Electronics</option>
+          <option value="ของใช้ส่วนตัว">Personal</option>
+          <option value="หนังสือ / เครื่องเขียน">Stationery</option>
+          <option value="อื่นๆ">Others</option>
         </select>
       </div>
 
@@ -232,6 +239,19 @@
           >
             รับทราบ
           </button>
+          <div style="margin-top: 1rem">
+            <a
+              href="auth/login.html"
+              style="
+                font-size: 0.75rem;
+                color: var(--text-secondary);
+                text-decoration: none;
+                opacity: 0.7;
+              "
+            >
+              สำหรับเจ้าหน้าที่
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="card-body">
                 <div class="card-meta justify-between">
                     <span class="card-badge ${statusClass}">${statusText}</span>
-                    <span>${item.date}</span>
                 </div>
                 <h3 class="card-title">${item.name}</h3>
                 <div class="card-meta">
@@ -148,10 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <div>
                 <p class="text-secondary">Category</p>
                 <p class="font-semibold">${item.category}</p>
-            </div>
-            <div>
-                <p class="text-secondary">Date Found</p>
-                <p class="font-semibold">${item.date}</p>
             </div>
             <div>
                 <p class="text-secondary">Location Found</p>

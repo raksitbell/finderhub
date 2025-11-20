@@ -37,6 +37,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
 
   /**
+   * Formats a date string to "D/M/YYYY HH:mm".
+   * @param {string} dateString - ISO date string.
+   * @returns {string} Formatted date string.
+   */
+  const formatDateTime = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
+  /**
    * Renders the dashboard statistics and the items table.
    */
   const renderDashboard = () => {
@@ -68,17 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
         : `<button type="button" class="action-btn" onclick="updateStatus(event, '${item.id}', 'found')" title="Mark as Found"><i class="fas fa-undo"></i></button>`;
 
       tr.innerHTML = `
-                <td><img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                <td><img src="${item.image}" alt="${
+        item.name
+      }" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
                 <td style="font-weight: 500;">${item.name}</td>
                 <td>${item.category}</td>
                 <td>${item.location}</td>
-                <td>${item.date}</td>
+                <td>${formatDateTime(item.date)}</td>
                 <td>${statusBadge}</td>
                 <td>
                     <div style="display: flex; gap: 0.5rem;">
                         ${toggleAction}
-                        <button type="button" class="action-btn view" onclick="viewItem('${item.id}')" title="View Details"><i class="fas fa-eye"></i></button>
-                        <button type="button" class="action-btn delete" onclick="deleteItem(event, '${item.id}')" title="Delete Item"><i class="fas fa-trash"></i></button>
+                        <button type="button" class="action-btn view" onclick="viewItem('${
+                          item.id
+                        }')" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button type="button" class="action-btn delete" onclick="deleteItem(event, '${
+                          item.id
+                        }')" title="Delete Item"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
@@ -139,7 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("viewItemImage").src = item.image;
     document.getElementById("viewItemName").textContent = item.name;
     document.getElementById("viewItemCategory").textContent = item.category;
-    document.getElementById("viewItemDate").textContent = item.date;
+    document.getElementById("viewItemDate").textContent = formatDateTime(
+      item.date
+    );
     document.getElementById("viewItemLocation").textContent = item.location;
     document.getElementById("viewItemContact").textContent = item.contact;
     document.getElementById("viewItemDescription").textContent =
@@ -194,9 +218,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (openAddBtn) {
     openAddBtn.addEventListener("click", () => {
       addModal.classList.remove("hidden");
-      document.getElementById("dateFound").value = new Date()
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById("dateFound").value = now
         .toISOString()
-        .split("T")[0];
+        .slice(0, 16);
     });
   }
 
