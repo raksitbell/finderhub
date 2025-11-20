@@ -1,20 +1,106 @@
 <!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/main.css">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard - FinderHub</title>
-    <script src="assets/js/guard.js"></script> 
-</head>
-<body>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="admin.html" class="nav-brand">
+          <span>🛡️ FinderHub Admin</span>
+        </a>
+        <div class="nav-links">
+          <span class="nav-link">Welcome, Admin</span>
+          <a
+            href="#"
+            id="logoutBtn"
+            class="nav-link"
+            style="color: var(--danger-color)"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </nav>
 
-    <h1>ยินดีต้อนรับสู่ระบบจัดการ (Admin Dashboard)</h1>
-    
-    <button onclick="logout()">
-        ออกจากระบบ
-    </button>
+    <!-- Main Content -->
+    <main class="container mt-lg">
+      <div class="flex justify-between items-center mb-lg">
+        <h1 style="font-size: 1.75rem; font-weight: 700">Dashboard</h1>
+        <a href="pages/add-item.html" class="btn btn-primary">
+          + Add New Item
+        </a>
+      </div>
 
-</body>
-<script src="assets/js/auth.js"></script>
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-3 mb-xl">
+        <div class="card p-md text-center">
+          <h3 class="text-secondary text-sm uppercase font-bold mb-xs">
+            Total Items
+          </h3>
+          <p id="totalItems" class="text-3xl font-bold text-primary">0</p>
+        </div>
+        <div class="card p-md text-center">
+          <h3 class="text-secondary text-sm uppercase font-bold mb-xs">
+            Found
+          </h3>
+          <p id="foundItems" class="text-3xl font-bold text-success">0</p>
+        </div>
+        <div class="card p-md text-center">
+          <h3 class="text-secondary text-sm uppercase font-bold mb-xs">
+            Returned
+          </h3>
+          <p id="returnedItems" class="text-3xl font-bold text-secondary">0</p>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminItemsTable">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2023 FinderHub. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem">
+          <a
+            href="#"
+            id="resetDataBtn"
+            style="color: var(--danger-color); text-decoration: underline"
+            >Reset Data to Default</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/admin.js"></script>
+  </body>
 </html>

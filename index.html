@@ -1,13 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <title>FinderHub</title>
-</head>
-<body>
-    <h1>HELLO FINDERHUB!!</h1>
-    <img src="/assets/images/FinderHub.png" alt="FinderHub wordmark" width="200"/>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinderHub - Lost & Found System</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="index.html" class="nav-brand">
+          <span>🔍 FinderHub</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="pages/login.html" class="nav-link">Admin Login</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-lg">
+      <!-- Header -->
+      <div class="text-center mb-md">
+        <h1
+          style="
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+          "
+        >
+          Lost & Found
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 1.125rem">
+          Search and claim lost items found in the building.
+        </p>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="search-bar">
+        <div class="search-grid">
+          <div class="form-group" style="margin-bottom: 0">
+            <label for="searchInput" class="form-label">Search Item</label>
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="What are you looking for?"
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <label for="categoryFilter" class="form-label">Category</label>
+            <select id="categoryFilter" class="form-control">
+              <option value="">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Personal">Personal</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          <button id="searchBtn" class="btn btn-primary" style="height: 42px">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Items Grid -->
+      <div id="itemsGrid" class="grid grid-cols-3">
+        <!-- Items will be injected here by JS -->
+      </div>
+
+      <div id="noResults" class="text-center mt-lg hidden">
+        <p style="font-size: 1.25rem; color: var(--text-secondary)">
+          No items found matching your criteria.
+        </p>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2023 FinderHub. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Item Detail Modal -->
+    <div id="itemModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div id="modalBody">
+          <!-- Content injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>

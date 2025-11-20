@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Item - FinderHub Admin</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="container nav-container">
+        <a href="../admin.html" class="nav-brand">
+          <span>🛡️ FinderHub Admin</span>
+        </a>
+        <div class="nav-links">
+          <a href="../admin.html" class="nav-link">Dashboard</a>
+          <a
+            href="#"
+            id="logoutBtn"
+            class="nav-link"
+            style="color: var(--danger-color)"
+            >Logout</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-lg">
+      <div class="card" style="max-width: 600px; margin: 0 auto">
+        <div class="card-body">
+          <h2 class="text-center mb-lg">Add New Item</h2>
+
+          <form id="addItemForm">
+            <div class="form-group">
+              <label for="itemName" class="form-label">Item Name</label>
+              <input type="text" id="itemName" class="form-control" required />
+            </div>
+
+            <div class="grid grid-cols-2 gap-md">
+              <div class="form-group">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" class="form-control" required>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="dateFound" class="form-label">Date Found</label>
+                <input
+                  type="date"
+                  id="dateFound"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="location" class="form-label">Location Found</label>
+              <input type="text" id="location" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+              <label for="imageUpload" class="form-label">Item Image</label>
+              <input
+                type="file"
+                id="imageUpload"
+                class="form-control"
+                accept="image/*"
+              />
+              <small class="text-secondary"
+                >Upload an image (will be saved locally)</small
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                id="description"
+                class="form-control"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="contact" class="form-label"
+                >Contact Point (Where to claim)</label
+              >
+              <input
+                type="text"
+                id="contact"
+                class="form-control"
+                value="Security Office"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Add Item
+            </button>
+            <a href="../admin.html" class="btn btn-outline btn-block mt-md"
+              >Cancel</a
+            >
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="../assets/js/data.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. Check if user is allowed to be here
+        AuthManager.checkAuth();
+
+        // 2. Setup Logout
+        document.getElementById("logoutBtn").addEventListener("click", (e) => {
+          e.preventDefault();
+          AuthManager.logout();
+        });
+
+        // 3. Set default date to today
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("dateFound").value = today;
+
+        // 4. Handle Form Submission
+        const form = document.getElementById("addItemForm");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault(); // Stop page from reloading
+
+          const fileInput = document.getElementById("imageUpload");
+          let imageSrc = "https://placehold.co/300x200?text=No+Image"; // Default image
+
+          // 5. Handle Image Upload (Convert file to text)
+          if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            try {
+              // Wait for the file to be read
+              imageSrc = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result); // Success
+                reader.onerror = (e) => reject(e); // Error
+                reader.readAsDataURL(file); // Start reading
+              });
+            } catch (error) {
+              alert("Failed to read image.");
+            }
+          }
+
+          // 6. Create the new item object
+          const newItem = {
+            name: document.getElementById("itemName").value,
+            category: document.getElementById("category").value,
+            date: document.getElementById("dateFound").value,
+            location: document.getElementById("location").value,
+            image: imageSrc,
+            description: document.getElementById("description").value,
+            contact: document.getElementById("contact").value,
+          };
+
+          // 7. Save to storage
+          try {
+            DataManager.addItem(newItem);
+            alert("Item added successfully!");
+            window.location.href = "../admin.html"; // Go back to dashboard
+          } catch (error) {
+            alert("Error: Image might be too large for local storage.");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

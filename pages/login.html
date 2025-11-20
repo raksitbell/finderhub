@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - FinderHub</title>
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/components.css" />
+    <link rel="stylesheet" href="../assets/css/responsive.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="flex items-center justify-center"
+    style="min-height: 100vh; background-color: #f1f5f9"
+  >
+    <div
+      class="card"
+      style="width: 100%; max-width: 400px; padding: var(--spacing-lg)"
+    >
+      <div class="text-center mb-lg">
+        <h1
+          style="
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+          "
+        >
+          FinderHub Admin
+        </h1>
+        <p class="text-secondary">Please sign in to continue</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-control" required />
+        </div>
+
+        <div
+          id="errorMessage"
+          class="text-center mb-md hidden"
+          style="color: var(--danger-color); font-size: 0.875rem"
+        >
+          Invalid username or password
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+      </form>
+
+      <div class="text-center mt-lg">
+        <a
+          href="../index.html"
+          class="text-secondary"
+          style="font-size: 0.875rem"
+          >← Back to Home</a
+        >
+      </div>
+    </div>
+
+    <script src="../assets/js/auth.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // 1. If already logged in, go straight to dashboard
+        if (AuthManager.isLoggedIn()) {
+          window.location.href = "../admin.html";
+        }
+
+        const loginForm = document.getElementById("loginForm");
+        const errorMessage = document.getElementById("errorMessage");
+
+        // 2. Handle Login Submission
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault(); // Stop reload
+
+          // Get inputs
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          // Check credentials
+          if (AuthManager.login(username, password)) {
+            // Success: Go to dashboard
+            window.location.href = "../admin.html";
+          } else {
+            // Fail: Show error message
+            errorMessage.classList.remove("hidden");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
