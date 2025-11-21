@@ -23,6 +23,7 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   // Filter and Sort state
+  const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
@@ -105,6 +106,8 @@ export default function AdminPage() {
    * Filters and sorts the inventory items based on current state.
    * @returns {Array} Filtered and sorted items.
    */
+  const normalizedSearch = search.trim().toLowerCase();
+
   const filteredItems = inventoryItems
     .filter((item) => {
       const matchesStatus =
@@ -117,7 +120,20 @@ export default function AdminPage() {
       const matchesCategory =
         filterCategory === "all" ? true : item.category === filterCategory;
 
-      return matchesStatus && matchesCategory;
+      const matchesSearch =
+        normalizedSearch === ""
+          ? true
+          : [
+              item.name,
+              item.location,
+              item.description,
+              item.contact,
+              item.category,
+            ].some((field) =>
+              field ? field.toLowerCase().includes(normalizedSearch) : false
+            );
+
+      return matchesStatus && matchesCategory && matchesSearch;
     })
     .sort((a, b) => {
       if (sortOrder === "newest") {
@@ -279,6 +295,8 @@ export default function AdminPage() {
         <AdminStats stats={stats} />
 
         <AdminFilters
+          search={search}
+          setSearch={setSearch}
           filterStatus={filterStatus}
           setFilterStatus={setFilterStatus}
           filterCategory={filterCategory}

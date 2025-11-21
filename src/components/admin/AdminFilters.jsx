@@ -8,8 +8,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "../ui/input";
 
 export default function AdminFilters({
+  search,
+  setSearch,
   filterStatus,
   setFilterStatus,
   filterCategory,
@@ -44,9 +47,17 @@ export default function AdminFilters({
 
       {showFilters && (
         <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center gap-3 animate-in slide-in-from-top-2 duration-200">
-          <div className="w-full md:w-[180px]">
+          <div className="w-full sm:max-w-xs">
+            <Input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </div>
+          <div className="w-full sm:max-w-xs">
             <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="h-9">
+              <SelectTrigger className="h-9 w-full">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-slate-500">Status:</span>
                   <SelectValue placeholder="All" />
@@ -60,9 +71,9 @@ export default function AdminFilters({
             </Select>
           </div>
 
-          <div className="w-full md:w-[200px]">
+          <div className="w-full sm:max-w-xs">
             <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="h-9">
+              <SelectTrigger className="h-9 w-full">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-slate-500">Category:</span>
                   <SelectValue placeholder="All" />
@@ -78,9 +89,9 @@ export default function AdminFilters({
             </Select>
           </div>
 
-          <div className="w-full md:w-[180px]">
+          <div className="w-full sm:max-w-xs">
             <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="h-9">
+              <SelectTrigger className="h-9 w-full">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-slate-500">Sort:</span>
                   <SelectValue placeholder="Newest" />

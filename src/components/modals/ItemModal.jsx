@@ -36,13 +36,11 @@ export default function ItemModal({ item, isOpen, onClose }) {
         </div>
         <div className="p-6">
           <DialogHeader className="mb-4">
-            <div className="flex items-center justify-between mb-2">
+            <DialogTitle className="text-2xl font-bold flex gap-2 text-slate-800">
+              <span>{item.name} </span>
               <Badge variant="secondary" className="text-sm">
                 {item.categories?.label || item.category}
               </Badge>
-            </div>
-            <DialogTitle className="text-2xl font-bold text-slate-800">
-              {item.name}
             </DialogTitle>
           </DialogHeader>
 
@@ -104,7 +102,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
               </p>
             </div>
           </div>
-          <DialogFooter className="p-6 pt-2">
+          <DialogFooter className="py-6 pt-2">
             <Button onClick={onClose} className="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 text-base font-medium rounded-lg transition-colors">
               รับทราบ
             </Button>

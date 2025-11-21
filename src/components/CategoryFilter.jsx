@@ -14,7 +14,7 @@ const categories = [
 
 export default function CategoryFilter({ activeCategory, onCategoryChange }) {
   return (
-    <div className="flex overflow-x-auto pb-4 px-4 sm:justify-center sm:flex-wrap gap-3 no-scrollbar -mx-4 sm:mx-0 mb-8">
+    <div className="flex overflow-x-auto pb-4 px-4 sm:justify-center flex-wrap gap-3 no-scrollbar -mx-4 sm:mx-0 mb-8">
       {categories.map((category) => {
         const Icon = category.icon;
         const isActive = activeCategory === category.id;

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export default function ItemCard({ item, onClick }) {
   return (
     <Card
-      className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group border-slate-100 bg-white"
+      className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group border-slate-100 bg-white p-0"
       onClick={onClick}
     >
       <div className="relative h-56 w-full bg-slate-100 overflow-hidden">
@@ -15,7 +15,7 @@ export default function ItemCard({ item, onClick }) {
           src={item.image}
           alt={item.name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 right-3">
           <Badge className="bg-white/90 text-slate-800 hover:bg-white shadow-sm backdrop-blur-sm border-0">

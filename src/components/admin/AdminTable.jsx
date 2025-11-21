@@ -19,9 +19,9 @@ export default function AdminTable({ items, onView, onClaim, onDelete }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Image</TableHead>
+            {/* <TableHead className="w-[100px]">Image</TableHead> */}
             <TableHead>Item Name</TableHead>
-            <TableHead>Category</TableHead>
+            {/* <TableHead>Category</TableHead> */}
             <TableHead>Location</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Status</TableHead>
@@ -31,7 +31,7 @@ export default function AdminTable({ items, onView, onClaim, onDelete }) {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>
+              {/* <TableCell>
                 <div className="relative h-12 w-12 rounded-md overflow-hidden bg-slate-100">
                   <Image
                     src={item.image || "https://placehold.co/300x200?text=No+Image"}
@@ -40,9 +40,22 @@ export default function AdminTable({ items, onView, onClaim, onDelete }) {
                     className="object-cover"
                   />
                 </div>
+              </TableCell> */}
+              <TableCell className="font-medium flex flex-row gap-4">
+                <div className="relative h-12 w-12 rounded-md overflow-hidden bg-slate-100">
+                  <Image
+                    src={item.image || "https://placehold.co/300x200?text=No+Image"}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">{item.name}</span>
+                  <span className="text-xs text-slate-400">{item.categories?.label || item.category}</span>
+                </div>
               </TableCell>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>{item.categories?.label || item.category}</TableCell>
+              {/* <TableCell>{item.categories?.label || item.category}</TableCell> */}
               <TableCell>{item.location}</TableCell>
               <TableCell>
                 <div className="flex flex-col">
@@ -60,7 +73,7 @@ export default function AdminTable({ items, onView, onClaim, onDelete }) {
                   className={
                     item.status === true
                       ? "bg-green-500 hover:bg-green-600"
-                      : "bg-slate-500 hover:bg-slate-600"
+                      : "bg-slate-500 hover:bg-slate-600 text-white"
                   }
                 >
                   {item.status === true ? "Found" : "Returned"}

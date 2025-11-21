@@ -52,8 +52,13 @@ export default function ViewItemModal({ isOpen, onOpenChange, selectedItem }) {
               </div>
               <div>
                 <Label className="text-slate-500">Status</Label>
-                <Badge
+               <Badge
                   variant={selectedItem.status === true ? "default" : "secondary"}
+                  className={
+                    selectedItem.status === true
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-slate-500 hover:bg-slate-600 text-white"
+                  }
                 >
                   {selectedItem.status === true ? "Found" : "Returned"}
                 </Badge>
