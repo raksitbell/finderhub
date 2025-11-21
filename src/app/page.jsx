@@ -7,7 +7,7 @@ import CategoryFilter from "@/components/CategoryFilter";
 import ItemCard from "@/components/ItemCard";
 import ItemModal from "@/components/ItemModal";
 import FoundItemModal from "@/components/FoundItemModal";
-import { INITIAL_DATA } from "@/lib/data";
+import { DataManager } from "@/lib/data";
 
 export default function Home() {
   const [items, setItems] = useState([]);
@@ -18,11 +18,13 @@ export default function Home() {
   const [isFoundModalOpen, setIsFoundModalOpen] = useState(false);
 
   useEffect(() => {
-    // In a real app, we might fetch from API or localStorage
-    // For now, use static data
-    const data = INITIAL_DATA.filter((item) => item.status !== "returned");
-    setItems(data);
-    setFilteredItems(data);
+    const fetchItems = async () => {
+      const allItems = await DataManager.getAllItems();
+      const data = allItems.filter((item) => item.status !== "returned");
+      setItems(data);
+      setFilteredItems(data);
+    };
+    fetchItems();
   }, []);
 
   useEffect(() => {

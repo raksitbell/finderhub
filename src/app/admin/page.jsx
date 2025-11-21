@@ -10,7 +10,6 @@ import {
   Trash2,
   Eye,
   CheckCircle,
-  X,
   LogOut,
   RotateCcw,
 } from "lucide-react";
@@ -42,11 +41,13 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { DataManager } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
 export default function AdminPage() {
   const router = useRouter();
   const [items, setItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
+  const [isLoading, setIsLoading] = useState(true);
   
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -70,35 +71,46 @@ export default function AdminPage() {
   });
 
   useEffect(() => {
-    loadData();
-  }, []);
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push("/login");
+      } else {
+        loadData();
+      }
+    };
+    checkSession();
+  }, [router]);
 
-  const loadData = () => {
-    const allItems = DataManager.getAllItems();
+  const loadData = async () => {
+    setIsLoading(true);
+    const allItems = await DataManager.getAllItems();
     setItems(allItems);
     setStats({
       total: allItems.length,
       found: allItems.filter((i) => i.status === "found").length,
       returned: allItems.filter((i) => i.status === "returned").length,
     });
+    setIsLoading(false);
   };
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
+    await supabase.auth.signOut();
     router.push("/");
   };
 
-  const handleResetData = (e) => {
+  const handleResetData = async (e) => {
     e.preventDefault();
-    if (confirm("Are you sure you want to reset all data to default?")) {
-      DataManager.resetData();
+    if (confirm("Are you sure you want to reset all data? This action cannot be undone.")) {
+      await DataManager.resetData();
       loadData();
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this item?")) {
-      DataManager.deleteItem(id);
+      await DataManager.deleteItem(id);
       loadData();
     }
   };
@@ -114,13 +126,14 @@ export default function AdminPage() {
     }
   };
 
-  const handleAddItem = (e) => {
+  const handleAddItem = async (e) => {
     e.preventDefault();
     const itemToAdd = {
       ...newItem,
       image: newItem.image || "https://placehold.co/300x200?text=No+Image",
+      status: "found",
     };
-    DataManager.addItem(itemToAdd);
+    await DataManager.addItem(itemToAdd);
     loadData();
     setIsAddModalOpen(false);
     setNewItem({
@@ -134,10 +147,13 @@ export default function AdminPage() {
     });
   };
 
-  const handleClaimItem = (e) => {
+  const handleClaimItem = async (e) => {
     e.preventDefault();
     if (selectedItem) {
-      DataManager.updateItemStatus(selectedItem.id, "returned", claimData);
+      await DataManager.updateItemStatus(selectedItem.id, "returned", {
+        claimer_name: claimData.claimerName,
+        claimer_phone: claimData.claimerPhone,
+      });
       loadData();
       setIsClaimModalOpen(false);
       setClaimData({ claimerName: "", claimerPhone: "" });
@@ -153,6 +169,10 @@ export default function AdminPage() {
     setSelectedItem(item);
     setIsClaimModalOpen(true);
   };
+
+  if (isLoading && items.length === 0) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
@@ -222,7 +242,7 @@ export default function AdminPage() {
                   <TableCell>
                     <div className="relative h-12 w-12 rounded-md overflow-hidden bg-slate-100">
                       <Image
-                        src={item.image}
+                        src={item.image || "https://placehold.co/300x200?text=No+Image"}
                         alt={item.name}
                         fill
                         className="object-cover"
@@ -388,7 +408,7 @@ export default function AdminPage() {
             <div className="space-y-4">
               <div className="relative h-48 w-full bg-slate-100 rounded-lg overflow-hidden">
                 <Image
-                  src={selectedItem.image}
+                  src={selectedItem.image || "https://placehold.co/300x200?text=No+Image"}
                   alt={selectedItem.name}
                   fill
                   className="object-cover"
@@ -430,11 +450,11 @@ export default function AdminPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-slate-500">Name</Label>
-                      <p className="font-medium">{selectedItem.claimerName || "-"}</p>
+                      <p className="font-medium">{selectedItem.claimer_name || "-"}</p>
                     </div>
                     <div>
                       <Label className="text-slate-500">Phone</Label>
-                      <p className="font-medium">{selectedItem.claimerPhone || "-"}</p>
+                      <p className="font-medium">{selectedItem.claimer_phone || "-"}</p>
                     </div>
                   </div>
                 </div>

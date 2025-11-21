@@ -1,55 +1,82 @@
-const STORAGE_KEY = "finderhub_items";
-
-export const INITIAL_DATA = [];
+import { supabase } from "./supabase";
 
 export const DataManager = {
-  getAllItems: () => {
-    if (typeof window === "undefined") return INITIAL_DATA;
-    const items = localStorage.getItem(STORAGE_KEY);
-    if (!items) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_DATA));
-      return INITIAL_DATA;
+  getAllItems: async () => {
+    const { data, error } = await supabase
+      .from("items")
+      .select("*")
+      .order("date", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching items:", error);
+      return [];
     }
-    return JSON.parse(items);
+    return data;
   },
 
-  getItemById: (id) => {
-    const items = DataManager.getAllItems();
-    return items.find((item) => item.id === id);
-  },
+  getItemById: async (id) => {
+    const { data, error } = await supabase
+      .from("items")
+      .select("*")
+      .eq("id", id)
+      .single();
 
-  addItem: (item) => {
-    const items = DataManager.getAllItems();
-    const newItem = {
-      ...item,
-      id: Date.now().toString(),
-      status: "found",
-    };
-    items.push(newItem);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    return newItem;
-  },
-
-  updateItemStatus: (id, newStatus, additionalData = {}) => {
-    const items = DataManager.getAllItems();
-    const item = items.find((i) => i.id === id);
-    if (item) {
-      item.status = newStatus;
-      if (Object.keys(additionalData).length > 0) {
-        Object.assign(item, additionalData);
-      }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    if (error) {
+      console.error("Error fetching item:", error);
+      return null;
     }
+    return data;
   },
 
-  deleteItem: (id) => {
-    let items = DataManager.getAllItems();
-    items = items.filter((item) => item.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  addItem: async (item) => {
+    const { data, error } = await supabase
+      .from("items")
+      .insert([item])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error adding item:", error);
+      return null;
+    }
+    return data;
   },
 
-  resetData: () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_DATA));
-    return INITIAL_DATA;
+  updateItemStatus: async (id, status, claimData = {}) => {
+    const updateData = { status, ...claimData };
+    const { data, error } = await supabase
+      .from("items")
+      .update(updateData)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error updating item:", error);
+      return null;
+    }
+    return data;
+  },
+
+  deleteItem: async (id) => {
+    const { error } = await supabase.from("items").delete().eq("id", id);
+
+    if (error) {
+      console.error("Error deleting item:", error);
+      return false;
+    }
+    return true;
+  },
+
+  resetData: async () => {
+    // Caution: This deletes all data
+    // In a real app, you might not want this exposed or implemented this way
+    const { error } = await supabase.from("items").delete().neq("id", 0); // Delete all rows
+
+    if (error) {
+      console.error("Error resetting data:", error);
+      return false;
+    }
+    return true;
   },
 };
