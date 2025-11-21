@@ -36,7 +36,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
         </div>
         <div className="p-6">
           <DialogHeader className="mb-4">
-            <DialogTitle className="text-2xl font-bold flex gap-2 text-slate-800">
+            <DialogTitle className="text-2xl text-start font-bold flex gap-2 text-slate-800">
               <span>{item.name} </span>
               <Badge variant="secondary" className="text-sm">
                 {item.categories?.label || item.category}
