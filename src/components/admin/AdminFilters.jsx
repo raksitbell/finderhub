@@ -46,65 +46,67 @@ export default function AdminFilters({
       </div>
 
       {showFilters && (
-        <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center gap-3 animate-in slide-in-from-top-2 duration-200">
-          <div className="w-full sm:max-w-xs">
-            <Input
-              type="text"
-              placeholder="Search"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-          </div>
-          <div className="w-full sm:max-w-xs">
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
-              <SelectTrigger className="h-9 w-full">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500">Status:</span>
-                  <SelectValue placeholder="All" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="found">Found</SelectItem>
-                <SelectItem value="returned">Returned</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm animate-in slide-in-from-top-2 duration-200 flex justify-between flex-col sm:flex-row gap-2">
+          <div className="flex flex-wrap items-center gap-3 w-full">
+            <div className="w-full sm:max-w-xs">
+              <Input
+                type="text"
+                placeholder="Search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+              />
+            </div>
+            <div className="w-full sm:max-w-xs">
+              <Select value={filterStatus} onValueChange={setFilterStatus}>
+                <SelectTrigger className="h-9 w-full">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500">Status:</span>
+                    <SelectValue placeholder="All" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="found">Found</SelectItem>
+                  <SelectItem value="returned">Returned</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="w-full sm:max-w-xs">
+              <Select value={filterCategory} onValueChange={setFilterCategory}>
+                <SelectTrigger className="h-9 w-full">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500">Category:</span>
+                    <SelectValue placeholder="All" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
+                  <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
+                  <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
+                  <SelectItem value="other">อื่นๆ</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="w-full sm:max-w-xs">
+              <Select value={sortOrder} onValueChange={setSortOrder}>
+                <SelectTrigger className="h-9 w-full">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500">Sort:</span>
+                    <SelectValue placeholder="Newest" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="oldest">Oldest First</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div className="w-full sm:max-w-xs">
-            <Select value={filterCategory} onValueChange={setFilterCategory}>
-              <SelectTrigger className="h-9 w-full">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500">Category:</span>
-                  <SelectValue placeholder="All" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
-                <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
-                <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
-                <SelectItem value="other">อื่นๆ</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="w-full sm:max-w-xs">
-            <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="h-9 w-full">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500">Sort:</span>
-                  <SelectValue placeholder="Newest" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="oldest">Oldest First</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="ml-auto">
+          <div className="ml-auto flex-1 grow-0">
             <Button
               variant="ghost"
               size="sm"
@@ -112,6 +114,7 @@ export default function AdminFilters({
                 setFilterStatus("all");
                 setFilterCategory("all");
                 setSortOrder("newest");
+                setSearch("");
               }}
               className="h-9 text-slate-500 hover:text-slate-700 px-2"
               title="Clear Filters"
