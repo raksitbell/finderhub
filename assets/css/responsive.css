@@ -1,0 +1,49 @@
+/* =========================================
+   Responsive CSS
+   ========================================= */
+
+/* -----------------------------------------
+   Mobile Devices (max-width: 768px)
+   ----------------------------------------- */
+@media (max-width: 768px) {
+  /* Stack search grid vertically */
+  .search-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Stack navbar items */
+  .nav-container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  /* Single column layout for main grid */
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Adjust card image height for mobile */
+  .card-image {
+    height: 250px;
+  }
+}
+
+/* -----------------------------------------
+   Desktop Devices (min-width: 769px)
+   ----------------------------------------- */
+@media (min-width: 769px) {
+  /* 2 Column Grid */
+  .grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 3 Column Grid */
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* 4 Column Grid */
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
