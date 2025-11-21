@@ -4,7 +4,7 @@ export const DataManager = {
   getAllItems: async () => {
     const { data, error } = await supabase
       .from("items")
-      .select("*")
+      .select("*, categories(label)")
       .order("date", { ascending: false });
 
     if (error) {
@@ -17,7 +17,7 @@ export const DataManager = {
   getItemById: async (id) => {
     const { data, error } = await supabase
       .from("items")
-      .select("*")
+      .select("*, categories(label)")
       .eq("id", id)
       .single();
 

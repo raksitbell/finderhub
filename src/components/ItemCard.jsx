@@ -17,11 +17,8 @@ export default function ItemCard({ item, onClick }) {
           className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute top-3 right-3">
-          <Badge
-            variant="secondary"
-            className="bg-white/90 backdrop-blur-sm text-slate-700 shadow-sm"
-          >
-            {item.category}
+          <Badge variant="secondary" className="text-xs font-normal">
+            {item.categories?.label || item.category}
           </Badge>
         </div>
       </div>

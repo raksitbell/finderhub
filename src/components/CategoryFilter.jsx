@@ -6,7 +6,10 @@ import { cn } from "@/lib/utils";
 
 const categories = [
   { id: "", label: "ทั้งหมด", icon: Box },
-  { id: "ทั่วไป", label: "ทั่วไป", icon: CircleHelp },
+  { id: "it_gadget", label: "โทรศัพท์ / ไอที", icon: Smartphone },
+  { id: "personal", label: "ของใช้ส่วนตัว", icon: ShoppingBag },
+  { id: "stationery", label: "หนังสือ / เครื่องเขียน", icon: Book },
+  { id: "other", label: "อื่นๆ", icon: CircleHelp },
 ];
 
 export default function CategoryFilter({ activeCategory, onCategoryChange }) {

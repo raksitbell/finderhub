@@ -58,7 +58,7 @@ export default function AdminPage() {
   // Forms state
   const [newItem, setNewItem] = useState({
     name: "",
-    category: "ทั่วไป",
+    category: "it_gadget",
     date: "",
     location: "",
     description: "",
@@ -115,14 +115,17 @@ export default function AdminPage() {
     }
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setNewItem({ ...newItem, image: reader.result });
-      };
-      reader.readAsDataURL(file);
+      // Ideally, we upload when the user saves the item, but for simplicity/preview
+      // we can upload now or just preview.
+      // Let's upload now to get the URL.
+      const { uploadImage } = await import("@/lib/supabase");
+      const publicUrl = await uploadImage(file);
+      if (publicUrl) {
+        setNewItem({ ...newItem, image: publicUrl });
+      }
     }
   };
 
@@ -138,7 +141,7 @@ export default function AdminPage() {
     setIsAddModalOpen(false);
     setNewItem({
       name: "",
-      category: "ทั่วไป",
+      category: "it_gadget",
       date: "",
       location: "",
       description: "",
@@ -250,7 +253,7 @@ export default function AdminPage() {
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.category}</TableCell>
+                  <TableCell>{item.categories?.label || item.category}</TableCell>
                   <TableCell>{item.location}</TableCell>
                   <TableCell className="text-sm text-slate-500">
                     {new Date(item.date).toLocaleDateString()}
@@ -340,7 +343,10 @@ export default function AdminPage() {
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ทั่วไป">ทั่วไป</SelectItem>
+                    <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
+                    <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
+                    <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
+                    <SelectItem value="other">อื่นๆ</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -421,7 +427,7 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <Label className="text-slate-500">Category</Label>
-                  <p className="font-medium">{selectedItem.category}</p>
+                  <p className="font-medium">{selectedItem.categories?.label || selectedItem.category}</p>
                 </div>
                 <div>
                   <Label className="text-slate-500">Date Found</Label>

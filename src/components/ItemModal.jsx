@@ -37,7 +37,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
           <DialogHeader className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <Badge variant="secondary" className="text-sm">
-                {item.category}
+                {item.categories?.label || item.category}
               </Badge>
               <span className="text-xs text-slate-400">ID: {item.id}</span>
             </div>
@@ -62,7 +62,15 @@ export default function ItemModal({ item, isOpen, onClose }) {
                 <p className="text-sm font-medium text-slate-700">
                   วันที่พบ
                 </p>
-                <p className="text-slate-600">{item.date}</p>
+                <p className="text-slate-600">
+                  {new Date(item.date).toLocaleDateString('th-TH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">

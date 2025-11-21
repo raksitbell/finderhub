@@ -24,3 +24,28 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
 }
 
 export const supabase = createClient(urlToUse, keyToUse);
+
+export const uploadImage = async (file) => {
+  try {
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+    const filePath = `${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("item-images")
+      .upload(filePath, file);
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const { data } = supabase.storage
+      .from("item-images")
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    return null;
+  }
+};
