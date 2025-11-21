@@ -130,7 +130,13 @@ finderhub/
    ```
 
 3. **ตั้งค่า Environment Variables**
-   สร้างไฟล์ `.env.local` และใส่ค่าจาก Supabase Project ของคุณ:
+   คัดลอกไฟล์ `.env.example` ไปยัง `.env.local` และใส่ค่าจาก Supabase Project ของคุณ:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   จากนั้นแก้ไขไฟล์ `.env.local`:
 
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
