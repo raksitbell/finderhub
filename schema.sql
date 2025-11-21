@@ -18,10 +18,10 @@ CREATE TABLE items (
   name TEXT NOT NULL,
   category TEXT REFERENCES categories(id),
   location TEXT,
-  date TIMESTAMPTZ,
+  date BIGINT,
   description TEXT,
   image TEXT,
-  status TEXT DEFAULT 'found', -- 'found' or 'returned'
+  status BOOLEAN DEFAULT true, -- true = found, false = returned
   contact TEXT,
   claimer_name TEXT,
   claimer_phone TEXT

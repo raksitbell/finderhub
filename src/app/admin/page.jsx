@@ -88,8 +88,8 @@ export default function AdminPage() {
     setItems(allItems);
     setStats({
       total: allItems.length,
-      found: allItems.filter((i) => i.status === "found").length,
-      returned: allItems.filter((i) => i.status === "returned").length,
+      found: allItems.filter((i) => i.status === true).length,
+      returned: allItems.filter((i) => i.status === false).length,
     });
     setIsLoading(false);
   };
@@ -134,7 +134,8 @@ export default function AdminPage() {
     const itemToAdd = {
       ...newItem,
       image: newItem.image || "https://placehold.co/300x200?text=No+Image",
-      status: "found",
+      status: true,
+      date: new Date(newItem.date).getTime(), // Convert to Unix timestamp
     };
     await DataManager.addItem(itemToAdd);
     loadData();
@@ -153,7 +154,7 @@ export default function AdminPage() {
   const handleClaimItem = async (e) => {
     e.preventDefault();
     if (selectedItem) {
-      await DataManager.updateItemStatus(selectedItem.id, "returned", {
+      await DataManager.updateItemStatus(selectedItem.id, false, {
         claimer_name: claimData.claimerName,
         claimer_phone: claimData.claimerPhone,
       });
@@ -260,14 +261,14 @@ export default function AdminPage() {
                   </TableCell>
                   <TableCell>
                     <Badge
-                      variant={item.status === "found" ? "default" : "secondary"}
+                      variant={item.status === true ? "default" : "secondary"}
                       className={
-                        item.status === "found"
+                        item.status === true
                           ? "bg-green-500 hover:bg-green-600"
                           : "bg-slate-500 hover:bg-slate-600"
                       }
                     >
-                      {item.status === "found" ? "Found" : "Returned"}
+                      {item.status === true ? "Found" : "Returned"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
@@ -280,7 +281,7 @@ export default function AdminPage() {
                       >
                         <Eye className="h-4 w-4 text-slate-500" />
                       </Button>
-                      {item.status === "found" && (
+                      {item.status === true && (
                         <Button
                           variant="ghost"
                           size="icon"
@@ -441,8 +442,8 @@ export default function AdminPage() {
                 </div>
                 <div>
                   <Label className="text-slate-500">Status</Label>
-                  <Badge variant={selectedItem.status === "found" ? "default" : "secondary"}>
-                    {selectedItem.status === "found" ? "Found" : "Returned"}
+                  <Badge variant={selectedItem.status === true ? "default" : "secondary"}>
+                    {selectedItem.status === true ? "Found" : "Returned"}
                   </Badge>
                 </div>
               </div>
@@ -450,7 +451,7 @@ export default function AdminPage() {
                 <Label className="text-slate-500">Description</Label>
                 <p className="text-slate-700">{selectedItem.description}</p>
               </div>
-              {selectedItem.status === "returned" && (
+              {selectedItem.status === false && (
                 <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
                   <h4 className="font-semibold mb-2">Claimer Information</h4>
                   <div className="grid grid-cols-2 gap-4">

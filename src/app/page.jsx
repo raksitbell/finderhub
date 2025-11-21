@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     const fetchItems = async () => {
       const allItems = await DataManager.getAllItems();
-      const data = allItems.filter((item) => item.status !== "returned");
+      const data = allItems.filter((item) => item.status === true);
       setItems(data);
       setFilteredItems(data);
     };

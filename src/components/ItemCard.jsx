@@ -33,7 +33,11 @@ export default function ItemCard({ item, onClick }) {
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-slate-400" />
-            <span>{item.date}</span>
+            <span>{new Date(item.date).toLocaleDateString('th-TH', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}</span>
           </div>
         </div>
       </CardContent>

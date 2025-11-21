@@ -25,15 +25,50 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
 
 export const supabase = createClient(urlToUse, keyToUse);
 
+const convertImageToWebP = async (file) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const newFile = new File(
+              [blob],
+              file.name.replace(/\.[^/.]+$/, "") + ".webp",
+              {
+                type: "image/webp",
+              }
+            );
+            resolve(newFile);
+          } else {
+            reject(new Error("Canvas to Blob failed"));
+          }
+        },
+        "image/webp",
+        0.8
+      );
+    };
+    img.onerror = (error) => reject(error);
+    img.src = URL.createObjectURL(file);
+  });
+};
+
 export const uploadImage = async (file) => {
   try {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+    // Convert to WebP
+    const webpFile = await convertImageToWebP(file);
+
+    const fileName = `${crypto.randomUUID()}.webp`;
     const filePath = `${fileName}`;
 
     const { error: uploadError } = await supabase.storage
       .from("item-images")
-      .upload(filePath, file);
+      .upload(filePath, webpFile);
 
     if (uploadError) {
       throw uploadError;
