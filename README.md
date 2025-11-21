@@ -1,108 +1,168 @@
-# 🔍 Lost & Found System (ระบบจัดการของหายประจำอาคาร)
+# 🔍 FinderHub - Lost & Found System (ระบบจัดการของหายประจำอาคาร)
 
-![Project Wordmark](./assets/images/FinderHub.png)
+![Project Wordmark](./public/images/FinderHub.png)
 
-เว็บไซต์สำหรับประกาศตามหาและแจ้งคืนสิ่งของที่สูญหายภายในอาคาร พัฒนาโดยใช้ **HTML, CSS และ JavaScript** โดยไม่พึ่งพา Framework หรือ Library ภายนอก
+เว็บไซต์สำหรับประกาศตามหาและแจ้งคืนสิ่งของที่สูญหายภายในอาคาร พัฒนาใหม่ด้วย **Next.js** เพื่อประสิทธิภาพที่ดียิ่งขึ้น พร้อมดีไซน์ที่ทันสมัยด้วย **Tailwind CSS** และ **shadcn/ui**
+
+---
+
+## สารบัญ (Table of Contents)
+
+- [เกี่ยวกับโปรเจกต์ (About)](#-เกี่ยวกับโปรเจกต์-about)
+- [ฟีเจอร์และการใช้งาน (Features & User Journey)](#-ฟีเจอร์และการใช้งาน-features--user-journey)
+- [เทคโนโลยีที่ใช้ (Technology Used)](#-เทคโนโลยีที่ใช้-technology-used)
+- [การติดตั้ง (Installation)](#-การติดตั้ง-installation)
+- [คู่มือการใช้งาน (User Instruction)](#-คู่มือการใช้งาน-user-instruction)
+- [ลิขสิทธิ์ (License)](#-ลิขสิทธิ์-license)
+- [ข้อมูลติดต่อ (Contact Information)](#-ข้อมูลติดต่อ-contact-information)
 
 ---
 
 ## 📋 เกี่ยวกับโปรเจกต์ (About)
 
-โปรเจกต์นี้จำลองระบบการจัดการของหาย (Lost and Found) โดยแบ่งการทำงานเป็น 2 ส่วนหลัก:
-
-1. **User Side (บุคคลทั่วไป):** สามารถค้นหา, ดูรายการของที่พบ และดูสถานะของสิ่งของได้
-2. **Admin Side (เจ้าหน้าที่):** ระบบจัดการหลังบ้าน (Dashboard) สำหรับเพิ่มรายการของ แก้ไขสถานะ (Found/Returned) และลบรายการ
-
-**💡 ข้อมูลเชิงเทคนิค:**
-
-- **Zero Dependencies:** เขียนด้วย HTML/CSS/JS แบบไม่ใช้ Framework/Library
-- **Mock Database:** ใช้ `localStorage` ในการจำลองฐานข้อมูล ทำให้ข้อมูลยังอยู่แม้กด Refresh
-- **Mock Authentication:** จำลองระบบ Login/Logout และ Session ด้วย `sessionStorage`
-- **Component-based:** ใช้ JavaScript สร้าง HTML Component (Card, Navbar) เพื่อลดการเขียนโค้ดซ้ำซ้อน
+FinderHub เป็นระบบเว็บแอปพลิเคชันสำหรับจัดการของหาย (Lost and Found) ที่ช่วยให้ผู้ใช้งานสามารถค้นหาสิ่งของที่ทำหาย และช่วยให้เจ้าหน้าที่สามารถบริหารจัดการรายการสิ่งของที่พบได้อย่างเป็นระบบ โดยเวอร์ชันนี้ได้รับการอัปเกรดจากเว็บไซต์ HTML เดิมมาเป็น **Next.js Application** เต็มรูปแบบ
 
 ---
 
-## 🚀 วิธีการติดตั้งและใช้งาน (Installation & Usage)
+## ✨ ฟีเจอร์และการใช้งาน (Features & User Journey)
 
-เนื่องจากเป็น Static Web สามารถเปิดใช้งานได้ทันทีโดยไม่ต้องติดตั้ง Server
+### 👤 สำหรับผู้ใช้งานทั่วไป (User Journey)
 
-1. Clone หรือ Download โปรเจกต์นี้
-2. เปิดไฟล์ `index.html` บน Browser (แนะนำ Chrome หรือ Edge)
-3. _แนะนำ:_ หากใช้ VS Code แนะนำให้เปิดผ่าน **Live Server** เพื่อการทำงานที่สมบูรณ์ที่สุด
+1. **หน้าแรก (Home):** ผู้ใช้เข้าสู่เว็บไซต์จะพบกับรายการของหายล่าสุด
+2. **ค้นหาและกรอง (Search & Filter):** สามารถค้นหาสิ่งของจากชื่อ, สถานที่ หรือเลือกดูตามหมวดหมู่ (เช่น โทรศัพท์, กระเป๋าตางค์)
+3. **ดูรายละเอียด (View Details):** คลิกที่การ์ดสิ่งของเพื่อดูรูปภาพขนาดใหญ่และรายละเอียดเพิ่มเติม
+4. **แจ้งพบของหาย (Found Item):** หากผู้ใช้เก็บของได้ สามารถกดปุ่ม "พบทรัพย์สินไม่มีเจ้าของ?" เพื่อดูขั้นตอนการนำส่งของที่จุดรับฝาก
 
----
+### 🛠 สำหรับเจ้าหน้าที่ (Admin Journey)
 
-## 🔐 ข้อมูลสำหรับเข้าสู่ระบบ (Admin Credentials)
-
-สำหรับเข้าใช้งานส่วนเจ้าหน้าที่ (`/auth/login.html`) เพื่อจัดการข้อมูล
-
-| Role      | Username | Password    |
-| :-------- | :------- | :---------- |
-| **Admin** | `admin`  | `admin1234` |
-
-> **หมายเหตุ:** รหัสผ่านนี้ถูกกำหนดไว้ในไฟล์ `assets/js/modules/auth.js` สามารถแก้ไขได้
-
----
-
-## ✨ ฟีเจอร์หลัก (Features)
-
-### 👤 ฝั่งผู้ใช้งาน (User)
-
-- **Search & Filter:** ค้นหาของหายจากชื่อ, สถานที่, หรือหมวดหมู่
-- **Item Detail:** ดูรายละเอียดของสิ่งของ ภาพถ่าย และสถานที่ติดต่อรับคืน
-- **Found Item Info:** ดูข้อมูลขั้นตอนการแจ้งพบทรัพย์สิน (สำหรับผู้ที่เก็บของได้)
-
-### 🛠 ฝั่งเจ้าหน้าที่ (Admin)
-
-- **Authentication:** ระบบตรวจสอบสิทธิ์ก่อนเข้าใช้งาน
-- **Dashboard:** หน้าสรุปภาพรวม พร้อมสถิติจำนวนรายการ (Total, Found, Returned)
-- **Item Management:** เพิ่มรายการใหม่ (Add), แก้ไขสถานะ (Update Status), และลบรายการ (Delete)
-- **Reset Data:** ปุ่มสำหรับรีเซ็ตข้อมูลทั้งหมดกลับเป็นค่าเริ่มต้น (Mock Data)
+1. **เข้าสู่ระบบ (Login):** เจ้าหน้าที่เข้าสู่ระบบผ่านหน้า `/login`
+2. **แดชบอร์ด (Dashboard):**
+   - **ภาพรวม:** ดูสถิติของหายทั้งหมด, พบแล้ว, และคืนแล้ว
+   - **ตัวกรอง (Filters):** ดีไซน์ใหม่แบบ Compact กรองรายการตามสถานะ (Found/Returned) หรือหมวดหมู่
+   - **เรียงลำดับ (Sort):** เรียงรายการตามวันที่ (ใหม่สุด/เก่าสุด)
+   - **รีเฟรช (Refresh):** ปุ่มโหลดข้อมูลใหม่
+   - **แสดงผลเวลา:** แสดงเวลาแบบ Relative Time (เช่น "2 hours ago")
+3. **จัดการรายการ (Item Management):**
+   - **เพิ่มรายการ (Add):** บันทึกข้อมูลพร้อมอัปโหลดรูปภาพ (ระบบแปลงเป็น WebP อัตโนมัติ)
+   - **แก้ไขสถานะ (Update):** เปลี่ยนสถานะเป็น "Returned" พร้อมบันทึกข้อมูลผู้รับคืน
+   - **ลบรายการ (Delete):** ลบข้อมูลออกจากระบบ
+4. **จัดการผู้ใช้งาน (User Management) - _สำหรับ Superadmin_:**
+   - **จัดการสิทธิ์:** เพิ่ม/ลบ ผู้ใช้งานและกำหนดสิทธิ์ (Admin/Superadmin)
+5. **การแสดงผล (UI/UX):**
+   - **Mobile Responsive:** รองรับการใช้งานบนมือถืออย่างสมบูรณ์
+   - **Modern Admin Navbar:** ดีไซน์ใหม่ ทันสมัย และใช้งานง่าย
 
 ---
 
-## 💾 การจัดการข้อมูล (Data Management & CRUD)
+## 🛠 เทคโนโลยีที่ใช้ (Technology Used)
 
-ระบบนี้ใช้ **CRUD Operations** ในการจัดการข้อมูลของหาย โดยทำงานร่วมกับ `localStorage` ของ Browser:
-
-1.  **Create (เพิ่มข้อมูล):**
-    -   เจ้าหน้าที่สามารถเพิ่มรายการของหายใหม่ผ่านหน้า Dashboard
-    -   ระบบจะสร้าง ID ใหม่ให้อัตโนมัติ (ใช้ Timestamp) และบันทึกลงใน Array
-2.  **Read (อ่านข้อมูล):**
-    -   **User:** ดึงข้อมูลทั้งหมดมาแสดงผลที่หน้าแรก และสามารถกดดูรายละเอียด (Get by ID)
-    -   **Admin:** ดึงข้อมูลทั้งหมดมาแสดงในตารางจัดการ
-3.  **Update (แก้ไขข้อมูล):**
-    -   เจ้าหน้าที่สามารถเปลี่ยนสถานะของสิ่งของจาก "Found" (พบแล้ว) เป็น "Returned" (คืนแล้ว)
-    -   ข้อมูลสถานะจะถูกบันทึกทับลงในรายการเดิม
-4.  **Delete (ลบข้อมูล):**
-    -   เจ้าหน้าที่สามารถลบรายการที่ไม่ต้องการออกจากระบบได้อย่างถาวร
+- **Frontend:** [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [shadcn/ui](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Backend & Database:** [Supabase](https://supabase.com/) (PostgreSQL)
+- **Authentication:** Supabase Auth
+- **File Storage:** Supabase Storage
 
 ---
 
-## 📂 โครงสร้างไฟล์ (File Structure)
+## 🔐 ระบบยืนยันตัวตนและความปลอดภัย (Authentication & Security)
+
+### 1. Authentication System
+
+ระบบใช้ **Supabase Auth** ในการจัดการผู้ใช้งาน โดยมีการทำงานดังนี้:
+
+- **Cookie-based Session:** ใช้แพ็กเกจ `@supabase/ssr` เพื่อจัดการ Session ผ่าน Cookies ทำให้การเข้าสู่ระบบมีความปลอดภัยและคงสถานะการใช้งานได้ต่อเนื่อง (Persist Session) แม้จะปิด Browser หรือ Refresh หน้าจอ
+- **Middleware Protection:** มีระบบตรวจสอบ Session ก่อนเข้าถึงหน้า Admin หากไม่มี Session ที่ถูกต้องจะถูก Redirect ไปยังหน้า Login ทันที
+
+### 2. Security Protocols
+
+- **Row Level Security (RLS):** เปิดใช้งาน RLS บนฐานข้อมูล PostgreSQL เพื่อจำกัดสิทธิ์การเข้าถึงข้อมูล
+  - **Public Access:** บุคคลทั่วไปสามารถ **อ่าน (Read)** ข้อมูลรายการของหายได้เท่านั้น
+  - **Admin Access:** เฉพาะผู้ที่ยืนยันตัวตน (Authenticated User) เท่านั้นที่มีสิทธิ์ **เพิ่ม (Insert)**, **แก้ไข (Update)**, และ **ลบ (Delete)** ข้อมูล
+- **Secure Storage:** รูปภาพที่อัปโหลดจะถูกเก็บใน Supabase Storage ที่มีการกำหนด Policy ให้เฉพาะ Admin เท่านั้นที่อัปโหลดได้ ส่วนการเข้าถึงรูปภาพเป็นแบบ Public Read
+
+---
+
+## 📂 โครงสร้างโปรเจกต์ (Project Structure)
 
 ```
-│
-├── index.html              # หน้าแรก (แสดงรายการของหาย)
-├── /auth                   # หน้าสำหรับผู้ดูแลระบบ
-│   ├── admin.html          # หน้า Dashboard ของเจ้าหน้าที่
-│   └── login.html          # หน้าเข้าสู่ระบบ
-│
-├── /assets
-│   ├── /css
-│   │   ├── main.css        # CSS หลัก (Reset, Fonts, Variables)
-│   │   ├── components.css  # CSS ของ Card, Button, Navbar
-│   │   └── responsive.css  # Media Queries
-│   │
-│   ├── /js
-│   │   ├── app.js          # JS สำหรับหน้า User ทั่วไป (Search, Render)
-│   │   ├── admin.js        # JS สำหรับหน้า Admin (Dashboard logic)
-│   │   ├── login.js        # JS สำหรับหน้า Login
-│   │   └── /modules        # โมดูลย่อย
-│   │       ├── data.js     # (สำคัญ) ไฟล์เก็บข้อมูล Mock Data
-│   │       └── auth.js     # Auth Logic (Login/Logout/Check)
-│   │
-│   └── /images             # รูปภาพประกอบและรูปสินค้าตัวอย่าง
-│
-└── README.md               # คู่มือการรันโปรเจกต์
+finderhub/
+├── public/              # Static assets (images, etc.)
+├── src/
+│   ├── app/             # Next.js App Router pages
+│   │   ├── admin/       # Admin Dashboard page
+│   │   ├── login/       # Login page
+│   │   ├── page.jsx     # Home page
+│   │   └── layout.js    # Root layout
+│   ├── components/      # Reusable UI components
+│   │   ├── admin/       # Admin specific components (Stats, Filters, Table)
+│   │   ├── modals/      # Centralized modals directory
+│   │   │   ├── admin/   # Admin specific modals
+│   │   │   └── ...      # Public modals
+│   │   ├── ui/          # shadcn/ui components
+│   │   └── ...          # Custom components (ItemCard, etc.)
+│   ├── hooks/           # Custom React hooks (useItems, useItemFilter)
+│   └── lib/             # Utility functions & Data fetching
+│       ├── supabase.js  # Supabase client configuration
+│       ├── data.js      # Data management functions
+│       └── utils.js     # General utility functions
+├── schema.sql           # Database schema & RLS policies
+├── next.config.mjs      # Next.js configuration
+└── ...
 ```
+
+---
+
+## 🚀 การติดตั้ง (Installation)
+
+1. **Clone โปรเจกต์**
+
+   ```bash
+   git clone <repository-url>
+   cd finderhub
+   ```
+
+2. **ติดตั้ง Dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **ตั้งค่า Environment Variables**
+   คัดลอกไฟล์ `.env.example` ไปยัง `.env.local` และใส่ค่าจาก Supabase Project ของคุณ:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   จากนั้นแก้ไขไฟล์ `.env.local`:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. **รันโปรเจกต์ (Development Mode)**
+   ```bash
+   npm run dev
+   ```
+   เปิด Browser และไปที่ [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 📖 คู่มือการใช้งาน (User Instruction)
+
+### การเข้าใช้งานระบบหลังบ้าน (Admin Login)
+
+- **URL:** `/login`
+- **Account:** ใช้ Email/Password ที่ลงทะเบียนใน Supabase Auth
+- **Roles:**
+  - **Superadmin:** สามารถจัดการรายการของหาย และจัดการผู้ใช้งานได้
+  - **Admin:** สามารถจัดการรายการของหายได้เท่านั้น
+
+---
+
+## 📄 ลิขสิทธิ์ (License)
+
+โปรเจกต์นี้เผยแพร่ภายใต้ลิขสิทธิ์ **MIT License** อนุญาตให้ใช้งาน แก้ไข และแจกจ่ายได้ตามเงื่อนไข
