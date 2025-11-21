@@ -9,7 +9,7 @@ export default function Footer() {
         </p>
         <div>
           <Link
-            href="/login"
+            href="/admin"
             className="text-sm text-slate-400 hover:text-slate-600 transition-colors"
           >
             สำหรับเจ้าหน้าที่

@@ -4,83 +4,67 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Shield,
-  Plus,
-  Trash2,
-  Eye,
-  CheckCircle,
-  LogOut,
-  RefreshCw,
-  Filter,
-  X,
-} from "lucide-react";
+import { Plus, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import { DataManager } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
+import AdminStats from "@/components/admin/AdminStats";
+import AdminFilters from "@/components/admin/AdminFilters";
+import AdminTable from "@/components/admin/AdminTable";
+import AddItemModal from "@/components/modals/admin/AddItemModal";
+import ViewItemModal from "@/components/modals/admin/ViewItemModal";
+import ClaimItemModal from "@/components/modals/admin/ClaimItemModal";
 
 export default function AdminPage() {
   const router = useRouter();
-  const [items, setItems] = useState([]);
+  // State for inventory items
+  const [inventoryItems, setInventoryItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Filter and Sort state
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
-
   const [showFilters, setShowFilters] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
   
-  // Modals state
+  // User session state
+  const [userEmail, setUserEmail] = useState("");
+
+  // Modal visibility state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  
+  // Selected item for view/claim actions
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // Forms state
+  // Form state for new item
   const [newItem, setNewItem] = useState({
     name: "",
     category: "it_gadget",
     date: "",
     location: "",
     description: "",
-    contact: "Security Office",
+    contact: "ห้อง Control Room ชั้น 1",
     image: "",
   });
+
+  // Form state for claiming item
   const [claimData, setClaimData] = useState({
     claimerName: "",
     claimerPhone: "",
   });
 
+  /**
+   * Checks for an active user session on component mount.
+   * Redirects to login if no session exists.
+   */
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         router.push("/login");
       } else {
@@ -91,10 +75,14 @@ export default function AdminPage() {
     checkSession();
   }, [router]);
 
+  /**
+   * Fetches all items from the database and updates state.
+   * Calculates statistics based on the fetched data.
+   */
   const loadData = async () => {
     setIsLoading(true);
     const allItems = await DataManager.getAllItems();
-    setItems(allItems);
+    setInventoryItems(allItems);
     setStats({
       total: allItems.length,
       found: allItems.filter((i) => i.status === true).length,
@@ -103,53 +91,46 @@ export default function AdminPage() {
     setIsLoading(false);
   };
 
+  /**
+   * Handles user logout.
+   * Signs out from Supabase and redirects to the home page.
+   */
   const handleLogout = async (e) => {
     e.preventDefault();
     await supabase.auth.signOut();
     router.push("/");
   };
 
-  const getRelativeTime = (timestamp) => {
-    const now = new Date();
-    const date = new Date(timestamp);
-    const diffInSeconds = Math.floor((now - date) / 1000);
+  /**
+   * Filters and sorts the inventory items based on current state.
+   * @returns {Array} Filtered and sorted items.
+   */
+  const filteredItems = inventoryItems
+    .filter((item) => {
+      const matchesStatus =
+        filterStatus === "all"
+          ? true
+          : filterStatus === "found"
+          ? item.status === true
+          : item.status === false;
 
-    if (diffInSeconds < 60) return "Just now";
-    
-    const minutes = Math.floor(diffInSeconds / 60);
-    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-    
-    const hours = Math.floor(minutes / 60);
-    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    
-    const days = Math.floor(hours / 24);
-    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
-    
-    return date.toLocaleDateString();
-  };
+      const matchesCategory =
+        filterCategory === "all" ? true : item.category === filterCategory;
 
-  const filteredItems = items.filter((item) => {
-    const matchesStatus =
-      filterStatus === "all"
-        ? true
-        : filterStatus === "found"
-        ? item.status === true
-        : item.status === false;
-    
-    const matchesCategory =
-      filterCategory === "all" ? true : item.category === filterCategory;
+      return matchesStatus && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "newest") {
+        return new Date(b.date) - new Date(a.date);
+      } else {
+        return new Date(a.date) - new Date(b.date);
+      }
+    });
 
-    return matchesStatus && matchesCategory;
-  }).sort((a, b) => {
-    if (sortOrder === "newest") {
-      return new Date(b.date) - new Date(a.date);
-    } else {
-      return new Date(a.date) - new Date(b.date);
-    }
-  });
-
-
-
+  /**
+   * Deletes an item by its ID after user confirmation.
+   * @param {string} id - The ID of the item to delete.
+   */
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this item?")) {
       await DataManager.deleteItem(id);
@@ -157,12 +138,14 @@ export default function AdminPage() {
     }
   };
 
+  /**
+   * Handles image file upload.
+   * Uploads the file to Supabase Storage and updates the newItem state with the public URL.
+   * @param {Event} e - The change event from the file input.
+   */
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Ideally, we upload when the user saves the item, but for simplicity/preview
-      // we can upload now or just preview.
-      // Let's upload now to get the URL.
       const { uploadImage } = await import("@/lib/supabase");
       const publicUrl = await uploadImage(file);
       if (publicUrl) {
@@ -171,6 +154,11 @@ export default function AdminPage() {
     }
   };
 
+  /**
+   * Submits the new item form.
+   * Adds the item to the database and refreshes the list.
+   * @param {Event} e - The form submission event.
+   */
   const handleAddItem = async (e) => {
     e.preventDefault();
     const itemToAdd = {
@@ -188,11 +176,16 @@ export default function AdminPage() {
       date: "",
       location: "",
       description: "",
-      contact: "Security Office",
+      contact: "ห้อง Control Room ชั้น 1",
       image: "",
     });
   };
 
+  /**
+   * Marks an item as returned (claimed).
+   * Updates the item status and records claimer details.
+   * @param {Event} e - The form submission event.
+   */
   const handleClaimItem = async (e) => {
     e.preventDefault();
     if (selectedItem) {
@@ -206,44 +199,70 @@ export default function AdminPage() {
     }
   };
 
+  /**
+   * Opens the View Item modal.
+   * @param {Object} item - The item to view.
+   */
   const openViewModal = (item) => {
     setSelectedItem(item);
     setIsViewModalOpen(true);
   };
 
+  /**
+   * Opens the Claim Item modal.
+   * @param {Object} item - The item to claim.
+   */
   const openClaimModal = (item) => {
     setSelectedItem(item);
     setIsClaimModalOpen(true);
   };
 
-  if (isLoading && items.length === 0) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (isLoading && inventoryItems.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Navbar */}
-      <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/admin" className="flex items-center gap-2">
-            <Image 
-              src="/images/FinderAdmin.png" 
-              alt="FinderHub Admin" 
-              width={150} 
-              height={40} 
-              className="h-8 w-auto object-contain"
+          <Link href="/admin" className="flex items-center gap-2 transition-opacity hover:opacity-80">
+            <Image
+              src="/images/FinderAdmin.png"
+              alt="FinderHub Admin"
+              width={150}
+              height={40}
+              className="h-6 md:h-8 w-auto object-contain"
             />
           </Link>
-          <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
-              Back to Home
+          <div className="flex items-center gap-3 md:gap-6">
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors p-2 md:p-0 rounded-full hover:bg-slate-100 md:hover:bg-transparent"
+              title="Back to Home"
+            >
+              <Home className="h-5 w-5" />
+              <span className="hidden md:inline">Back to Home</span>
             </Link>
-            <span className="text-sm font-medium text-slate-700">Welcome, {userEmail.split('@')[0]}</span>
+            
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-full">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs font-medium text-slate-600">
+                {userEmail.split("@")[0]}
+              </span>
+            </div>
+
             <button
               onClick={handleLogout}
-              className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1"
+              className="flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-600 transition-colors p-2 md:p-0 rounded-full hover:bg-red-50 md:hover:bg-transparent"
+              title="Logout"
             >
-              <LogOut className="h-4 w-4" /> Logout
+              <LogOut className="h-5 w-5" />
+              <span className="hidden md:inline">Logout</span>
             </button>
           </div>
         </div>
@@ -257,389 +276,51 @@ export default function AdminPage() {
           </Button>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Total Items</h3>
-            <p className="text-4xl font-bold text-blue-600">{stats.total}</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Found</h3>
-            <p className="text-4xl font-bold text-green-600">{stats.found}</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 text-center">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Returned</h3>
-            <p className="text-4xl font-bold text-slate-600">{stats.returned}</p>
-          </div>
-        </div>
+        <AdminStats stats={stats} />
 
-        {/* Filters and Actions */}
-        <div className="flex flex-col gap-4 mb-6">
-          <div className="flex justify-end gap-2">
-            <Button
-              variant={showFilters ? "secondary" : "outline"}
-              onClick={() => setShowFilters(!showFilters)}
-              className="gap-2"
-            >
-              <Filter className="h-4 w-4" />
-              Filters
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={loadData}
-              title="Refresh Data"
-            >
-              <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
-            </Button>
-          </div>
+        <AdminFilters
+          filterStatus={filterStatus}
+          setFilterStatus={setFilterStatus}
+          filterCategory={filterCategory}
+          setFilterCategory={setFilterCategory}
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
+          showFilters={showFilters}
+          setShowFilters={setShowFilters}
+          onRefresh={loadData}
+          isLoading={isLoading}
+        />
 
-          {showFilters && (
-            <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center gap-3 animate-in slide-in-from-top-2 duration-200">
-              <div className="w-full md:w-[180px]">
-                <Select value={filterStatus} onValueChange={setFilterStatus}>
-                  <SelectTrigger className="h-9">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500">Status:</span>
-                      <SelectValue placeholder="All" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="found">Found</SelectItem>
-                    <SelectItem value="returned">Returned</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="w-full md:w-[200px]">
-                <Select value={filterCategory} onValueChange={setFilterCategory}>
-                  <SelectTrigger className="h-9">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500">Category:</span>
-                      <SelectValue placeholder="All" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All</SelectItem>
-                    <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
-                    <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
-                    <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
-                    <SelectItem value="other">อื่นๆ</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="w-full md:w-[180px]">
-                <Select value={sortOrder} onValueChange={setSortOrder}>
-                  <SelectTrigger className="h-9">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500">Sort:</span>
-                      <SelectValue placeholder="Newest" />
-                    </div>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="newest">Newest First</SelectItem>
-                    <SelectItem value="oldest">Oldest First</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="ml-auto">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setFilterStatus("all");
-                    setFilterCategory("all");
-                    setSortOrder("newest");
-                  }}
-                  className="h-9 text-slate-500 hover:text-slate-700 px-2"
-                  title="Clear Filters"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Table */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Image</TableHead>
-                <TableHead>Item Name</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredItems.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    <div className="relative h-12 w-12 rounded-md overflow-hidden bg-slate-100">
-                      <Image
-                        src={item.image || "https://placehold.co/300x200?text=No+Image"}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.categories?.label || item.category}</TableCell>
-                  <TableCell>{item.location}</TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <span className="text-sm text-slate-900">
-                        {new Date(item.date).toLocaleDateString()}
-                      </span>
-                      <span className="text-xs text-slate-400">
-                        {getRelativeTime(item.date)}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={item.status === true ? "default" : "secondary"}
-                      className={
-                        item.status === true
-                          ? "bg-green-500 hover:bg-green-600"
-                          : "bg-slate-500 hover:bg-slate-600"
-                      }
-                    >
-                      {item.status === true ? "Found" : "Returned"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => openViewModal(item)}
-                        title="View Details"
-                      >
-                        <Eye className="h-4 w-4 text-slate-500" />
-                      </Button>
-                      {item.status === true && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => openClaimModal(item)}
-                          title="Mark as Returned"
-                        >
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                        </Button>
-                      )}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDelete(item.id)}
-                        title="Delete"
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
+        <AdminTable
+          items={filteredItems}
+          onView={openViewModal}
+          onClaim={openClaimModal}
+          onDelete={handleDelete}
+        />
       </main>
 
+      <AddItemModal
+        isOpen={isAddModalOpen}
+        onOpenChange={setIsAddModalOpen}
+        newItem={newItem}
+        setNewItem={setNewItem}
+        onAddItem={handleAddItem}
+        onImageUpload={handleImageUpload}
+      />
 
+      <ViewItemModal
+        isOpen={isViewModalOpen}
+        onOpenChange={setIsViewModalOpen}
+        selectedItem={selectedItem}
+      />
 
-      {/* Add Item Modal */}
-      <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Add New Item</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleAddItem} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="itemName">Item Name</Label>
-              <Input
-                id="itemName"
-                value={newItem.name}
-                onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
-                <Select
-                  value={newItem.category}
-                  onValueChange={(value) => setNewItem({ ...newItem, category: value })}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
-                    <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
-                    <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
-                    <SelectItem value="other">อื่นๆ</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="dateFound">Date & Time Found</Label>
-                <Input
-                  id="dateFound"
-                  type="datetime-local"
-                  value={newItem.date}
-                  onChange={(e) => setNewItem({ ...newItem, date: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="location">Location Found</Label>
-              <Input
-                id="location"
-                value={newItem.location}
-                onChange={(e) => setNewItem({ ...newItem, location: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="image">Item Image</Label>
-              <Input
-                id="image"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                value={newItem.description}
-                onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contact">Contact Point</Label>
-              <Input
-                id="contact"
-                value={newItem.contact}
-                onChange={(e) => setNewItem({ ...newItem, contact: e.target.value })}
-                required
-              />
-            </div>
-            <DialogFooter>
-              <Button type="submit">Add Item</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      {/* View Item Modal */}
-      <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Item Details</DialogTitle>
-          </DialogHeader>
-          {selectedItem && (
-            <div className="space-y-4">
-              <div className="relative h-48 w-full bg-slate-100 rounded-lg overflow-hidden">
-                <Image
-                  src={selectedItem.image || "https://placehold.co/300x200?text=No+Image"}
-                  alt={selectedItem.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-slate-500">Name</Label>
-                  <p className="font-medium">{selectedItem.name}</p>
-                </div>
-                <div>
-                  <Label className="text-slate-500">Category</Label>
-                  <p className="font-medium">{selectedItem.categories?.label || selectedItem.category}</p>
-                </div>
-                <div>
-                  <Label className="text-slate-500">Date Found</Label>
-                  <p className="font-medium">
-                    {new Date(selectedItem.date).toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <Label className="text-slate-500">Location</Label>
-                  <p className="font-medium">{selectedItem.location}</p>
-                </div>
-                <div>
-                  <Label className="text-slate-500">Status</Label>
-                  <Badge variant={selectedItem.status === true ? "default" : "secondary"}>
-                    {selectedItem.status === true ? "Found" : "Returned"}
-                  </Badge>
-                </div>
-              </div>
-              <div>
-                <Label className="text-slate-500">Description</Label>
-                <p className="text-slate-700">{selectedItem.description}</p>
-              </div>
-              {selectedItem.status === false && (
-                <div className="bg-slate-50 p-4 rounded-lg border border-slate-100">
-                  <h4 className="font-semibold mb-2">Claimer Information</h4>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-slate-500">Name</Label>
-                      <p className="font-medium">{selectedItem.claimer_name || "-"}</p>
-                    </div>
-                    <div>
-                      <Label className="text-slate-500">Phone</Label>
-                      <p className="font-medium">{selectedItem.claimer_phone || "-"}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
-
-      {/* Claim Item Modal */}
-      <Dialog open={isClaimModalOpen} onOpenChange={setIsClaimModalOpen}>
-        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Confirm Return</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleClaimItem} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="claimerName">Claimer Name</Label>
-              <Input
-                id="claimerName"
-                value={claimData.claimerName}
-                onChange={(e) => setClaimData({ ...claimData, claimerName: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="claimerPhone">Phone Number</Label>
-              <Input
-                id="claimerPhone"
-                value={claimData.claimerPhone}
-                onChange={(e) => setClaimData({ ...claimData, claimerPhone: e.target.value })}
-                required
-              />
-            </div>
-            <DialogFooter>
-              <Button type="submit">Confirm Return</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <ClaimItemModal
+        isOpen={isClaimModalOpen}
+        onOpenChange={setIsClaimModalOpen}
+        claimData={claimData}
+        setClaimData={setClaimData}
+        onClaimItem={handleClaimItem}
+      />
     </div>
   );
 }

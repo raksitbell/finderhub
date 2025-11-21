@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createBrowserClient } from "@supabase/ssr";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -23,7 +23,7 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
   );
 }
 
-export const supabase = createClient(urlToUse, keyToUse);
+export const supabase = createBrowserClient(urlToUse, keyToUse);
 
 const convertImageToWebP = async (file) => {
   return new Promise((resolve, reject) => {

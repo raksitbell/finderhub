@@ -1,8 +1,15 @@
 import { supabase } from "./supabase";
 
+/**
+ * DataManager handles all database interactions for items.
+ */
 export const DataManager = {
+  /**
+   * Fetches all items from the database, ordered by date (newest first).
+   * @returns {Promise<Array>} A promise that resolves to an array of items.
+   */
   getAllItems: async () => {
-    const { data, error } = await supabase
+    const { data: items, error } = await supabase
       .from("items")
       .select("*, categories(label)")
       .order("date", { ascending: false });
@@ -11,11 +18,16 @@ export const DataManager = {
       console.error("Error fetching items:", error);
       return [];
     }
-    return data;
+    return items;
   },
 
+  /**
+   * Fetches a single item by its ID.
+   * @param {string|number} id - The ID of the item to fetch.
+   * @returns {Promise<Object|null>} A promise that resolves to the item object or null if failed.
+   */
   getItemById: async (id) => {
-    const { data, error } = await supabase
+    const { data: item, error } = await supabase
       .from("items")
       .select("*, categories(label)")
       .eq("id", id)
@@ -25,13 +37,18 @@ export const DataManager = {
       console.error("Error fetching item:", error);
       return null;
     }
-    return data;
+    return item;
   },
 
-  addItem: async (item) => {
-    const { data, error } = await supabase
+  /**
+   * Adds a new item to the database.
+   * @param {Object} itemData - The item data to insert.
+   * @returns {Promise<Object|null>} A promise that resolves to the inserted item or null if failed.
+   */
+  addItem: async (itemData) => {
+    const { data: newItem, error } = await supabase
       .from("items")
-      .insert([item])
+      .insert([itemData])
       .select()
       .single();
 
@@ -39,14 +56,21 @@ export const DataManager = {
       console.error("Error adding item:", error);
       return null;
     }
-    return data;
+    return newItem;
   },
 
+  /**
+   * Updates the status of an item (e.g., marking it as returned).
+   * @param {string|number} id - The ID of the item to update.
+   * @param {boolean} status - The new status (true for Found, false for Returned).
+   * @param {Object} [claimData={}] - Optional claimer information.
+   * @returns {Promise<Object|null>} A promise that resolves to the updated item or null if failed.
+   */
   updateItemStatus: async (id, status, claimData = {}) => {
-    const updateData = { status, ...claimData };
-    const { data, error } = await supabase
+    const updatePayload = { status, ...claimData };
+    const { data: updatedItem, error } = await supabase
       .from("items")
-      .update(updateData)
+      .update(updatePayload)
       .eq("id", id)
       .select()
       .single();
@@ -55,26 +79,19 @@ export const DataManager = {
       console.error("Error updating item:", error);
       return null;
     }
-    return data;
+    return updatedItem;
   },
 
+  /**
+   * Deletes an item from the database.
+   * @param {string|number} id - The ID of the item to delete.
+   * @returns {Promise<boolean>} A promise that resolves to true if successful, false otherwise.
+   */
   deleteItem: async (id) => {
     const { error } = await supabase.from("items").delete().eq("id", id);
 
     if (error) {
       console.error("Error deleting item:", error);
-      return false;
-    }
-    return true;
-  },
-
-  resetData: async () => {
-    // Caution: This deletes all data
-    // In a real app, you might not want this exposed or implemented this way
-    const { error } = await supabase.from("items").delete().neq("id", 0); // Delete all rows
-
-    if (error) {
-      console.error("Error resetting data:", error);
       return false;
     }
     return true;

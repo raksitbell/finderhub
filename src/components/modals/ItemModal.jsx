@@ -91,7 +91,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
               ต้องการรับของคืน?
             </h4>
             <p className="text-sm text-slate-600 mb-3">
-              กรุณาติดต่อห้องธุรการ (Admin Office) พร้อมหลักฐานแสดงความเป็นเจ้าของ
+              กรุณาติดต่อห้องควบคุม (Control Room) พร้อมหลักฐานแสดงความเป็นเจ้าของ
             </p>
             <div className="text-sm text-slate-500 space-y-1">
               <p className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
           </div>
           <DialogFooter className="p-6 pt-2">
             <Button onClick={onClose} className="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 text-base font-medium rounded-lg transition-colors">
-              ตกลง / ปิดหน้าต่าง
+              รับทราบ
             </Button>
           </DialogFooter>
         </div>

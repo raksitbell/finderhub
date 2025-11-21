@@ -22,8 +22,7 @@ export default function FoundItemModal({ isOpen, onClose }) {
             พบทรัพย์สินไม่มีเจ้าของ?
           </DialogTitle>
           <DialogDescription className="text-center mb-4">
-            หากคุณพบทรัพย์สินที่ไม่มีเจ้าของ กรุณานำส่งที่ห้องธุรการ (Admin
-            Office) เพื่อให้เจ้าหน้าที่ดำเนินการบันทึกและตามหาเจ้าของต่อไป
+            หากคุณพบทรัพย์สินที่ไม่มีเจ้าของ กรุณานำส่งที่ห้องควบคุม (Control Room) เพื่อให้เจ้าหน้าที่ดำเนินการบันทึกและตามหาเจ้าของต่อไป
           </DialogDescription>
         </DialogHeader>
 
@@ -48,7 +47,7 @@ export default function FoundItemModal({ isOpen, onClose }) {
             รับทราบ
           </Button>
           <div className="text-center">
-            <Link href="/login" className="text-xs text-slate-400 hover:text-slate-600 underline">
+            <Link href="/admin" className="text-xs text-slate-400 hover:text-slate-600 underline">
               หากเป็นเจ้าหน้าที่คลิกที่นี่
             </Link>
           </div>

@@ -14,7 +14,7 @@ const categories = [
 
 export default function CategoryFilter({ activeCategory, onCategoryChange }) {
   return (
-    <div className="flex flex-wrap justify-center gap-4 mb-8">
+    <div className="flex overflow-x-auto pb-4 px-4 sm:justify-center sm:flex-wrap gap-3 no-scrollbar -mx-4 sm:mx-0 mb-8">
       {categories.map((category) => {
         const Icon = category.icon;
         const isActive = activeCategory === category.id;
@@ -23,7 +23,7 @@ export default function CategoryFilter({ activeCategory, onCategoryChange }) {
             key={category.id}
             variant={isActive ? "default" : "outline"}
             className={cn(
-              "rounded-full px-6 gap-2 transition-all",
+              "rounded-full px-6 gap-2 transition-all flex-shrink-0",
               isActive
                 ? "bg-slate-800 hover:bg-slate-900 text-white shadow-md"
                 : "bg-white hover:bg-slate-50 text-slate-600 border-slate-200"
