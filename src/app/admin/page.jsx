@@ -319,7 +319,7 @@ export default function AdminPage() {
 
       {/* Add Item Modal */}
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Add New Item</DialogTitle>
           </DialogHeader>
@@ -407,7 +407,7 @@ export default function AdminPage() {
 
       {/* View Item Modal */}
       <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Item Details</DialogTitle>
           </DialogHeader>
@@ -473,7 +473,7 @@ export default function AdminPage() {
 
       {/* Claim Item Modal */}
       <Dialog open={isClaimModalOpen} onOpenChange={setIsClaimModalOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Confirm Return</DialogTitle>
           </DialogHeader>

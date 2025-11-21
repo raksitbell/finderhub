@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden gap-0">
+      <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto p-0 gap-0">
         <div className="relative h-64 w-full bg-slate-100">
           <Image
             src={item.image}
@@ -27,10 +28,10 @@ export default function ItemModal({ item, isOpen, onClose }) {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute right-2 top-2 rounded-full bg-white/80 hover:bg-white text-slate-500"
+            className="absolute right-3 top-3 rounded-full bg-black/20 hover:bg-black/40 text-white backdrop-blur-sm transition-colors z-10"
             onClick={onClose}
           >
-            <X className="h-4 w-4" />
+            <X className="h-5 w-5" />
           </Button>
         </div>
         <div className="p-6">
@@ -98,6 +99,11 @@ export default function ItemModal({ item, isOpen, onClose }) {
               <p>⏰ เวลาทำการ: 08:30 - 16:30 น.</p>
             </div>
           </div>
+          <DialogFooter className="p-6 pt-2">
+            <Button onClick={onClose} className="w-full bg-slate-900 hover:bg-slate-800 text-white h-11 text-base font-medium rounded-lg transition-colors">
+              ตกลง / ปิดหน้าต่าง
+            </Button>
+          </DialogFooter>
         </div>
       </DialogContent>
     </Dialog>

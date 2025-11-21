@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 export default function FoundItemModal({ isOpen, onClose }) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] text-center">
+      <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto text-center">
         <div className="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-2">
           <Box className="h-8 w-8 text-slate-600" />
         </div>

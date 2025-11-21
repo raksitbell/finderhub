@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -79,6 +80,11 @@ export default function LoginPage() {
           </form>
         </CardContent>
       </Card>
+      <div className="absolute bottom-8 text-center">
+        <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
 }
