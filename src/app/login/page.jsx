@@ -77,14 +77,15 @@ export default function LoginPage() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
+            <div className="text-center mt-2">
+              <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
+                Back to Home
+              </Link>
+            </div>
           </form>
         </CardContent>
       </Card>
-      <div className="absolute bottom-8 text-center">
-        <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
-          Back to Home
-        </Link>
-      </div>
+
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 export default function ItemCard({ item, onClick }) {
   return (
@@ -32,24 +33,14 @@ export default function ItemCard({ item, onClick }) {
         </div>
       </CardContent>
       <CardFooter className="p-5 pt-0">
-        <div className="w-full pt-4 border-t border-slate-50 flex items-center justify-between">
-          <span className="text-xs text-slate-400 font-mono">#{String(item.id).slice(0, 8)}</span>
-          <span className="text-sm font-medium text-blue-600 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+        <div className="w-full pt-4 border-t border-slate-50 flex justify-end">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200"
+          >
             ดูรายละเอียด
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </span>
+          </Button>
         </div>
       </CardFooter>
     </Card>

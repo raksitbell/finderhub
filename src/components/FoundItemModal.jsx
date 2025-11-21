@@ -1,4 +1,5 @@
 import { Box, MapPin, Clock, Building } from "lucide-react";
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -42,10 +43,15 @@ export default function FoundItemModal({ isOpen, onClose }) {
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex flex-col sm:flex-col gap-2">
           <Button className="w-full" onClick={onClose}>
             รับทราบ
           </Button>
+          <div className="text-center">
+            <Link href="/login" className="text-xs text-slate-400 hover:text-slate-600 underline">
+              หากเป็นเจ้าหน้าที่คลิกที่นี่
+            </Link>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

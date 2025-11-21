@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { MapPin, Calendar, Tag, X } from "lucide-react";
+import { MapPin, Calendar, Tag, X, Clock } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -40,7 +40,6 @@ export default function ItemModal({ item, isOpen, onClose }) {
               <Badge variant="secondary" className="text-sm">
                 {item.categories?.label || item.category}
               </Badge>
-              <span className="text-xs text-slate-400">ID: {item.id}</span>
             </div>
             <DialogTitle className="text-2xl font-bold text-slate-800">
               {item.name}
@@ -94,9 +93,15 @@ export default function ItemModal({ item, isOpen, onClose }) {
             <p className="text-sm text-slate-600 mb-3">
               กรุณาติดต่อห้องธุรการ (Admin Office) พร้อมหลักฐานแสดงความเป็นเจ้าของ
             </p>
-            <div className="text-sm text-slate-500">
-              <p>📍 อาคาร 11 ชั้น 1 (ห้อง Control Room)</p>
-              <p>⏰ เวลาทำการ: 08:30 - 16:30 น.</p>
+            <div className="text-sm text-slate-500 space-y-1">
+              <p className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-slate-400" />
+                <span>อาคาร 11 ชั้น 1 (ห้อง Control Room)</span>
+              </p>
+              <p className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-slate-400" />
+                <span>เวลาทำการ: 08:30 - 16:30 น.</span>
+              </p>
             </div>
           </div>
           <DialogFooter className="p-6 pt-2">

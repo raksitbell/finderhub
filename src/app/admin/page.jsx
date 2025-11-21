@@ -53,7 +53,9 @@ export default function AdminPage() {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortOrder, setSortOrder] = useState("newest");
+
   const [showFilters, setShowFilters] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -82,6 +84,7 @@ export default function AdminPage() {
       if (!session) {
         router.push("/login");
       } else {
+        setUserEmail(session.user.email);
         loadData();
       }
     };
@@ -222,15 +225,20 @@ export default function AdminPage() {
       {/* Navbar */}
       <nav className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/admin" className="flex items-center gap-2 font-bold text-xl text-slate-800">
-            <Shield className="h-6 w-6 text-blue-600" />
-            FinderHub Admin
+          <Link href="/admin" className="flex items-center gap-2">
+            <Image 
+              src="/images/FinderAdmin.png" 
+              alt="FinderHub Admin" 
+              width={150} 
+              height={40} 
+              className="h-8 w-auto object-contain"
+            />
           </Link>
           <div className="flex items-center gap-6">
             <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
               Back to Home
             </Link>
-            <span className="text-sm font-medium text-slate-700">Welcome, Admin</span>
+            <span className="text-sm font-medium text-slate-700">Welcome, {userEmail.split('@')[0]}</span>
             <button
               onClick={handleLogout}
               className="text-sm text-red-500 hover:text-red-700 flex items-center gap-1"
@@ -287,28 +295,33 @@ export default function AdminPage() {
           </div>
 
           {showFilters && (
-            <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4 animate-in slide-in-from-top-2 duration-200">
-              <div className="space-y-2">
-                <Label className="text-xs text-slate-500">Status</Label>
+            <div className="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex flex-wrap items-center gap-3 animate-in slide-in-from-top-2 duration-200">
+              <div className="w-full md:w-[180px]">
                 <Select value={filterStatus} onValueChange={setFilterStatus}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter by Status" />
+                  <SelectTrigger className="h-9">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-slate-500">Status:</span>
+                      <SelectValue placeholder="All" />
+                    </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     <SelectItem value="found">Found</SelectItem>
                     <SelectItem value="returned">Returned</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label className="text-xs text-slate-500">Category</Label>
+
+              <div className="w-full md:w-[200px]">
                 <Select value={filterCategory} onValueChange={setFilterCategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter by Category" />
+                  <SelectTrigger className="h-9">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-slate-500">Category:</span>
+                      <SelectValue placeholder="All" />
+                    </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="all">All</SelectItem>
                     <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
                     <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
                     <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
@@ -316,11 +329,14 @@ export default function AdminPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label className="text-xs text-slate-500">Sort By</Label>
+
+              <div className="w-full md:w-[180px]">
                 <Select value={sortOrder} onValueChange={setSortOrder}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Sort Order" />
+                  <SelectTrigger className="h-9">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-slate-500">Sort:</span>
+                      <SelectValue placeholder="Newest" />
+                    </div>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="newest">Newest First</SelectItem>
@@ -329,7 +345,7 @@ export default function AdminPage() {
                 </Select>
               </div>
 
-              <div className="md:col-span-3 flex justify-end">
+              <div className="ml-auto">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -338,9 +354,10 @@ export default function AdminPage() {
                     setFilterCategory("all");
                     setSortOrder("newest");
                   }}
-                  className="text-slate-500 hover:text-slate-700"
+                  className="h-9 text-slate-500 hover:text-slate-700 px-2"
+                  title="Clear Filters"
                 >
-                  <X className="h-4 w-4 mr-1" /> Clear Filters
+                  <X className="h-4 w-4" />
                 </Button>
               </div>
             </div>

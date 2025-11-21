@@ -17,7 +17,7 @@ export default function Navbar({ onFoundItemClick, onSearchChange }) {
             alt="FinderHub"
             width={150}
             height={40}
-            className="h-10 w-auto"
+            className="h-8 w-auto"
             priority
           />
         </Link>
