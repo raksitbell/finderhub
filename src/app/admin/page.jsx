@@ -11,7 +11,9 @@ import {
   Eye,
   CheckCircle,
   LogOut,
-  RotateCcw,
+  RefreshCw,
+  Filter,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +50,10 @@ export default function AdminPage() {
   const [items, setItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterCategory, setFilterCategory] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [showFilters, setShowFilters] = useState(false);
   
   // Modals state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -100,13 +106,46 @@ export default function AdminPage() {
     router.push("/");
   };
 
-  const handleResetData = async (e) => {
-    e.preventDefault();
-    if (confirm("Are you sure you want to reset all data? This action cannot be undone.")) {
-      await DataManager.resetData();
-      loadData();
-    }
+  const getRelativeTime = (timestamp) => {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return "Just now";
+    
+    const minutes = Math.floor(diffInSeconds / 60);
+    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`;
+    
+    return date.toLocaleDateString();
   };
+
+  const filteredItems = items.filter((item) => {
+    const matchesStatus =
+      filterStatus === "all"
+        ? true
+        : filterStatus === "found"
+        ? item.status === true
+        : item.status === false;
+    
+    const matchesCategory =
+      filterCategory === "all" ? true : item.category === filterCategory;
+
+    return matchesStatus && matchesCategory;
+  }).sort((a, b) => {
+    if (sortOrder === "newest") {
+      return new Date(b.date) - new Date(a.date);
+    } else {
+      return new Date(a.date) - new Date(b.date);
+    }
+  });
+
+
 
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this item?")) {
@@ -226,6 +265,88 @@ export default function AdminPage() {
           </div>
         </div>
 
+        {/* Filters and Actions */}
+        <div className="flex flex-col gap-4 mb-6">
+          <div className="flex justify-end gap-2">
+            <Button
+              variant={showFilters ? "secondary" : "outline"}
+              onClick={() => setShowFilters(!showFilters)}
+              className="gap-2"
+            >
+              <Filter className="h-4 w-4" />
+              Filters
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={loadData}
+              title="Refresh Data"
+            >
+              <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
+            </Button>
+          </div>
+
+          {showFilters && (
+            <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4 animate-in slide-in-from-top-2 duration-200">
+              <div className="space-y-2">
+                <Label className="text-xs text-slate-500">Status</Label>
+                <Select value={filterStatus} onValueChange={setFilterStatus}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Filter by Status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="found">Found</SelectItem>
+                    <SelectItem value="returned">Returned</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-slate-500">Category</Label>
+                <Select value={filterCategory} onValueChange={setFilterCategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Filter by Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
+                    <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
+                    <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
+                    <SelectItem value="other">อื่นๆ</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-xs text-slate-500">Sort By</Label>
+                <Select value={sortOrder} onValueChange={setSortOrder}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sort Order" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">Newest First</SelectItem>
+                    <SelectItem value="oldest">Oldest First</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="md:col-span-3 flex justify-end">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setFilterStatus("all");
+                    setFilterCategory("all");
+                    setSortOrder("newest");
+                  }}
+                  className="text-slate-500 hover:text-slate-700"
+                >
+                  <X className="h-4 w-4 mr-1" /> Clear Filters
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Table */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
           <Table>
@@ -241,7 +362,7 @@ export default function AdminPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
+              {filteredItems.map((item) => (
                 <TableRow key={item.id}>
                   <TableCell>
                     <div className="relative h-12 w-12 rounded-md overflow-hidden bg-slate-100">
@@ -256,8 +377,15 @@ export default function AdminPage() {
                   <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell>{item.categories?.label || item.category}</TableCell>
                   <TableCell>{item.location}</TableCell>
-                  <TableCell className="text-sm text-slate-500">
-                    {new Date(item.date).toLocaleDateString()}
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="text-sm text-slate-900">
+                        {new Date(item.date).toLocaleDateString()}
+                      </span>
+                      <span className="text-xs text-slate-400">
+                        {getRelativeTime(item.date)}
+                      </span>
+                    </div>
                   </TableCell>
                   <TableCell>
                     <Badge
@@ -308,14 +436,7 @@ export default function AdminPage() {
         </div>
       </main>
 
-      <footer className="container mx-auto px-4 py-8 text-center">
-        <button
-          onClick={handleResetData}
-          className="text-sm text-red-400 hover:text-red-600 flex items-center justify-center gap-1 mx-auto"
-        >
-          <RotateCcw className="h-3 w-3" /> Reset Data to Default
-        </button>
-      </footer>
+
 
       {/* Add Item Modal */}
       <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
