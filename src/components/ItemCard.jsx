@@ -27,14 +27,6 @@ import { getRelativeTime } from "@/lib/utils";
 export default function ItemCard({ item, onClick }) {
   const [isImageLoading, setIsImageLoading] = useState(true);
   const isFound = item.status === true;
-  const statusText = isFound ? "Found" : "Returned";
-  const statusColor = isFound ? "text-slate-900" : "text-slate-500";
-  const statusBg = isFound ? "bg-slate-100" : "bg-slate-100";
-  const statusIcon = isFound ? (
-    <CheckCircle className="w-3.5 h-3.5" />
-  ) : (
-    <XCircle className="w-3.5 h-3.5" />
-  );
 
   return (
     <div
