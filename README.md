@@ -1,5 +1,7 @@
 # FinderHub - Lost & Found Management System
 
+[![Thai](https://img.shields.io/badge/lang-Thai-blue.svg)](README.th.md)
+
 FinderHub is a modern, responsive web application designed to manage lost and found items efficiently. It features a public interface for users to search and report items, and a comprehensive admin dashboard for managing inventory.
 
 ## 🚀 Features
@@ -59,6 +61,10 @@ src/
     ```
 4.  **Open your browser**:
     Navigate to `http://localhost:3000`.
+
+## 📖 Documentation
+
+For a detailed guide on the codebase structure and how components work, please refer to the [Development Guide](docs/DEVELOPMENT.md).
 
 ## 🎨 Design System
 

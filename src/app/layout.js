@@ -18,6 +18,8 @@ export const metadata = {
   description: "FinderHub Lost & Found System",
 };
 
+import PrelineScript from "@/components/PrelineScript";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -25,6 +27,7 @@ export default function RootLayout({ children }) {
         className={`${kanit.variable} ${notoSansThai.variable} font-sans antialiased bg-slate-50`}
       >
         {children}
+        <PrelineScript />
       </body>
     </html>
   );
