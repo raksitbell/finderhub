@@ -27,7 +27,8 @@ export function useItemFilter(items) {
       const matchesSearch =
         item.name.toLowerCase().includes(query) ||
         item.description.toLowerCase().includes(query) ||
-        item.location.toLowerCase().includes(query);
+        item.location.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query);
 
       return matchesStatus && matchesCategory && matchesSearch;
     });

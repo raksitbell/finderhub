@@ -1,48 +1,93 @@
+import React, { useState } from "react";
 import Image from "next/image";
-import { MapPin } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  MapPin,
+  Calendar,
+  Tag,
+  CheckCircle,
+  XCircle,
+  MoreHorizontal,
+  ArrowRight,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+/**
+ * ItemCard Component
+ *
+ * Displays a summary card for a found item, including image, status, and key details.
+ * Used in the public dashboard, admin dashboard, and item preview.
+ *
+ * @param {Object} props
+ * @param {Object} props.item - The item object to display.
+ * @param {Function} props.onClick - Callback function when the card is clicked.
+ */
 export default function ItemCard({ item, onClick }) {
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const isFound = item.status === true;
+
   return (
-    <Card
-      className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group border-slate-100 bg-white p-0"
+    <div
       onClick={onClick}
+      className="flex-1 overflow-hidden bg-white border-slate-100 border rounded-[2.2rem] relative shadow-2xl cursor-pointer group hover:border-slate-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
-      <div className="relative h-56 w-full bg-slate-100 overflow-hidden">
+      {/* Hero image */}
+      <div className="relative h-64 w-full shadow-inner bg-slate-100">
+        {isImageLoading && (
+          <div className="absolute inset-0 z-10 animate-pulse bg-slate-200" />
+        )}
         <Image
-          src={item.image}
+          src={item.image || "https://placehold.co/600x400?text=No+Image"}
           alt={item.name}
           fill
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+          className={`object-cover group-hover:scale-105 transition-transform duration-500 ${
+            isImageLoading ? "opacity-0" : "opacity-100"
+          }`}
+          onLoad={() => setIsImageLoading(false)}
         />
-        <div className="absolute top-3 right-3">
-          <Badge className="bg-white/90 text-slate-800 hover:bg-white shadow-sm backdrop-blur-sm border-0">
-            {item.categories?.label || item.category}
-          </Badge>
+        <div className="bg-gradient-to-t from-black/60 via-transparent to-transparent absolute top-0 right-0 bottom-0 left-0"></div>
+
+        <div className="absolute top-4 left-4 right-4 flex items-start justify-end">
+          {/* Menu button */}
+          <button
+            className="flex outline-none flex-none text-white bg-black/40 w-9 h-9 border-white/20 border rounded-full backdrop-blur-md items-center justify-center hover:bg-black/60 transition-colors"
+            type="button"
+          >
+            <MoreHorizontal className="w-4 h-4" />
+          </button>
         </div>
       </div>
-      <CardContent className="p-5">
-        <h3 className="font-bold text-lg text-slate-800 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
-          {item.name}
-        </h3>
-        <div className="flex items-center gap-2 text-sm text-slate-500">
-          <MapPin className="h-4 w-4 text-slate-400 flex-shrink-0" />
-          <span className="line-clamp-1">{item.location}</span>
+
+      {/* Content under hero */}
+      <div className="mt-6 pr-6 pb-6 pl-6 space-y-6">
+        <div className="space-y-2 border-b border-slate-100 pb-5">
+          <p className="text-xs font-bold text-slate-900 uppercase tracking-[0.15em] font-sans">
+            {item.categories?.label || item.category}
+          </p>
+          <h2 className="text-xl font-bold tracking-tight text-slate-800 font-sans line-clamp-1 group-hover:text-slate-600 transition-colors">
+            {item.name}
+          </h2>
+          <div className="flex items-center gap-2 text-xs text-slate-500 font-sans mt-2 font-medium">
+            <MapPin className="w-3.5 h-3.5 text-red-500" />
+            <span className="line-clamp-1">{item.location}</span>
+          </div>
         </div>
-      </CardContent>
-      <CardFooter className="p-5 pt-0">
-        <div className="w-full pt-4 border-t border-slate-50 flex justify-end">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200"
-          >
-            ดูรายละเอียด
-          </Button>
+
+        {/* Action area */}
+        <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center gap-2 group/btn">
+            <div className="h-8 w-8 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center group-hover/btn:bg-slate-200 group-hover/btn:text-slate-900 transition-colors">
+              <ArrowRight className="w-4 h-4" />
+            </div>
+            <div className="text-xs">
+              <p className="text-slate-700 font-bold font-sans group-hover/btn:text-slate-900 transition-colors">
+                ดูรายละเอียด
+              </p>
+            </div>
+          </div>
         </div>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
