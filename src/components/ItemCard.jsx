@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import {
   MapPin,
@@ -25,6 +25,7 @@ import { getRelativeTime } from "@/lib/utils";
  * @param {Function} props.onClick - Callback function when the card is clicked.
  */
 export default function ItemCard({ item, onClick }) {
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const isFound = item.status === true;
   const statusText = isFound ? "Found" : "Returned";
   const statusColor = isFound ? "text-slate-900" : "text-slate-500";
@@ -41,12 +42,18 @@ export default function ItemCard({ item, onClick }) {
       className="flex-1 overflow-hidden bg-white border-slate-100 border rounded-[2.2rem] relative shadow-2xl cursor-pointer group hover:border-slate-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
       {/* Hero image */}
-      <div className="relative h-64 w-full shadow-inner">
+      <div className="relative h-64 w-full shadow-inner bg-slate-100">
+        {isImageLoading && (
+          <div className="absolute inset-0 z-10 animate-pulse bg-slate-200" />
+        )}
         <Image
           src={item.image || "https://placehold.co/600x400?text=No+Image"}
           alt={item.name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          className={`object-cover group-hover:scale-105 transition-transform duration-500 ${
+            isImageLoading ? "opacity-0" : "opacity-100"
+          }`}
+          onLoad={() => setIsImageLoading(false)}
         />
         <div className="bg-gradient-to-t from-black/60 via-transparent to-transparent absolute top-0 right-0 bottom-0 left-0"></div>
 

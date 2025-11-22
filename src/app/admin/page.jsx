@@ -7,6 +7,7 @@ import AddItemModal from "@/components/modals/admin/AddItemModal";
 import AdminItemModal from "@/components/modals/admin/AdminItemModal";
 import ClaimItemModal from "@/components/modals/admin/ClaimItemModal";
 import { useAdminDashboard } from "@/hooks/useAdminDashboard";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 export default function AdminPage() {
   const {
@@ -45,13 +46,7 @@ export default function AdminPage() {
   } = useAdminDashboard();
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin inline-block w-8 h-8 border-[3px] border-current border-t-transparent text-blue-600 rounded-full" role="status" aria-label="loading">
-          <span className="sr-only">Loading...</span>
-        </div>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   return (

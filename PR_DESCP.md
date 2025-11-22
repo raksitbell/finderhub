@@ -1,28 +1,74 @@
-# Feature: Automated Supabase Environment Setup
+# 📦 Patch Notes: FinderHub Overhaul
 
-## 📝 Description
+## 📅 Date: 2025-11-22
 
-This PR introduces an automated setup script to streamline the developer onboarding process. When starting the development server, the system now checks for the existence of a `.env` file. If missing, it interactively prompts the user for their Supabase credentials and automatically generates the file.
+## 🔄 Version: 2.0.0 (Refactor & Enhancement)
 
-## 🚀 Key Changes
+This patch introduces a major overhaul to the FinderHub application, focusing on UI modernization, code maintainability, developer experience, and comprehensive documentation.
 
-### 🛠️ Developer Experience (DX)
+---
 
-- **New Script**: Added `scripts/supabase-init.js` which handles the environment check and interactive prompt.
-- **NPM Script Update**: Modified the `dev` script in `package.json` to execute `supabase-init.js` before starting the Next.js server (`next dev`).
-- **Documentation**: Updated both `README.md` and `README.th.md` with instructions regarding this new automated setup flow.
+### ✨ New Features
 
-## 📋 Implementation Details
+#### 🎨 UI & Design System
 
-- **Logic**:
-  1.  Checks if `.env` exists in the root directory.
-  2.  If found -> Starts Next.js server immediately.
-  3.  If missing -> Prompts user for `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-  4.  Creates `.env` file with the provided values.
-  5.  Starts Next.js server.
+- **Preline UI Integration**: Fully integrated Preline UI for modern, accessible components.
+- **Font Standardization**: Switched the entire application to use **"Noto Sans Thai"** as the primary font, replacing Inter and Kanit.
+- **Responsive Design**: Enhanced mobile views for the Admin Dashboard and Public Grid.
 
-## ✅ Verification
+#### ⏳ Loading Experience
 
-- [x] **Fresh Setup**: Verified that deleting `.env` and running `npm run dev` triggers the prompt.
-- [x] **Existing Setup**: Verified that having an existing `.env` skips the prompt and starts the server normally.
-- [x] **File Creation**: Confirmed that the `.env` file is created correctly with the input values.
+- **Global Loading Screen**: Added a branded, full-screen loader (`LoadingScreen.jsx`) for the Admin Dashboard.
+- **Skeleton Screens**: Implemented `ItemCardSkeleton` to prevent layout shift on the public page.
+- **Image Optimization**: Added smart loading states to `ItemCard` with pulse animations while images load.
+
+#### 🛠️ Admin Dashboard Enhancements
+
+- **Add Item Wizard**: Transformed the "Add Item" modal into a 2-step wizard (Form -> Live Preview).
+- **Live Preview**: Admins can now see exactly how an item card will look before publishing.
+- **Key Metrics**: Added a reusable `KeyMetrics` component for consistent stat display across Public and Admin views.
+
+---
+
+### 🧑‍💻 Developer Experience (DX)
+
+- **Automated Environment Setup**:
+  - Added `scripts/supabase-init.js`.
+  - **Behavior**: Automatically checks for a `.env` file when running `npm run dev`. If missing, it interactively prompts for Supabase credentials and creates the file.
+- **Code Refactoring**:
+  - **`useAdminDashboard` Hook**: Extracted 250+ lines of logic from `AdminPage` into a custom hook for better separation of concerns.
+  - **Component Modularization**: Broke down monolithic components into smaller pieces (`AddItemForm`, `AddItemPreview`, `ClaimerInfoCard`).
+
+---
+
+### 📚 Documentation Updates
+
+- **New Documentation**:
+  - `docs/DEVELOPMENT.md`: A deep dive into the codebase structure, state management, and component architecture.
+  - `guidelines.md`: A complete presentation guide including a demo script, target audience, and tech stack overview.
+- **README Overhaul**:
+  - **Thai Default**: Set Thai (`README.md`) as the default language.
+  - **English Support**: Renamed original README to `README.en.md`.
+  - **Visuals**: Added tech stack tables, badges, and improved formatting.
+- **Organization**: Moved `API.md` to the `docs/` folder.
+
+---
+
+### 🐛 Bug Fixes & Polish
+
+- **Build Fix**: Resolved `Module not found: Can't resolve 'preline/plugin'` by adjusting Tailwind configuration.
+- **Icon Consistency**: Standardized all icons to use `lucide-react`.
+- **Clean Code**: Removed unused imports and legacy code blocks.
+
+---
+
+### 📂 File Changes Summary
+
+- `src/app/admin/page.jsx` (Refactored)
+- `src/hooks/useAdminDashboard.js` (New)
+- `src/components/ui/LoadingScreen.jsx` (New)
+- `src/components/ui/ItemCardSkeleton.jsx` (New)
+- `scripts/supabase-init.js` (New)
+- `docs/DEVELOPMENT.md` (New)
+- `guidelines.md` (New)
+- `README.md` (Updated/Renamed)

@@ -1,75 +1,91 @@
-# FinderHub - Lost & Found Management System
+# 🔎 FinderHub - ระบบจัดการของหาย (Lost & Found)
 
-[![Thai](https://img.shields.io/badge/lang-Thai-blue.svg)](README.th.md)
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](README.en.md)
 
-FinderHub is a modern, responsive web application designed to manage lost and found items efficiently. It features a public interface for users to search and report items, and a comprehensive admin dashboard for managing inventory.
+> **FinderHub** เป็นเว็บแอปพลิเคชันที่ทันสมัยและรองรับการใช้งานบนมือถือ ออกแบบมาเพื่อจัดการรายการของหายและของที่พบได้อย่างมีประสิทธิภาพ เชื่อมต่อผู้ที่ทำของหายและผู้ดูแลระบบเข้าด้วยกัน
 
-## 🚀 Features
+---
 
-### Public Interface
+## 🚀 ฟีเจอร์หลัก (Key Features)
 
-- **Search & Filter**: Powerful search bar and category filters to quickly locate items.
-- **Item Details**: Detailed view of found items including location, date, and description.
-- **Report Found Items**: Easy-to-use modal for users to report items they have found.
-- **Responsive Design**: Optimized for both desktop and mobile devices.
+### 👥 สำหรับผู้ใช้งานทั่วไป (Public Interface)
 
-### Admin Dashboard
+- 🔍 **ค้นหาและกรอง (Smart Search)**: แถบค้นหาและตัวกรองหมวดหมู่ที่มีประสิทธิภาพเพื่อค้นหาสิ่งของได้อย่างรวดเร็ว
+- 📄 **รายละเอียดสิ่งของ (Item Details)**: แสดงรายละเอียดของสิ่งที่พบ เช่น สถานที่ วันที่ และคำอธิบาย พร้อมรูปภาพที่ชัดเจน
+- 📢 **แจ้งของที่พบ (Report Found Items)**: แบบฟอร์มง่ายๆ สำหรับผู้ใช้เพื่อแจ้งรายการที่พบ
+- 📱 **รองรับทุกอุปกรณ์ (Responsive Design)**: ใช้งานได้ดีทั้งบนคอมพิวเตอร์และมือถือ
+- ⚡ **โหลดข้อมูลลื่นไหล (Smooth Loading)**: มีระบบ Skeleton Screen และการโหลดรูปภาพที่ปรับปรุงแล้วเพื่อประสบการณ์ที่ดี
 
-- **Inventory Management**: View all items in a table or card layout (mobile).
-- **Add Item Wizard**: A guided 2-step process (Form -> Preview) to add new found items.
-- **Status Tracking**: Track items as "Found" or "Returned".
-- **Claim Management**: Process item claims with claimer details.
-- **CRUD Operations**: Add, Edit (removed for simplicity), and Delete items.
+### 🛡️ แดชบอร์ดผู้ดูแลระบบ (Admin Dashboard)
 
-## 🛠️ Tech Stack
+- 📊 **จัดการคลังข้อมูล (Inventory Management)**: ดูรายการทั้งหมดในรูปแบบตารางหรือการ์ด (บนมือถือ)
+- ✨ **ตัวช่วยเพิ่มรายการ (Add Item Wizard)**: ระบบ Wizard 2 ขั้นตอน (กรอกข้อมูล -> ตรวจสอบ) เพื่อเพิ่มรายการใหม่
+- 🏷️ **ติดตามสถานะ (Status Tracking)**: ติดตามสถานะสิ่งของว่าเป็น "พบแล้ว" (Found) หรือ "คืนแล้ว" (Returned)
+- 📝 **จัดการการรับคืน (Claim Management)**: บันทึกข้อมูลผู้มารับของคืน (ชื่อ, เบอร์โทร)
+- ⚙️ **จัดการข้อมูล (CRUD Operations)**: เพิ่ม ลบ และแก้ไขสถานะรายการ
 
-- **Framework**: [Next.js](https://nextjs.org/) (React)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **UI Components**: Custom components + [Radix UI](https://www.radix-ui.com/) primitives (via shadcn/ui pattern).
-- **Fonts**: Google Fonts (Inter/Kanit).
+---
 
-## 📂 Project Structure
+## 🛠️ เทคโนโลยีที่ใช้ (Tech Stack)
+
+| หมวดหมู่          | เทคโนโลยี                                                                                                                                                                                 | รายละเอียด                                |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------- |
+| **Framework**     | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white)                                                                                     | React Framework สำหรับเว็บแอปพลิเคชัน     |
+| **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)                                                                     | Utility-first CSS framework               |
+| **UI Components** | ![Preline UI](https://img.shields.io/badge/Preline_UI-blue?style=flat-square) ![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=flat-square&logo=shadcnui&logoColor=white) | Component Library ที่สวยงามและเข้าถึงง่าย |
+| **Icons**         | ![Lucide React](https://img.shields.io/badge/Lucide_React-F7DF1E?style=flat-square&logo=javascript&logoColor=black)                                                                       | ชุดไอคอนที่ทันสมัย                        |
+| **Fonts**         | **Google Fonts**                                                                                                                                                                          | ใช้ฟอนต์ Inter และ Kanit                  |
+
+---
+
+## 📂 โครงสร้างโปรเจกต์ (Project Structure)
 
 ```
 src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable UI components
-│   ├── admin/           # Admin-specific components (Table, Filters, Header)
-│   ├── modals/          # Dialog components (ItemModal, AdminItemModal, AddItemModal)
-│   │   └── admin/       # Admin modal sub-components (AddItemForm, AddItemPreview)
-│   ├── ui/              # Base UI elements (Button, Input, Select)
-│   ├── KeyMetrics.jsx   # Dashboard statistics component
+├── app/                 # หน้าเว็บ Next.js App Router
+├── components/          # UI Components ที่ใช้ซ้ำได้
+│   ├── admin/           # Components สำหรับ Admin (Table, Filters, Header)
+│   ├── modals/          # Components กล่องข้อความ (ItemModal, AdminItemModal, AddItemModal)
+│   │   └── admin/       # Components ย่อยของ Admin Modal (AddItemForm, AddItemPreview)
+│   ├── ui/              # UI พื้นฐาน (Button, Input, Select, LoadingScreen)
+│   ├── KeyMetrics.jsx   # Component แสดงสถิติ
 │   └── ...
-├── hooks/               # Custom React hooks (useItems, useItemFilter)
-└── lib/                 # Utility functions
+├── hooks/               # Custom React hooks (useItems, useItemFilter, useAdminDashboard)
+├── lib/                 # ฟังก์ชัน Utility
+└── scripts/             # สคริปต์สำหรับตั้งค่าระบบ
 ```
 
-## ⚡ Getting Started
+---
 
-1.  **Clone the repository**:
+## ⚡ การเริ่มต้นใช้งาน (Getting Started)
+
+1.  **Clone repository**:
     ```bash
     git clone https://github.com/yourusername/finderhub.git
     ```
-2.  **Install dependencies**:
+2.  **ติดตั้ง dependencies**:
     ```bash
     npm install
     ```
-3.  **Run the development server**:
+3.  **รันเซิร์ฟเวอร์สำหรับพัฒนา**:
     ```bash
     npm run dev
     ```
-    > **Note:** If you don't have a `.env` file, the script will prompt you to enter your Supabase URL and Anon Key to automatically create it.
-4.  **Open your browser**:
-    Navigate to `http://localhost:3000`.
+    > **💡 หมายเหตุ:** หากคุณยังไม่มีไฟล์ `.env` ระบบจะแจ้งให้คุณกรอก **Supabase URL** และ **Anon Key** เพื่อสร้างไฟล์ให้โดยอัตโนมัติ
+4.  **เปิดเบราว์เซอร์**:
+    ไปที่ `http://localhost:3000`
 
-## 📖 Documentation
+---
 
-For a detailed guide on the codebase structure and how components work, please refer to the [Development Guide](docs/DEVELOPMENT.md).
+## 📖 เอกสารประกอบ (Documentation)
 
-## 🎨 Design System
+สำหรับคู่มือรายละเอียดเกี่ยวกับโครงสร้างโค้ดและการทำงานของ Component ต่างๆ โปรดดูที่ [Development Guide](docs/DEVELOPMENT.md)
 
-- **Glassmorphism**: Used in headers and modals for a modern, premium feel.
-- **Color Palette**:
-  - Primary: Emerald (Found), Slate (Returned/Neutral)
-  - Accents: Red (Location), Blue (Date), Purple (Tags)
+---
+
+## 🎨 ระบบการออกแบบ (Design System)
+
+- **Glassmorphism**: ใช้ในส่วนหัวและ Modal เพื่อความทันสมัยและดูพรีเมียม
+- **โทนสี**:
+  - 🟢 **หลัก**: Emerald (พบแล้ว), Slate (คืนแล้ว/ทั่วไป)
+  - 🔴 **เน้น**: แดง (สถานที่), 🔵 ฟ้า (วันที่), 🟣 ม่วง (แท็ก)

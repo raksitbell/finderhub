@@ -4,6 +4,7 @@ import { useState } from "react";
 import PublicHeader from "@/components/PublicHeader";
 import Footer from "@/components/Footer";
 import CategoryFilter from "@/components/CategoryFilter";
+import ItemCardSkeleton from "@/components/ui/ItemCardSkeleton";
 import ItemCard from "@/components/ItemCard";
 import ItemModal from "@/components/modals/ItemModal";
 import FoundItemModal from "@/components/modals/FoundItemModal";
@@ -50,8 +51,10 @@ export default function Home() {
         <div className="mb-8">{/* CategoryFilter moved to PublicHeader */}</div>
 
         {isLoading ? (
-          <div className="text-center py-12">
-            <p className="text-xl text-slate-400">Loading items...</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, index) => (
+              <ItemCardSkeleton key={index} />
+            ))}
           </div>
         ) : filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
