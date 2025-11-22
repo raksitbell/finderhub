@@ -25,6 +25,27 @@ const supabaseInit = async () => {
     const url = await askQuestion("Enter NEXT_PUBLIC_SUPABASE_URL: ");
     const key = await askQuestion("Enter NEXT_PUBLIC_SUPABASE_ANON_KEY: ");
 
+    // Basic validation
+    if (!url || !url.trim()) {
+      console.error("❌ Supabase URL cannot be empty.");
+      rl.close();
+      process.exit(1);
+    }
+    try {
+      const parsedUrl = new URL(url.trim());
+      if (!parsedUrl.protocol.startsWith("https")) {
+        throw new Error();
+      }
+    } catch {
+      console.error("❌ Supabase URL must be a valid https URL.");
+      rl.close();
+      process.exit(1);
+    }
+    if (!key || !key.trim()) {
+      console.error("❌ Supabase Anon Key cannot be empty.");
+      rl.close();
+      process.exit(1);
+    }
     const envContent = `NEXT_PUBLIC_SUPABASE_URL=${url}\nNEXT_PUBLIC_SUPABASE_ANON_KEY=${key}\n`;
 
     fs.writeFileSync(envPath, envContent);
