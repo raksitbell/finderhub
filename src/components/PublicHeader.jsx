@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { CheckCircle, Lock } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import KeyMetrics from "@/components/KeyMetrics";
 import FinderHubLogo from "@/components/FinderHubLogo";
 import SearchBar from "@/components/SearchBar";
