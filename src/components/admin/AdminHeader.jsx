@@ -52,7 +52,6 @@ export default function AdminHeader({ stats, userEmail, onLogout }) {
       </nav>
 
       {/* Hero Content */}
-      {/* Hero Content */}
       <div className="relative z-10 lg:px-8 lg:pb-20 pt-12 pr-6 pb-12 pl-6">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
           <div className="flex-1 max-w-2xl">
