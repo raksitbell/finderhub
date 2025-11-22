@@ -59,6 +59,7 @@ src/
     ```bash
     npm run dev
     ```
+    > **Note:** If you don't have a `.env` file, the script will prompt you to enter your Supabase URL and Anon Key to automatically create it.
 4.  **Open your browser**:
     Navigate to `http://localhost:3000`.
 
