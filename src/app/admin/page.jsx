@@ -2,17 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
-import { Plus, LogOut, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DataManager } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
-import AdminStats from "@/components/admin/AdminStats";
-import AdminFilters from "@/components/admin/AdminFilters";
+import AdminHeader from "@/components/admin/AdminHeader";
 import AdminTable from "@/components/admin/AdminTable";
 import AddItemModal from "@/components/modals/admin/AddItemModal";
-import ViewItemModal from "@/components/modals/admin/ViewItemModal";
+import AdminItemModal from "@/components/modals/admin/AdminItemModal";
 import ClaimItemModal from "@/components/modals/admin/ClaimItemModal";
 
 export default function AdminPage() {
@@ -21,13 +17,15 @@ export default function AdminPage() {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Filter and Sort state
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
-  const [sortOrder, setSortOrder] = useState("newest");
+  const [filterLocation, setFilterLocation] = useState("");
+  const [sortOrder, setSortOrder] = useState("date_newest");
+  const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-  
+
   // User session state
   const [userEmail, setUserEmail] = useState("");
 
@@ -35,7 +33,7 @@ export default function AdminPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
-  
+
   // Selected item for view/claim actions
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -117,13 +115,46 @@ export default function AdminPage() {
       const matchesCategory =
         filterCategory === "all" ? true : item.category === filterCategory;
 
-      return matchesStatus && matchesCategory;
+      const matchesLocation =
+        filterLocation === "" ||
+        item.location.toLowerCase().includes(filterLocation.toLowerCase());
+
+      const matchesSearch =
+        searchQuery === "" ||
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.categories?.label || item.category)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+
+      return (
+        matchesStatus && matchesCategory && matchesLocation && matchesSearch
+      );
     })
     .sort((a, b) => {
-      if (sortOrder === "newest") {
-        return new Date(b.date) - new Date(a.date);
-      } else {
-        return new Date(a.date) - new Date(b.date);
+      switch (sortOrder) {
+        case "name_asc":
+          return a.name.localeCompare(b.name);
+        case "name_desc":
+          return b.name.localeCompare(a.name);
+        case "category_asc":
+          return (a.categories?.label || a.category).localeCompare(
+            b.categories?.label || b.category
+          );
+        case "category_desc":
+          return (b.categories?.label || b.category).localeCompare(
+            a.categories?.label || a.category
+          );
+        case "date_newest":
+          return new Date(b.date) - new Date(a.date);
+        case "date_oldest":
+          return new Date(a.date) - new Date(b.date);
+        case "status_found":
+          return a.status === b.status ? 0 : a.status ? -1 : 1;
+        case "status_returned":
+          return a.status === b.status ? 0 : a.status ? 1 : -1;
+        default:
+          return new Date(b.date) - new Date(a.date);
       }
     });
 
@@ -228,74 +259,29 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
       {/* Navbar */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/admin" className="flex items-center gap-2 transition-opacity hover:opacity-80">
-            <Image
-              src="/images/FinderAdmin.png"
-              alt="FinderHub Admin"
-              width={150}
-              height={40}
-              className="h-6 md:h-8 w-auto object-contain"
-            />
-          </Link>
-          <div className="flex items-center gap-3 md:gap-6">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors p-2 md:p-0 rounded-full hover:bg-slate-100 md:hover:bg-transparent"
-              title="Back to Home"
-            >
-              <Home className="h-5 w-5" />
-              <span className="hidden md:inline">Back to Home</span>
-            </Link>
-            
-            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-full">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-medium text-slate-600">
-                {userEmail.split("@")[0]}
-              </span>
-            </div>
-
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-600 transition-colors p-2 md:p-0 rounded-full hover:bg-red-50 md:hover:bg-transparent"
-              title="Logout"
-            >
-              <LogOut className="h-5 w-5" />
-              <span className="hidden md:inline">Logout</span>
-            </button>
-          </div>
-        </div>
-      </nav>
-
       <main className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-800">Dashboard</h1>
-          <Button onClick={() => setIsAddModalOpen(true)}>
-            <Plus className="h-4 w-4 mr-2" /> Add New Item
-          </Button>
-        </div>
-
-        <AdminStats stats={stats} />
-
-        <AdminFilters
-          filterStatus={filterStatus}
-          setFilterStatus={setFilterStatus}
-          filterCategory={filterCategory}
-          setFilterCategory={setFilterCategory}
-          sortOrder={sortOrder}
-          setSortOrder={setSortOrder}
-          showFilters={showFilters}
-          setShowFilters={setShowFilters}
-          onRefresh={loadData}
-          isLoading={isLoading}
+        <AdminHeader
+          stats={stats}
+          userEmail={userEmail}
+          onLogout={handleLogout}
         />
 
         <AdminTable
           items={filteredItems}
           onView={openViewModal}
-          onClaim={openClaimModal}
-          onDelete={handleDelete}
+          onAddItem={() => setIsAddModalOpen(true)}
+          filterProps={{
+            filterStatus,
+            setFilterStatus,
+            filterCategory,
+            setFilterCategory,
+            filterLocation,
+            setFilterLocation,
+            sortOrder,
+            setSortOrder,
+            searchQuery,
+            setSearchQuery,
+          }}
         />
       </main>
 
@@ -308,10 +294,18 @@ export default function AdminPage() {
         onImageUpload={handleImageUpload}
       />
 
-      <ViewItemModal
+      <AdminItemModal
         isOpen={isViewModalOpen}
         onOpenChange={setIsViewModalOpen}
-        selectedItem={selectedItem}
+        item={selectedItem}
+        onClaim={openClaimModal}
+        onDelete={handleDelete}
+        onEdit={(item) => {
+          // Placeholder for edit functionality
+          console.log("Edit item:", item);
+          // You might want to open the AddItemModal with pre-filled data here
+          // For now, we'll just log it
+        }}
       />
 
       <ClaimItemModal

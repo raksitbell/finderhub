@@ -1,40 +1,48 @@
 "use client";
 
 import { Box, Smartphone, ShoppingBag, Book, CircleHelp } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const categories = [
-  { id: "", label: "ทั้งหมด", icon: Box },
-  { id: "it_gadget", label: "โทรศัพท์ / ไอที", icon: Smartphone },
+  { id: "all", label: "หมวดหมู่ทั้งหมด", icon: Box },
+  { id: "it_gadget", label: "โทรศัพท์ / อุปกรณ์ไอที", icon: Smartphone },
   { id: "personal", label: "ของใช้ส่วนตัว", icon: ShoppingBag },
-  { id: "stationery", label: "หนังสือ / เครื่องเขียน", icon: Book },
+  { id: "stationery", label: "เครื่องเขียน / อุปกรณ์สำนักงาน", icon: Book },
   { id: "other", label: "อื่นๆ", icon: CircleHelp },
 ];
 
 export default function CategoryFilter({ activeCategory, onCategoryChange }) {
+  // Handle "all" as empty string for logic, but "all" for select value
+  const currentValue = activeCategory === "" ? "all" : activeCategory;
+
+  const handleValueChange = (value) => {
+    onCategoryChange(value === "all" ? "" : value);
+  };
+
   return (
-    <div className="flex overflow-x-auto pb-4 px-4 sm:justify-center sm:flex-wrap gap-3 no-scrollbar -mx-4 sm:mx-0 mb-8">
-      {categories.map((category) => {
-        const Icon = category.icon;
-        const isActive = activeCategory === category.id;
-        return (
-          <Button
-            key={category.id}
-            variant={isActive ? "default" : "outline"}
-            className={cn(
-              "rounded-full px-6 gap-2 transition-all flex-shrink-0",
-              isActive
-                ? "bg-slate-800 hover:bg-slate-900 text-white shadow-md"
-                : "bg-white hover:bg-slate-50 text-slate-600 border-slate-200"
-            )}
-            onClick={() => onCategoryChange(category.id)}
-          >
-            <Icon className="h-4 w-4" />
-            {category.label}
-          </Button>
-        );
-      })}
-    </div>
+    <Select value={currentValue} onValueChange={handleValueChange}>
+      <SelectTrigger className="w-full h-12 rounded-2xl bg-white/10 backdrop-blur border border-white/20 text-white focus:ring-white/20 focus:ring-offset-0 text-base [&>svg]:text-white [&>svg]:opacity-100 items-center">
+        <SelectValue placeholder="Category" />
+      </SelectTrigger>
+      <SelectContent>
+        {categories.map((category) => {
+          const Icon = category.icon;
+          return (
+            <SelectItem key={category.id} value={category.id}>
+              <div className="flex items-center gap-2">
+                <Icon className="h-4 w-4" />
+                <span>{category.label}</span>
+              </div>
+            </SelectItem>
+          );
+        })}
+      </SelectContent>
+    </Select>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import PublicHeader from "@/components/PublicHeader";
 import Footer from "@/components/Footer";
 import CategoryFilter from "@/components/CategoryFilter";
 import ItemCard from "@/components/ItemCard";
@@ -21,24 +21,33 @@ export default function Home() {
     filteredItems,
     activeCategory,
     setActiveCategory,
+    searchQuery,
     setSearchQuery,
   } = useItemFilter(items);
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [isFoundModalOpen, setIsFoundModalOpen] = useState(false);
 
-  return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans">
-      <Navbar
-        onFoundItemClick={() => setIsFoundModalOpen(true)}
-        onSearchChange={setSearchQuery}
-      />
+  // Calculate stats
+  const stats = {
+    total: items.length,
+    found: items.filter((i) => i.status === true).length,
+    returned: items.filter((i) => i.status === false).length,
+  };
 
-      <main className="container mx-auto px-4 py-8 flex-1">
-        <CategoryFilter
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans">
+      <main className="container mx-auto px-4 py-8">
+        <PublicHeader
+          stats={stats}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
+          onFoundItemClick={() => setIsFoundModalOpen(true)}
         />
+
+        <div className="mb-8">{/* CategoryFilter moved to PublicHeader */}</div>
 
         {isLoading ? (
           <div className="text-center py-12">
