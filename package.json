@@ -1,0 +1,12 @@
+{
+  "name": "finderhub-legacy",
+  "version": "1.1.0",
+  "description": "Legacy static version of FinderHub",
+  "scripts": {
+    "dev": "npx serve .",
+    "deploy": "vercel deploy --prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
