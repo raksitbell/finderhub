@@ -45,7 +45,7 @@ src/
 ├── app/                 # หน้าเว็บ Next.js App Router
 ├── components/          # UI Components ที่ใช้ซ้ำได้
 │   ├── admin/           # Components สำหรับ Admin (Table, Filters, Header)
-│   ├── modals/          # Components กล่องข้อความ (ItemModal, FoundItemModal)
+│   ├── modals/          # Components กล่องข้อความ (ItemModal)
 │   │   └── admin/       # Components สำหรับ Admin Modal (AddItemModal, AdminItemModal)
 │   ├── ui/              # UI พื้นฐาน (Button, Input, Select, LoadingScreen)
 │   ├── KeyMetrics.jsx   # Component แสดงสถิติ
