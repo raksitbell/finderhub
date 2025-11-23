@@ -97,7 +97,7 @@ A 2-step process for adding new items:
 1.  **📝 Step 1: Data Entry (`AddItemForm`)**
 
     - Captures item details (Name, Category, Location).
-    - **Smart Upload**: Automatically supports Camera 📷, Gallery 🖼️, and File 📁 selection.
+    - **Smart Upload**: Supports native Camera 📷, Gallery 🖼️, and File 📁 selection.
     - **Auto-Date**: "Now" button to quickly set the current timestamp.
 
     ⬇️ _Next_
