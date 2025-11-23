@@ -119,6 +119,17 @@ const supabaseInit = async () => {
       url = url.trim();
       key = key.trim();
 
+      // Prevent newline or carriage return injection
+      if (url.includes('\n') || url.includes('\r')) {
+        console.error("❌ Supabase URL cannot contain newline or carriage return characters.");
+        rl.close();
+        process.exit(1);
+      }
+      if (key.includes('\n') || key.includes('\r')) {
+        console.error("❌ Supabase Anon Key cannot contain newline or carriage return characters.");
+        rl.close();
+        process.exit(1);
+      }
       const envContent = `NEXT_PUBLIC_SUPABASE_URL=${url}\nNEXT_PUBLIC_SUPABASE_ANON_KEY=${key}\n`;
 
       fs.writeFileSync(envPath, envContent);
