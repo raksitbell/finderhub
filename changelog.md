@@ -28,6 +28,15 @@ This patch introduces a major overhaul to the FinderHub application, focusing on
 - **Live Preview**: Admins can now see exactly how an item card will look before publishing.
 - **Key Metrics**: Added a reusable `KeyMetrics` component for consistent stat display across Public and Admin views.
 
+#### 🐳 Docker Support
+
+- **Containerized Deployment**: Added full Docker support for easy deployment and development.
+- **Multi-stage Dockerfile**: Optimized Dockerfile using multi-stage builds for smaller production images.
+- **Docker Compose**: Included `docker-compose.yml` for simplified container orchestration.
+- **Environment Configuration**: Docker setup supports build-time and runtime environment variables for Supabase configuration.
+- **Standalone Output**: Configured Next.js for standalone output mode to optimize Docker builds.
+- **Docker Ignore**: Added `.dockerignore` to exclude unnecessary files from the Docker build context.
+
 ---
 
 ### 🧑‍💻 Developer Experience (DX)
@@ -72,3 +81,7 @@ This patch introduces a major overhaul to the FinderHub application, focusing on
 - `docs/DEVELOPMENT.md` (New)
 - `guidelines.md` (New)
 - `README.md` (Updated/Renamed)
+- `Dockerfile` (New)
+- `docker-compose.yml` (New)
+- `.dockerignore` (New)
+- `next.config.mjs` (Updated for standalone output)
