@@ -79,7 +79,7 @@ src/
 
 ## 🔐 Security
 
-If you discover a security vulnerability, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
+If you discover a security vulnerability, please refer to our [Security Policy](docs/SECURITY.md) for reporting instructions.
 
 ---
 
