@@ -34,7 +34,7 @@
 | **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)                                                                     | Utility-first CSS framework               |
 | **UI Components** | ![Preline UI](https://img.shields.io/badge/Preline_UI-blue?style=flat-square) ![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=flat-square&logo=shadcnui&logoColor=white) | Component Library ที่สวยงามและเข้าถึงง่าย |
 | **Icons**         | ![Lucide React](https://img.shields.io/badge/Lucide_React-F7DF1E?style=flat-square&logo=javascript&logoColor=black)                                                                       | ชุดไอคอนที่ทันสมัย                        |
-| **Fonts**         | **Google Fonts**                                                                                                                                                                          | ใช้ฟอนต์แบบ CDN จาก Google                |
+| **Fonts**         | **Google Fonts** (Inter, Kanit)                                                                                                                                                           | ใช้ฟอนต์ Inter และ Kanit (โหลดผ่าน Google Fonts CDN) |
 
 ---
 
