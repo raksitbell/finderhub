@@ -71,9 +71,15 @@ src/
     ```bash
     npm run dev
     ```
-    > **💡 Note:** If you don't have a `.env` file, the script will prompt you to enter your **Supabase URL** and **Anon Key** to automatically create it.
+    > **💡 Smart Setup:** This command automatically checks for your `.env` file and Supabase connection. If missing, it will prompt you for credentials and start the server seamlessly.
 4.  **Open your browser**:
     Navigate to `http://localhost:3000`.
+
+---
+
+## 🔐 Security
+
+If you discover a security vulnerability, please refer to our [Security Policy](docs/SECURITY.md) for reporting instructions.
 
 ---
 

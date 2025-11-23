@@ -26,19 +26,32 @@ This guide offers a comprehensive overview of the FinderHub architecture, explai
 
 The project adheres to a robust **Next.js App Router** architecture, ensuring scalability and maintainability.
 
+### 📂 Root Directory
+
+Key configuration files and documentation located at the top level:
+
+- `📄 package.json`: Manages dependencies and scripts.
+- `📄 .env`: Environment variables.
+- `📄 README.md`: Getting started documentation.
+- `📂 public/`: Static assets (images, icons).
+
+### 📂 Source Code (src/)
+
+The core application code resides entirely within the `src/` directory:
+
 ```
 src/
 ├── 📂 app/                 # App Router: Page routes and layouts
-│   ├── 📄 layout.js        # Root layout with global providers
+│   ├── 📄 layout.js        # Root layout with global providers and scripts
 │   ├── 📄 page.jsx         # Public landing page (Item Grid)
-│   ├── 📂 admin/           # Admin protected routes
+│   ├── 📂 admin/           # Protected admin routes
 │   └── 📂 login/           # Authentication routes
 ├── 📂 components/          # React Components
 │   ├── 📂 admin/           # Admin-specific components (Tables, Headers)
 │   ├── 📂 modals/          # Dialogs and Wizards
 │   └── 📂 ui/              # Reusable base UI elements (Buttons, Inputs)
-├── 📂 hooks/               # Custom React Hooks (Logic encapsulation)
-├── 📂 lib/                 # Utilities, Constants, and API clients
+├── 📂 hooks/               # Custom React Hooks (Logic encapsulation, e.g., useState, useEffect, useRouter)
+├── 📂 lib/                 # Utilities, API clients, and database connections
 └── 📂 scripts/             # Maintenance and setup scripts
 ```
 
@@ -48,7 +61,7 @@ src/
 
 ### 🛡️ Admin Dashboard
 
-The **Admin Dashboard** (`src/app/admin/page.jsx`) is the command center for inventory management. It orchestrates complex interactions through a unified interface.
+The **Admin Dashboard** (`src/app/admin/page.jsx`) serves as the central interface for item management.
 
 #### 🧠 `useAdminDashboard` Hook
 
@@ -63,10 +76,15 @@ This custom hook (`src/hooks/useAdminDashboard.js`) acts as the **brain** of the
 
 #### 📊 `AdminTable` & `AdminMobileCard`
 
-To ensure a seamless experience across devices, the dashboard implements a **responsive strategy**:
+We implement a **Responsive Design** strategy here to ensure optimal UX/UI across all devices:
 
 - **Desktop**: Renders a detailed `<table>` with sortable columns.
-- **Mobile**: Switches to a card-based layout (`AdminMobileCard`) for better touch interaction.
+- **Mobile**: Switches to a card-based layout (`AdminMobileCard`) for better UX.
+
+Key sub-components include:
+
+- **`AdminTableFilters`**: Manages the UI for searching, category filtering, and status filtering.
+- **`AdminTableRow`**: Responsible for rendering individual table rows.
 
 ### 🪄 Modals & Wizards
 
@@ -74,12 +92,12 @@ We use modals to handle complex workflows without navigating away from the main 
 
 #### ➕ `AddItemModal` (The Wizard)
 
-A sophisticated 2-step process for reporting found items:
+A 2-step process for adding new items:
 
 1.  **📝 Step 1: Data Entry (`AddItemForm`)**
 
     - Captures item details (Name, Category, Location).
-    - **Smart Upload**: Supports Camera 📷, Gallery 🖼️, and File 📁 selection natively.
+    - **Smart Upload**: Supports native Camera 📷, Gallery 🖼️, and File 📁 selection.
     - **Auto-Date**: "Now" button to quickly set the current timestamp.
 
     ⬇️ _Next_
@@ -88,16 +106,36 @@ A sophisticated 2-step process for reporting found items:
     - Displays a live preview of the `ItemCard` exactly as it will appear publicly.
     - Allows users to **Confirm** ✅ or **Back** ↩️ to edit.
 
-#### 🔍 `AdminItemModal`
+#### 📢 `FoundItemModal`
 
-A detailed view for administrators to inspect items.
+A modal for public users to report found items (similar to `AddItemModal` but for the public facing side).
 
-- **Dynamic Actions**: Shows "Claim Item" button only if the item is currently "Found".
-- **Claimer Info**: If returned, displays the claimer's contact details via `ClaimerInfoCard`.
+#### 📄 `ItemModal`
 
-### ⏳ Loading Strategies
+A detailed view modal for public users, displaying full item information and large images.
 
-Perceived performance is critical. We employ multiple strategies to keep the UI responsive:
+#### 🔍 `AdminItemModal` & `ClaimItemModal`
+
+Views and management tools for administrators:
+
+- **`AdminItemModal`**: Detailed item inspection with action buttons.
+- **`ClaimItemModal`**: Form for recording claimer details (Name, Phone) when changing status to "Returned".
+
+### 🧱 Shared UI Elements
+
+Located in `src/components/ui`, we have a set of base components built with **Radix UI** and **Tailwind CSS**:
+
+- **`Badge`**: Status indicators (e.g., "Found", "Returned").
+- **`Button`**: Buttons with various variants (default, outline, ghost).
+- **`Card`**: Base container for data cards.
+- **`Dialog`**: Foundation for all modals.
+- **`Input` / `Textarea`**: Form input fields.
+- **`Table`**: Responsive table structure.
+- **`Select`**: Dropdown menus.
+
+### ⏳ Data Loading
+
+We employ best-practice initial data loading strategies:
 
 - **🚀 Global Loader (`LoadingScreen`)**: A full-screen transition used during initial auth checks and critical data fetches.
 - **💀 Skeletons (`ItemCardSkeleton`)**: Used in the public grid to prevent **Cumulative Layout Shift (CLS)** while images and data load.
@@ -136,13 +174,16 @@ A static class acting as an abstraction layer over the Supabase SDK.
 
 ### 🤖 `scripts/supabase-init.js`
 
-An intelligent setup assistant that runs before the development server.
+**Intelligent Setup Assistant & Dev Server Launcher**
 
-- **Checks**: Verifies if `.env` exists.
-- **Prompts**: If missing, interactively asks for `NEXT_PUBLIC_SUPABASE_URL` and `ANON_KEY`.
-- **Creates**: Generates the `.env` file automatically, ensuring new developers can start immediately.
+This script replaces the standard `next dev` command to ensure a smooth development environment:
 
----
+1.  **Environment Check**: Checks for the existence of `.env`.
+2.  **Interactive Setup**: If `.env` is missing, it prompts the user for Supabase credentials and creates the file.
+3.  **Connection Test**: Validates the Supabase connection before starting the server.
+4.  **Delayed Start**: Waits for 3 seconds to ensure everything is ready, then spawns `npx next dev`.
+
+This approach eliminates common "command not found" errors and ensures the database is reachable before the app starts.
 
 ## 🎨 Styling & UI System
 
