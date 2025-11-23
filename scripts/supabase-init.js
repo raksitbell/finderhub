@@ -11,7 +11,15 @@ const parseEnv = (content) => {
   content.split("\n").forEach((line) => {
     const match = line.match(/^([^=]+)=(.*)$/);
     if (match) {
-      env[match[1].trim()] = match[2].trim();
+      let value = match[2].trim();
+      // Remove surrounding single or double quotes if present
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
+        value = value.slice(1, -1);
+      }
+      env[match[1].trim()] = value;
     }
   });
   return env;
