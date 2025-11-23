@@ -52,7 +52,6 @@ export default function ItemModal({ item, isOpen, onClose }) {
             <X className="h-5 w-5" />
           </Button>
         </div>
-
         <div className="px-8 pb-8 relative z-10">
           <DialogHeader className="mb-6 text-left pt-6">
             <div className="flex items-center justify-between mb-4">

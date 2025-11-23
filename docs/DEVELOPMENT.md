@@ -1,93 +1,186 @@
-# FinderHub Development Guide
+# 📘 FinderHub Development Guide
 
-This document provides a detailed overview of the FinderHub codebase, explaining how key components and functions work to assist future development and maintenance.
+> [!NOTE]
+> This document provides a deep dive into the FinderHub codebase. For the Thai version, please see [คู่มือการพัฒนา (Thai Version)](./DEVELOPMENT.th.md).
 
-## Table of Contents
-
-1.  [Project Structure](#project-structure)
-2.  [Key Components](#key-components)
-    - [Admin Dashboard](#admin-dashboard)
-    - [Modals](#modals)
-    - [Loading States](#loading-states)
-    - [Shared Components](#shared-components)
-3.  [State Management](#state-management)
-4.  [Data Layer](#data-layer)
-5.  [Scripts & Tooling](#scripts--tooling)
-6.  [Styling & UI](#styling--ui)
+This guide offers a comprehensive overview of the FinderHub architecture, explaining the intricate workings of key components, data flows, and utility functions to facilitate seamless future development and maintenance.
 
 ---
 
-## Project Structure
+## 📑 Table of Contents
 
-The project follows a standard Next.js App Router structure:
+1.  [🏗️ Project Structure](#-project-structure)
+2.  [🧩 Key Components](#-key-components)
+    - [Admin Dashboard](#admin-dashboard)
+    - [Modals & Wizards](#modals--wizards)
+    - [Loading Strategies](#loading-strategies)
+    - [Shared UI Elements](#shared-ui-elements)
+3.  [🧠 State Management](#-state-management)
+4.  [💾 Data Layer & Supabase](#-data-layer--supabase)
+5.  [🛠️ Scripts & Tooling](#-scripts--tooling)
+6.  [🎨 Styling & UI System](#-styling--ui-system)
 
-- `src/app`: Contains the page routes (`/`, `/admin`, `/login`).
-- `src/components`: Reusable UI components, organized by feature (`admin`, `modals`) or type (`ui`).
-- `src/hooks`: Custom React hooks for logic reuse.
-- `src/lib`: Utility functions and configuration (Supabase client, data helpers).
-- `scripts`: Node.js scripts for project maintenance and setup.
+---
 
-## Key Components
+## 🏗️ Project Structure
 
-### Admin Dashboard
+The project adheres to a robust **Next.js App Router** architecture, ensuring scalability and maintainability.
 
-The Admin Dashboard (`src/app/admin/page.jsx`) is the core interface for managing items. It is powered by the `useAdminDashboard` hook.
+### 📂 Root Directory
 
-- **`useAdminDashboard` Hook**: Encapsulates all the logic for the dashboard, including:
-  - Fetching data from Supabase.
-  - Filtering and sorting items.
-  - Managing modal states (Add, View, Claim).
-  - Handling CRUD operations (Add, Delete, Update Status).
-- **`AdminTable`**: Displays the list of items. It uses a responsive design, showing a table on desktop and cards on mobile (`AdminMobileCard`).
-- **`AdminHeader`**: Displays key metrics (`KeyMetrics`) and user information.
+Key configuration files and documentation located at the top level:
 
-### Modals
+- `📄 package.json`: Manages dependencies and scripts.
+- `📄 .env`: Environment variables.
+- `📄 README.md`: Getting started documentation.
+- `📂 public/`: Static assets (images, icons).
 
-Modals are used for complex interactions to keep the main UI clean.
+### 📂 Source Code (src/)
 
-- **`AddItemModal`**: A 2-step wizard for adding new items.
-  - **Step 1 (`AddItemForm`)**: A form for entering item details and uploading an image.
-  - **Step 2 (`AddItemPreview`)**: A live preview of the item card before publishing.
-- **`AdminItemModal`**: Displays detailed information about an item.
-  - Uses `ClaimerInfoCard` to show claimer details if the item has been returned.
-  - Provides actions to Claim or Delete the item.
+The core application code resides entirely within the `src/` directory:
 
-### Loading States
+```
+src/
+├── 📂 app/                 # App Router: Page routes and layouts
+│   ├── 📄 layout.js        # Root layout with global providers and scripts
+│   ├── 📄 page.jsx         # Public landing page (Item Grid)
+│   ├── 📂 admin/           # Protected admin routes
+│   └── 📂 login/           # Authentication routes
+├── 📂 components/          # React Components
+│   ├── 📂 admin/           # Admin-specific components (Tables, Headers)
+│   ├── 📂 modals/          # Dialogs and Wizards
+│   └── 📂 ui/              # Reusable base UI elements (Buttons, Inputs)
+├── 📂 hooks/               # Custom React Hooks (Logic encapsulation, e.g., useState, useEffect, useRouter)
+├── 📂 lib/                 # Utilities, API clients, and database connections
+└── 📂 scripts/             # Maintenance and setup scripts
+```
 
-To ensure a smooth user experience, we implement several loading patterns:
+---
 
-- **`LoadingScreen`**: A global, full-screen overlay used during initial application load or critical data fetching (e.g., in `AdminPage`).
-- **`ItemCardSkeleton`**: A skeleton loader that mimics the structure of `ItemCard`. It is used in the public grid (`src/app/page.jsx`) to prevent layout shift while items are loading.
-- **Image Loading**: The `ItemCard` component handles its own image loading state, displaying a pulsing placeholder until the image is fully loaded.
+## 🧩 Key Components
 
-### Shared Components
+### 🛡️ Admin Dashboard
 
-- **`ItemCard`**: The primary component for displaying an item's summary. Used in the public grid, admin mobile view, and add item preview.
-- **`KeyMetrics`**: Displays statistics (Total, Found, Returned) with different visual variants for Public and Admin views.
+The **Admin Dashboard** (`src/app/admin/page.jsx`) serves as the central interface for item management.
 
-## State Management
+#### 🧠 `useAdminDashboard` Hook
 
-State is primarily managed using React's `useState` and `useEffect` hooks within page components or custom hooks.
+This custom hook (`src/hooks/useAdminDashboard.js`) acts as the **brain** of the dashboard, decoupling logic from the UI.
 
-- **Global State**: There is no global state library (Redux/Zustand) as the application scope is manageable with local state and prop drilling.
-- **Server State**: Data is fetched directly from Supabase and stored in local state (`inventoryItems`).
+- **Data Fetching**: Automatically loads items on mount.
+- **Filtering Engine**: Implements client-side filtering for:
+  - 🔍 Search (Name, Location, Description)
+  - 🏷️ Category (IT, Personal, Stationery)
+  - 📍 Status (Found/Returned)
+- **State Control**: Manages the visibility of all modals (Add, View, Claim).
 
-## Data Layer
+#### 📊 `AdminTable` & `AdminMobileCard`
 
-- **`src/lib/supabase.js`**: Initializes the Supabase client.
-- **`src/lib/data.js`**: Contains the `DataManager` class, which abstracts database operations:
-  - `getAllItems()`: Fetches all items.
-  - `addItem(item)`: Inserts a new item.
-  - `updateItemStatus(id, status, claimerData)`: Updates an item's status.
-  - `deleteItem(id)`: Deletes an item.
+We implement a **Responsive Design** strategy here to ensure optimal UX/UI across all devices:
 
-## Scripts & Tooling
+- **Desktop**: Renders a detailed `<table>` with sortable columns.
+- **Mobile**: Switches to a card-based layout (`AdminMobileCard`) for better UX.
 
-- **`scripts/supabase-init.js`**: An automated script that checks for the existence of a `.env` file. If missing, it interactively prompts the user for Supabase credentials and creates the file. This runs automatically before `npm run dev`.
+Key sub-components include:
 
-## Styling & UI
+- **`AdminTableFilters`**: Manages the UI for searching, category filtering, and status filtering.
+- **`AdminTableRow`**: Responsible for rendering individual table rows.
 
-- **Tailwind CSS**: Used for all styling.
-- **Preline UI**: Integrated for pre-built components and plugins.
-- **Shadcn UI**: Used for base accessible components (Dialog, Input, Button).
-- **Lucide React**: Provides the icon set.
+### 🪄 Modals & Wizards
+
+We use modals to handle complex workflows without navigating away from the main context.
+
+#### ➕ `AddItemModal` (The Wizard)
+
+A 2-step process for adding new items:
+
+1.  **📝 Step 1: Data Entry (`AddItemForm`)**
+
+    - Captures item details (Name, Category, Location).
+    - **Smart Upload**: Automatically supports Camera 📷, Gallery 🖼️, and File 📁 selection.
+    - **Auto-Date**: "Now" button to quickly set the current timestamp.
+
+    ⬇️ _Next_
+
+2.  **👁️ Step 2: Verification (`AddItemPreview`)**
+    - Displays a live preview of the `ItemCard` exactly as it will appear publicly.
+    - Allows users to **Confirm** ✅ or **Back** ↩️ to edit.
+
+#### 📢 `FoundItemModal`
+
+A modal for public users to report found items (similar to `AddItemModal` but for the public facing side).
+
+#### 📄 `ItemModal`
+
+A detailed view modal for public users, displaying full item information and large images.
+
+#### 🔍 `AdminItemModal` & `ClaimItemModal`
+
+Views and management tools for administrators:
+
+- **`AdminItemModal`**: Detailed item inspection with action buttons.
+- **`ClaimItemModal`**: Form for recording claimer details (Name, Phone) when changing status to "Returned".
+
+### 🧱 Shared UI Elements
+
+Located in `src/components/ui`, we have a set of base components built with **Radix UI** and **Tailwind CSS**:
+
+- **`Badge`**: Status indicators (e.g., "Found", "Returned").
+- **`Button`**: Buttons with various variants (default, outline, ghost).
+- **`Card`**: Base container for data cards.
+- **`Dialog`**: Foundation for all modals.
+- **`Input` / `Textarea`**: Form input fields.
+- **`Table`**: Responsive table structure.
+- **`Select`**: Dropdown menus.
+
+### ⏳ Data Loading
+
+We employ best-practice initial data loading strategies:
+
+- **🚀 Global Loader (`LoadingScreen`)**: A full-screen transition used during initial auth checks and critical data fetches.
+- **💀 Skeletons (`ItemCardSkeleton`)**: Used in the public grid to prevent **Cumulative Layout Shift (CLS)** while images and data load.
+- **🖼️ Progressive Image Loading**: `ItemCard` features a built-in blur-up effect, showing a pulsing placeholder until the high-res image is ready.
+
+---
+
+## 🧠 State Management
+
+We prioritize **Simplicity** and **Local State** over complex global stores.
+
+- **React Hooks**: `useState` and `useEffect` drive 90% of the application.
+- **Prop Drilling**: Used effectively for passing data to immediate children (e.g., `AdminPage` -> `AdminTable`).
+- **No Redux/Context**: The current scope does not require heavy global state, keeping the bundle size small.
+
+---
+
+## 💾 Data Layer & Supabase
+
+The application interacts directly with **Supabase** for backend services.
+
+### `DataManager` Class (`src/lib/data.js`)
+
+A static class acting as an abstraction layer over the Supabase SDK.
+
+| Method                  | Description                                                 |
+| :---------------------- | :---------------------------------------------------------- |
+| `getAllItems()`         | Fetches all inventory items, ordered by date.               |
+| `addItem(item)`         | Inserts a new item.                                         |
+| `updateItemStatus(...)` | Updates status to `false` (Returned) and logs claimer info. |
+| `deleteItem(id)`        | Permanently removes an item and its associated image.       |
+
+---
+
+## 🛠️ Scripts & Tooling
+
+### 🤖 `scripts/supabase-init.js`
+
+## Intelligent Setup Assistant Running Before Development
+
+## 🎨 Styling & UI System
+
+Our design system is built on a modern stack for speed and consistency.
+
+- **🌊 Tailwind CSS**: Utility-first styling for rapid UI development.
+- **🧩 Shadcn UI**: Provides accessible, unstyled base components (Dialogs, Inputs) which we customize.
+- **✨ Lucide React**: A consistent, lightweight icon set used throughout the app.
+- **📱 Responsive Design**: Mobile-first approach ensuring usability on all screen sizes.

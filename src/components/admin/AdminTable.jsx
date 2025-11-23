@@ -102,5 +102,6 @@ export default function AdminTable({ items, onView, onAddItem, filterProps }) {
         ))}
       </div>
     </div>
+
   );
 }

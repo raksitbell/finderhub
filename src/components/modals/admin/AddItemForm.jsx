@@ -43,7 +43,7 @@ export default function AddItemForm({
 
   return (
     <>
-      <div className="flex-1 overflow-y-auto px-8 pb-8">
+      <div className="flex-1 overflow-y-auto px-4 md:px-8 pb-8">
         <form
           id="addItemForm"
           onSubmit={onSubmit}
@@ -59,7 +59,6 @@ export default function AddItemForm({
                 id="image"
                 type="file"
                 accept="image/*"
-                capture="environment"
                 onChange={onFileChange}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
@@ -95,7 +94,7 @@ export default function AddItemForm({
           </div>
 
           {/* Category and Date */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="category" className="text-slate-900 font-medium">
                 หมวดหมู่
@@ -206,7 +205,7 @@ export default function AddItemForm({
       </div>
 
       {/* Footer Actions */}
-      <DialogFooter className="px-8 pb-8 pt-2 shrink-0">
+      <DialogFooter className="px-4 md:px-8 pb-8 pt-2 shrink-0">
         <Button
           type="submit"
           form="addItemForm"

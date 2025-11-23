@@ -1,5 +1,8 @@
 # คู่มือ API ของ FinderHub
 
+> [!หมายเหตุ]
+> เอกสารนี้ให้ข้อมูลเชิงลึกเกี่ยวกับ FinderHub API สำหรับข้อมูลโครงสร้างโปรเจค โปรดดู [คู่มือสำหรับนักพัฒนา](./DEVELOPMENT.th.md)
+
 **Base URL:** `/api`
 **Authentication:** ใช้ Cookies (Supabase Auth) สำหรับการแก้ไขข้อมูล (POST, PUT, DELETE)
 

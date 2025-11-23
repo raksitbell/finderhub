@@ -9,7 +9,7 @@ import ClaimItemModal from "@/components/modals/admin/ClaimItemModal";
 import { useAdminDashboard } from "@/hooks/useAdminDashboard";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 
-export default function AdminPage() {
+export default function AdminPage()  {
   const {
     userEmail,
     stats,
@@ -58,6 +58,7 @@ export default function AdminPage() {
           userEmail={userEmail}
           onLogout={handleLogout}
         />
+
 
         <AdminTable
           items={filteredItems}
