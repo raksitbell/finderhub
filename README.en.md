@@ -77,6 +77,28 @@ src/
 
 ---
 
+## 🐳 Docker Usage
+
+FinderHub supports deployment via Docker and Docker Compose:
+
+1.  **Set up environment variables**:
+    ```bash
+    cp .env.example .env
+    ```
+    Then edit the `.env` file and fill in your Supabase URL and Anon Key.
+
+2.  **Build and run with Docker Compose**:
+    ```bash
+    docker-compose up --build
+    ```
+
+3.  **Open your browser**:
+    Navigate to `http://localhost:3000`.
+
+> **💡 Note:** The `.env` file is not copied into the Docker image for security reasons, but it is loaded at runtime and build arguments are passed for build time.
+
+---
+
 ## 📖 Documentation
 
 For a detailed guide on the codebase structure and how components work, please refer to the [Development Guide](docs/DEVELOPMENT.md).
