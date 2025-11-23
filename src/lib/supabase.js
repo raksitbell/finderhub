@@ -25,6 +25,21 @@ if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
 
 export const supabase = createBrowserClient(urlToUse, keyToUse);
 
+/**
+ * Checks if the Supabase connection is working.
+ * @returns {Promise<boolean>} True if connected, false otherwise.
+ */
+export const checkSupabaseConnection = async () => {
+  try {
+    const { error } = await supabase.auth.getSession();
+    if (error) throw error;
+    return true;
+  } catch (error) {
+    console.error("Supabase connection check failed:", error);
+    return false;
+  }
+};
+
 const convertImageToWebP = async (file) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
