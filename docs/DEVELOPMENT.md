@@ -174,8 +174,35 @@ A static class acting as an abstraction layer over the Supabase SDK.
 
 ### 🤖 `scripts/supabase-init.js`
 
-## Intelligent Setup Assistant Running Before Development
+The `scripts/supabase-init.js` script acts as an intelligent setup assistant that runs automatically before development to ensure your local environment is correctly configured for working with Supabase. It performs the following steps:
 
+1. **Checks for Supabase CLI & Project Configuration**  
+   - Verifies that the Supabase CLI is installed and available in your system's PATH.  
+   - Checks for the existence of a local Supabase project directory (typically `./supabase`).
+
+2. **Prompts for Initialization**  
+   - If the Supabase project is missing, the script interactively prompts you to initialize a new Supabase project using the CLI.
+   - It may ask for project-specific settings (such as project name, database password, etc.) if not already configured.
+
+3. **Creates/Updates Environment Files**  
+   - Ensures that required environment files (e.g., `.env.local`, `.env.development`) exist and contain the necessary Supabase keys and URLs.
+   - If any required environment variables are missing, the script will prompt you to provide them, or it will attempt to fetch them from the Supabase dashboard if possible.
+
+4. **Runs Database Migrations & Seeds**  
+   - Applies any pending database migrations to your local Supabase instance.
+   - Optionally runs seed scripts to populate the database with initial data for development/testing.
+
+5. **Error Handling & Guidance**  
+   - Provides clear error messages and actionable guidance if any step fails (e.g., missing CLI, misconfigured environment, migration errors).
+
+**Example Output:**
+
+```shell
+✔ Supabase CLI found: v1.45.0
+✔ Local Supabase project detected.
+✔ Environment variables loaded from .env.local
+✔ Database migrations applied.
+✔ Ready to start development!
 ## 🎨 Styling & UI System
 
 Our design system is built on a modern stack for speed and consistency.
