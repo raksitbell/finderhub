@@ -28,12 +28,12 @@
 
 ## 🛠️ เทคโนโลยีที่ใช้ (Tech Stack)
 
-| หมวดหมู่          | เทคโนโลยี                                                                                                                                                                                 | รายละเอียด                                |
-| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------- |
-| **Framework**     | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white)                                                                                     | React Framework สำหรับเว็บแอปพลิเคชัน     |
-| **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)                                                                     | Utility-first CSS framework               |
-| **UI Components** | ![Preline UI](https://img.shields.io/badge/Preline_UI-blue?style=flat-square) ![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=flat-square&logo=shadcnui&logoColor=white) | Component Library ที่สวยงามและเข้าถึงง่าย |
-| **Icons**         | ![Lucide React](https://img.shields.io/badge/Lucide_React-F7DF1E?style=flat-square&logo=javascript&logoColor=black)                                                                       | ชุดไอคอนที่ทันสมัย                        |
+| หมวดหมู่          | เทคโนโลยี                                                                                                                                                                                 | รายละเอียด                                           |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------- |
+| **Framework**     | ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white)                                                                                     | React Framework สำหรับเว็บแอปพลิเคชัน                |
+| **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)                                                                     | Utility-first CSS framework                          |
+| **UI Components** | ![Preline UI](https://img.shields.io/badge/Preline_UI-blue?style=flat-square) ![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=flat-square&logo=shadcnui&logoColor=white) | Component Library ที่สวยงามและเข้าถึงง่าย            |
+| **Icons**         | ![Lucide React](https://img.shields.io/badge/Lucide_React-F7DF1E?style=flat-square&logo=javascript&logoColor=black)                                                                       | ชุดไอคอนที่ทันสมัย                                   |
 | **Fonts**         | **Google Fonts** (Inter, Kanit)                                                                                                                                                           | ใช้ฟอนต์ Inter และ Kanit (โหลดผ่าน Google Fonts CDN) |
 
 ---
@@ -71,9 +71,15 @@ src/
     ```bash
     npm run dev
     ```
-    > **💡 หมายเหตุ:** หากคุณยังไม่มีไฟล์ `.env` ระบบจะแจ้งให้คุณกรอก **Supabase URL** และ **Anon Key** เพื่อสร้างไฟล์ให้โดยอัตโนมัติ
+    > **💡 ระบบอัจฉริยะ:** คำสั่งนี้จะตรวจสอบไฟล์ `.env` และการเชื่อมต่อ Supabase ให้โดยอัตโนมัติ หากยังไม่มีการตั้งค่า ระบบจะถาม URL และ Key จากคุณ และเริ่มเซิร์ฟเวอร์ให้ทันทีเมื่อพร้อม
 4.  **เปิดเบราว์เซอร์**:
-    ไปที่ `URL:3000`
+    ไปที่ `http://localhost:3000`
+
+---
+
+## 🔐 ความปลอดภัย (Security)
+
+หากคุณพบช่องโหว่ด้านความปลอดภัย โปรดดูนโยบายและวิธีการรายงานได้ที่ [นโยบายความปลอดภัย (Security Policy)](/docs/SECURITY.md)
 
 ---
 

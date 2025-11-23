@@ -174,7 +174,16 @@ A static class acting as an abstraction layer over the Supabase SDK.
 
 ### 🤖 `scripts/supabase-init.js`
 
-## Intelligent Setup Assistant Running Before Development
+**Intelligent Setup Assistant & Dev Server Launcher**
+
+This script replaces the standard `next dev` command to ensure a smooth development environment:
+
+1.  **Environment Check**: Checks for the existence of `.env`.
+2.  **Interactive Setup**: If `.env` is missing, it prompts the user for Supabase credentials and creates the file.
+3.  **Connection Test**: Validates the Supabase connection before starting the server.
+4.  **Delayed Start**: Waits for 3 seconds to ensure everything is ready, then spawns `npx next dev`.
+
+This approach eliminates common "command not found" errors and ensures the database is reachable before the app starts.
 
 ## 🎨 Styling & UI System
 
