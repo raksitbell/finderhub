@@ -42,4 +42,4 @@ yarn-error.log*
 next-env.d.ts
 
 # local documentation
-PR_DESCP.md
+changelog.md

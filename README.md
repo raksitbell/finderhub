@@ -2,7 +2,7 @@
 
 [![English](https://img.shields.io/badge/lang-English-blue.svg)](README.en.md)
 
-> **FinderHub** FinderHub เป็นเว็บแอปพลิเคชันที่ออกแบบมาให้ผู้ใช้สามารถรับทรัพย์สินที่ทำสูญหายไว้คืนได้เมื่อมีผู้พบเจอนำส่งผู้ดูแล
+> **FinderHub** เป็นเว็บแอปพลิเคชันที่ออกแบบมาให้ผู้ใช้สามารถรับทรัพย์สินที่ทำสูญหายไว้คืนได้เมื่อมีผู้พบเจอนำส่งผู้ดูแล
 
 ---
 
@@ -12,7 +12,7 @@
 
 - 🔍 **ค้นหาและกรอง (Smart Search)**: แถบค้นหาและตัวกรองหมวดหมู่ที่มีประสิทธิภาพเพื่อค้นหาสิ่งของได้อย่างรวดเร็ว
 - 📄 **รายละเอียดสิ่งของ (Item Details)**: แสดงรายละเอียดของสิ่งที่พบ เช่น สถานที่ วันที่ และคำอธิบาย พร้อมรูปภาพที่ชัดเจน
-- 📢 **แจ้งของที่พบ (Report Found Items)**: แบบฟอร์มง่ายๆ สำหรับผู้ใช้เพื่อแจ้งรายการที่พบ
+- 📢 **แจ้งของที่พบ (Report Found Items)**: วิธีการแจ้งของที่พบ
 - 📱 **รองรับทุกอุปกรณ์ (Responsive Design)**: ใช้งานได้ดีทั้งบนคอมพิวเตอร์และมือถือ
 - ⚡ **โหลดข้อมูลลื่นไหล (Smooth Loading)**: มีระบบ Skeleton Screen และการโหลดรูปภาพที่ปรับปรุงแล้วเพื่อประสบการณ์ที่ดี
 
@@ -34,7 +34,7 @@
 | **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)                                                                     | Utility-first CSS framework               |
 | **UI Components** | ![Preline UI](https://img.shields.io/badge/Preline_UI-blue?style=flat-square) ![Shadcn/UI](https://img.shields.io/badge/Shadcn/UI-000000?style=flat-square&logo=shadcnui&logoColor=white) | Component Library ที่สวยงามและเข้าถึงง่าย |
 | **Icons**         | ![Lucide React](https://img.shields.io/badge/Lucide_React-F7DF1E?style=flat-square&logo=javascript&logoColor=black)                                                                       | ชุดไอคอนที่ทันสมัย                        |
-| **Fonts**         | **Google Fonts**                                                                                                                                                                          | ใช้ฟอนต์ Inter และ Kanit                  |
+| **Fonts**         | **Google Fonts**                                                                                                                                                                          | ใช้ฟอนต์แบบ CDN จาก Google                |
 
 ---
 
@@ -45,8 +45,8 @@ src/
 ├── app/                 # หน้าเว็บ Next.js App Router
 ├── components/          # UI Components ที่ใช้ซ้ำได้
 │   ├── admin/           # Components สำหรับ Admin (Table, Filters, Header)
-│   ├── modals/          # Components กล่องข้อความ (ItemModal, AdminItemModal, AddItemModal)
-│   │   └── admin/       # Components ย่อยของ Admin Modal (AddItemForm, AddItemPreview)
+│   ├── modals/          # Components กล่องข้อความ (ItemModal, FoundItemModal)
+│   │   └── admin/       # Components สำหรับ Admin Modal (AddItemModal, AdminItemModal)
 │   ├── ui/              # UI พื้นฐาน (Button, Input, Select, LoadingScreen)
 │   ├── KeyMetrics.jsx   # Component แสดงสถิติ
 │   └── ...
@@ -61,7 +61,7 @@ src/
 
 1.  **Clone repository**:
     ```bash
-    git clone https://github.com/yourusername/finderhub.git
+    git clone https://github.com/raksitbell/finderhub.git
     ```
 2.  **ติดตั้ง dependencies**:
     ```bash
@@ -73,19 +73,10 @@ src/
     ```
     > **💡 หมายเหตุ:** หากคุณยังไม่มีไฟล์ `.env` ระบบจะแจ้งให้คุณกรอก **Supabase URL** และ **Anon Key** เพื่อสร้างไฟล์ให้โดยอัตโนมัติ
 4.  **เปิดเบราว์เซอร์**:
-    ไปที่ `http://localhost:3000`
+    ไปที่ `URL:3000`
 
 ---
 
 ## 📖 เอกสารประกอบ (Documentation)
 
-สำหรับคู่มือรายละเอียดเกี่ยวกับโครงสร้างโค้ดและการทำงานของ Component ต่างๆ โปรดดูที่ [Development Guide](docs/DEVELOPMENT.th.md)
-
----
-
-## 🎨 ระบบการออกแบบ (Design System)
-
-- **Glassmorphism**: ใช้ในส่วนหัวและ Modal เพื่อความทันสมัยและดูพรีเมียม
-- **โทนสี**:
-  - 🟢 **หลัก**: Emerald (พบแล้ว), Slate (คืนแล้ว/ทั่วไป)
-  - 🔴 **เน้น**: แดง (สถานที่), 🔵 ฟ้า (วันที่), 🟣 ม่วง (แท็ก)
+สำหรับคู่มือรายละเอียดเกี่ยวกับโครงสร้างโค้ดและการทำงานของ Component ต่างๆ โปรดดูที่ [เอกสารสำหรับนักพัฒนา](docs/DEVELOPMENT.th.md)
