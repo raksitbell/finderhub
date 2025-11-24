@@ -1,10 +1,6 @@
 {
   "name": "finderhub",
-<<<<<<< Updated upstream
-  "version": "2.1.1",
-=======
   "version": "2.2.0",
->>>>>>> Stashed changes
   "private": true,
   "scripts": {
     "dev": "node scripts/supabase-init.js && next dev --webpack",
