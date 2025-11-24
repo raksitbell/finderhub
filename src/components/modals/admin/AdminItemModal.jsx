@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
@@ -85,6 +86,9 @@ export default function AdminItemModal({
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Admin details for {item.name}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">

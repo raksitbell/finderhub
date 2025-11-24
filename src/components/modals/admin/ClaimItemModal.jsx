@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 
@@ -22,6 +23,9 @@ export default function ClaimItemModal({
       <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Confirm Return</DialogTitle>
+          <DialogDescription>
+            Please enter the claimer's details to confirm the return.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={onClaimItem} className="space-y-4">
           <div className="space-y-2">

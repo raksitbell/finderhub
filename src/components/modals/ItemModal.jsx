@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -63,6 +64,9 @@ export default function ItemModal({ item, isOpen, onClose }) {
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Detailed information about {item.name}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">

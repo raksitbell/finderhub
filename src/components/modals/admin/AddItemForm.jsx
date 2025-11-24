@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -56,41 +57,53 @@ export default function AddItemForm({
               รูปภาพ
             </Label>
             <div
-              className={`border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center bg-white transition-colors relative group ${
-                isUploading
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-slate-50 cursor-pointer"
-              }`}
+              className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center justify-center bg-white transition-colors relative group hover:bg-slate-50 cursor-pointer"
             >
               <Input
                 id="image"
                 type="file"
                 accept="image/*"
                 onChange={onFileChange}
-                disabled={isUploading}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10 disabled:cursor-not-allowed"
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
-              <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                {isUploading ? (
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-900"></div>
-                ) : (
-                  <Upload className="h-6 w-6 text-slate-400" />
-                )}
-              </div>
               {isUploading ? (
-                <p className="text-sm text-slate-600 font-medium">
-                  กำลังอัปโหลด...
-                </p>
-              ) : fileName || newItem.image ? (
-                <p className="text-sm text-emerald-600 font-medium truncate max-w-[200px]">
-                  {fileName || newItem.image.split("/").pop()}
-                </p>
+                <div className="flex flex-col items-center">
+                  <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center mb-2">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-slate-900"></div>
+                  </div>
+                  <p className="text-sm text-slate-600 font-medium">
+                    กำลังอัปโหลด...
+                  </p>
+                </div>
+              ) : newItem.image ? (
+                <div className="flex flex-col items-center w-full">
+                  <div className="relative w-full h-48 mb-2 rounded-lg overflow-hidden bg-slate-100">
+                    <Image
+                      src={newItem.image}
+                      alt="Preview"
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 400px"
+                    />
+                  </div>
+                  <p className="text-sm text-emerald-600 font-medium truncate max-w-[200px]">
+                    {fileName || newItem.image.split("/").pop()}
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    คลิกเพื่อเปลี่ยนรูปภาพ
+                  </p>
+                </div>
               ) : (
-                <p className="text-sm text-slate-600 font-medium">
-                  คลิกเพื่ออัปโหลดรูปภาพ
-                </p>
+                <div className="flex flex-col items-center">
+                  <div className="h-12 w-12 bg-slate-100 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                    <Upload className="h-6 w-6 text-slate-400" />
+                  </div>
+                  <p className="text-sm text-slate-600 font-medium">
+                    คลิกเพื่ออัปโหลดรูปภาพ
+                  </p>
+                  <p className="text-xs text-slate-400">SVG, PNG, JPG or GIF</p>
+                </div>
               )}
-              <p className="text-xs text-slate-400">SVG, PNG, JPG or GIF</p>
             </div>
           </div>
 
