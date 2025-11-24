@@ -19,12 +19,21 @@ This guide offers a comprehensive overview of the FinderHub architecture, explai
 4.  [💾 Data Layer & Supabase](#-data-layer--supabase)
 5.  [🛠️ Scripts & Tooling](#-scripts--tooling)
 6.  [🎨 Styling & UI System](#-styling--ui-system)
+7.  [📜 Changelog](#-changelog)
 
 ---
 
 ## 🏗️ Project Structure
 
 The project adheres to a robust **Next.js App Router** architecture, ensuring scalability and maintainability.
+
+### 🖼️ Image Handling
+
+The system implements an efficient image handling strategy to minimize server and storage load:
+
+1.  **Instant Preview**: When a user selects an image, a local Object URL is created for immediate preview (no upload occurs yet).
+2.  **Deferred Upload**: The actual upload only happens when the user clicks "Confirm" in the final step.
+3.  **Optimization**: Images are automatically converted to WebP before being saved to Supabase Storage to reduce file size.
 
 ### 📂 Root Directory
 
@@ -185,6 +194,16 @@ This script replaces the standard `next dev` command to ensure a smooth developm
 
 This approach eliminates common "command not found" errors and ensures the database is reachable before the app starts.
 
+### 🧹 `npm run dev:clean`
+
+> **Note:** If you encounter "Unable to acquire lock" errors or port conflicts, run:
+>
+> ```bash
+> npm run dev:clean
+> ```
+>
+> This command automatically kills stale processes and removes lock files.
+
 ## 🎨 Styling & UI System
 
 Our design system is built on a modern stack for speed and consistency.
@@ -193,3 +212,7 @@ Our design system is built on a modern stack for speed and consistency.
 - **🧩 Shadcn UI**: Provides accessible, unstyled base components (Dialogs, Inputs) which we customize.
 - **✨ Lucide React**: A consistent, lightweight icon set used throughout the app.
 - **📱 Responsive Design**: Mobile-first approach ensuring usability on all screen sizes.
+
+## 📜 Changelog
+
+For a detailed history of changes, please refer to the [Changelog](CHANGELOG.md).
