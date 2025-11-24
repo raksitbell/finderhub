@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/supabase-init.js && next dev",
+    "dev:clean": "sh scripts/clean-start.sh",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

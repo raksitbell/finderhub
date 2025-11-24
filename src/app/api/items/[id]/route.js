@@ -45,6 +45,7 @@ export async function GET(request, { params }) {
 
     return NextResponse.json(item, { status: 200 });
   } catch (error) {
+    console.error("GET API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -70,6 +71,7 @@ export async function PUT(request, { params }) {
 
     return NextResponse.json(updatedItem, { status: 200 });
   } catch (error) {
+    console.error("PUT API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -92,6 +94,7 @@ export async function DELETE(request, { params }) {
       { status: 200 }
     );
   } catch (error) {
+    console.error("DELETE API Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
