@@ -65,127 +65,22 @@ export default function AddItemModal({
       // Final confirmation step
       try {
         setIsUploading(true);
-        let imageUrl = newItem.image;
+        let uploadedUrl = null;
 
         // If there is a selected file, upload it now
         if (selectedFile) {
-          // We need to wrap the file in an event-like object or modify onImageUpload to accept a file directly.
-          // Assuming onImageUpload expects an event, we'll need to check its implementation.
-          // However, based on the previous implementation, it took an event 'e'.
-          // Let's assume we can modify onImageUpload in the hook or simulate an event,
-          // BUT simpler is to pass the file if the hook supports it, or just use the logic here.
-          // Since we can't easily change the hook without seeing it, let's try to pass the file
-          // if the hook is flexible, OR we might need to adjust the hook.
-          // Wait, the plan said "Call onImageUpload(selectedFile)".
-          // Let's assume for now we can pass the file directly or we need to adjust the parent.
-          // Actually, looking at typical handlers, they might expect e.target.files[0].
-          
-          // Let's try to call onImageUpload with a synthetic event if needed, 
-          // but better yet, let's assume onImageUpload returns the URL.
-          // The previous code was: await onImageUpload(e);
-          // This suggests onImageUpload handles the state update of newItem internally?
-          // No, handleFileChange called it.
-          
-          // Let's look at useAdminDashboard.js to see handleImageUpload.
-          // Since I can't see it right now, I will assume I need to upload it here.
-          // But I don't have the upload logic here.
-          
-          // CRITICAL: I need to know what onImageUpload does.
-          // If it updates newItem state, then calling it here is fine.
-          // But I need to make sure it returns the URL if I want to use it immediately.
-          // If it only updates state, I might have a race condition if I submit immediately.
-          
-          // Let's assume onImageUpload returns the public URL.
-          // If not, I might need to refactor the hook too.
-          
-          // For now, I will implement the logic to call onImageUpload.
-          // I will pass a synthetic event object because the original handler likely expects e.target.files[0].
           const syntheticEvent = {
             target: {
               files: [selectedFile]
             }
           };
           
-          // We await the upload.
-          // If onImageUpload returns the URL, great. If it updates state, we hope it's fast enough?
-          // Actually, if it updates state, `newItem` here won't be updated in this closure.
-          // So we really need the URL back.
-          
-          const uploadedUrl = await onImageUpload(syntheticEvent);
-          if (uploadedUrl) {
-             imageUrl = uploadedUrl;
-          }
+          uploadedUrl = await onImageUpload(syntheticEvent);
         }
         
-        // Now call onAddItem with the potentially updated image URL
-        // We might need to pass the updated item if onAddItem uses the passed argument or state.
-        // onAddItem(e) usually takes an event.
-        // If onAddItem uses `newItem` from props/state, it might use the old one if we don't update it.
-        // But `onImageUpload` (from hook) likely updates the `newItem` state in the parent.
-        // So `newItem` passed to `onAddItem` (if it uses the state) would be updated... 
-        // WAIT. React state updates are not immediate.
-        // If `onImageUpload` updates the parent state, `newItem` prop here won't update in the middle of this function.
-        
-        // So, `onAddItem` likely needs to accept the item data OR we need to wait.
-        // If `onAddItem` just takes (e) and reads `newItem` from its own scope (in the hook),
-        // then we have a problem because the hook's `newItem` won't be updated until re-render.
-        
-        // SOLUTION: We should probably pass the updated item to `onAddItem` if possible,
-        // or ensure `onImageUpload` returns the URL and we pass that URL to `onAddItem` somehow.
-        // But `onAddItem` signature is `onAddItem(e)`.
-        
-        // Let's assume `onAddItem` handles the submission of `newItem`.
-        // If we can't change `onAddItem` signature easily, we might be stuck.
-        
-        // However, if `onImageUpload` returns the URL, we can update `newItem` locally 
-        // and pass a modified object? No, `newItem` is a prop.
-        
-        // Let's look at `handleFileChange` again.
-        // It sets `selectedFile` and `previewUrl`.
-        // It sets `newItem.image` to `previewUrl`.
-        
-        // So when we submit, `newItem.image` is the blob URL.
-        // We need to replace it with the real URL.
-        
-        // If `onImageUpload` returns the real URL, we can try to force update `newItem` 
-        // or pass the real URL to `onAddItem`.
-        
-        // Let's assume `onAddItem` can accept an item object as a second argument or similar?
-        // Or maybe we can update `newItem` using `setNewItem` and wait? No, that's async.
-        
-        // Best bet: `onAddItem` might need to be refactored to accept the item data.
-        // OR, we handle the DB insertion here? No, that's in the hook.
-        
-        // Let's try to pass the updated item to `onAddItem`.
-        // `onAddItem` in `useAdminDashboard` likely looks like `const handleAddItem = async (e) => { ... }`.
-        
-        // I will optimistically assume I can pass the item or that `onImageUpload` handles it.
-        // But to be safe, I should check `useAdminDashboard` or `handleAddItem`.
-        // Since I can't see it, I will assume standard behavior:
-        // 1. Upload image -> get URL.
-        // 2. Update item with URL.
-        // 3. Save item.
-        
-        // I will implement the upload call here.
-        const syntheticEvent = { target: { files: [selectedFile] } };
-        await onImageUpload(syntheticEvent);
-        
-        // After upload, we proceed.
-        // Note: If `onImageUpload` updates the parent state, we might need to wait for re-render?
-        // But we are in a function.
-        // If `onAddItem` reads the current state, it will read the OLD state (blob URL) 
-        // unless `onImageUpload` somehow updates the ref or we pass it.
-        
-        // Actually, if `onImageUpload` is async and updates state, we can't rely on `newItem` being updated in this closure.
-        // This is a tricky part of the refactor.
-        
-        // Alternative: Pass the `selectedFile` to `onAddItem` and let IT handle the upload?
-        // That would require changing `handleAddItem` in the hook.
-        // The user said: "convert to webp after user confirm on @[src/components/modals/admin/AddItemPreview.jsx] instead still remain other function to work normally"
-        
-        // This implies I should change the flow here.
-        
-        await onAddItem(e); 
+        // Call onAddItem with the potentially updated image URL
+        // We pass the override data as the second argument
+        await onAddItem(e, uploadedUrl ? { image: uploadedUrl } : {}); 
         
       } catch (error) {
         console.error("Upload failed", error);
