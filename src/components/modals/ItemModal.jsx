@@ -13,11 +13,12 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { getRelativeTime } from "@/lib/utils";
-import ItemDetailRow from "@/components/ItemDetailRow";
+import ItemDetailRow from "@/components/items/ItemDetailRow";
 
 export default function ItemModal({ item, isOpen, onClose }) {
   if (!item) return null;
@@ -41,6 +42,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
             alt={item.name}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100vw, 600px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <Button
@@ -62,6 +64,9 @@ export default function ItemModal({ item, isOpen, onClose }) {
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Detailed information about {item.name}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">

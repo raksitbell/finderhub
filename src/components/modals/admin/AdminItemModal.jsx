@@ -13,11 +13,12 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import ItemDetailRow from "@/components/ItemDetailRow";
+import ItemDetailRow from "@/components/items/ItemDetailRow";
 import ClaimerInfoCard from "./ClaimerInfoCard";
 
 /**
@@ -54,6 +55,7 @@ export default function AdminItemModal({
             alt={item.name}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100vw, 600px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <DialogClose className="absolute right-4 top-4 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md border border-white/10 transition-colors z-10 p-2">
@@ -84,6 +86,9 @@ export default function AdminItemModal({
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
             </DialogTitle>
+            <DialogDescription className="sr-only">
+              Admin details for {item.name}
+            </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-6">

@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { CheckCircle } from "lucide-react";
-import KeyMetrics from "@/components/KeyMetrics";
-import FinderHubLogo from "@/components/FinderHubLogo";
-import SearchBar from "@/components/SearchBar";
-import CategoryFilter from "@/components/CategoryFilter";
+import KeyMetrics from "@/components/dashboard/KeyMetrics";
+import FinderHubLogo from "@/components/common/FinderHubLogo";
+import SearchBar from "@/components/items/SearchBar";
+import CategoryFilter from "@/components/items/CategoryFilter";
 
 export default function PublicHeader({
   stats,

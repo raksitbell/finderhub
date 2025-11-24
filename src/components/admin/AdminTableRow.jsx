@@ -17,6 +17,7 @@ export default function AdminTableRow({ item, onView }) {
               alt={item.name}
               fill
               className="object-cover group-hover:scale-105 transition-transform"
+              sizes="40px"
             />
           </div>
           <span className="font-medium font-sans text-slate-900 group-hover:text-emerald-600 transition-colors">

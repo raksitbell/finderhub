@@ -44,6 +44,7 @@ export default function ItemCard({ item, onClick }) {
           className={`object-cover group-hover:scale-105 transition-transform duration-500 ${
             isImageLoading ? "opacity-0" : "opacity-100"
           }`}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onLoad={() => setIsImageLoading(false)}
         />
         <div className="bg-gradient-to-t from-black/60 via-transparent to-transparent absolute top-0 right-0 bottom-0 left-0"></div>
