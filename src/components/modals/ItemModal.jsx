@@ -41,6 +41,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
             alt={item.name}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100vw, 600px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <Button

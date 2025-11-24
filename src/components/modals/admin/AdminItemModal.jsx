@@ -54,6 +54,7 @@ export default function AdminItemModal({
             alt={item.name}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100vw, 600px"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <DialogClose className="absolute right-4 top-4 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md border border-white/10 transition-colors z-10 p-2">

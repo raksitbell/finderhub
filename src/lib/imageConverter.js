@@ -2,8 +2,8 @@ export const convertImageToWebP = async (file) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
-      const MAX_WIDTH = 1280;
-      const MAX_HEIGHT = 1280;
+      const MAX_WIDTH = 1024;
+      const MAX_HEIGHT = 1024;
       let width = img.width;
       let height = img.height;
 
@@ -40,7 +40,7 @@ export const convertImageToWebP = async (file) => {
           }
         },
         "image/webp",
-        0.8
+        0.6
       );
     };
     img.onerror = (error) => reject(error);

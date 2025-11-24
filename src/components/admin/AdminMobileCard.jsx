@@ -15,6 +15,7 @@ export default function AdminMobileCard({ item, onView }) {
             alt={item.name}
             fill
             className="object-cover"
+            sizes="(max-width: 640px) 100px, 100px"
           />
         </div>
         <div className="flex-1 min-w-0 space-y-2">
