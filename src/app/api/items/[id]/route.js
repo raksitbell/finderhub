@@ -83,6 +83,35 @@ export async function DELETE(request, { params }) {
   const supabase = await createSupabaseServerClient();
   try {
     const { id } = await params;
+
+    // 1. Fetch the item to get the image URL
+    const { data: item, error: fetchError } = await supabase
+      .from("items")
+      .select("image")
+      .eq("id", id)
+      .single();
+
+    if (fetchError) {
+      return NextResponse.json({ error: fetchError.message }, { status: 404 });
+    }
+
+    // 2. Delete the image from storage if it exists
+    if (item?.image) {
+      const imageUrl = item.image;
+      const parts = imageUrl.split("item-images/");
+      if (parts.length === 2) {
+        const filePath = parts[1];
+        const { error: storageError } = await supabase.storage
+          .from("item-images")
+          .remove([filePath]);
+
+        if (storageError) {
+          console.error("Error deleting image from storage:", storageError);
+        }
+      }
+    }
+
+    // 3. Delete the item from the database
     const { error } = await supabase.from("items").delete().eq("id", id);
 
     if (error) {
