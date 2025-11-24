@@ -85,7 +85,7 @@ If you discover a security vulnerability, please refer to our [Security Policy](
 
 ## 📖 Documentation
 
-For a detailed guide on the codebase structure and how components work, please refer to the [Development Guide](docs/DEVELOPMENT.md).
+For a detailed guide on the codebase structure and how components work, please refer to the [Development Guide](docs/DEVELOPMENT.md) and [Changelog](docs/CHANGELOG.md).
 
 ---
 
