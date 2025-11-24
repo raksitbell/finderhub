@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
 import { X } from "lucide-react";
@@ -37,6 +38,12 @@ export default function AddItemModal({
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   // State to store the original filename of the uploaded image for display purposes
   const [fileName, setFileName] = useState("");
+  // State to track upload progress
+  const [isUploading, setIsUploading] = useState(false);
+  // State to store the selected file object
+  const [selectedFile, setSelectedFile] = useState(null);
+  // State to store the local preview URL
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   /**
    * Handles the form submission.
@@ -45,10 +52,41 @@ export default function AddItemModal({
    *
    * @param {Event} e - The form submission event.
    */
-  const handleFormSubmit = (e) => {
+  /**
+   * Handles the form submission.
+   * If in edit mode, it switches to preview mode.
+   * If in preview mode, it calls the final onAddItem callback.
+   *
+   * @param {Event} e - The form submission event.
+   */
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (isPreviewMode) {
-      onAddItem(e);
+      // Final confirmation step
+      try {
+        setIsUploading(true);
+        let uploadedUrl = null;
+
+        // If there is a selected file, upload it now
+        if (selectedFile) {
+          const syntheticEvent = {
+            target: {
+              files: [selectedFile]
+            }
+          };
+          
+          uploadedUrl = await onImageUpload(syntheticEvent);
+        }
+        
+        // Call onAddItem with the potentially updated image URL
+        // We pass the override data as the second argument
+        await onAddItem(e, uploadedUrl ? { image: uploadedUrl } : {}); 
+        
+      } catch (error) {
+        console.error("Upload failed", error);
+      } finally {
+        setIsUploading(false);
+      }
     } else {
       setIsPreviewMode(true);
     }
@@ -64,7 +102,17 @@ export default function AddItemModal({
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
-      onImageUpload(e);
+      setSelectedFile(file);
+      
+      // Create local preview
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      
+      // Update newItem with preview URL so it shows up
+      setNewItem({ ...newItem, image: url });
     }
   };
 
@@ -90,8 +138,22 @@ export default function AddItemModal({
     if (!isOpen) {
       setIsPreviewMode(false);
       setFileName("");
+      setSelectedFile(null);
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+      }
     }
   }, [isOpen]);
+
+  // Cleanup preview URL on unmount
+  React.useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -113,11 +175,11 @@ export default function AddItemModal({
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {isPreviewMode ? "ตรวจสอบรายละเอียด" : "เพิ่มรายการทรัพย์สิน"}
             </DialogTitle>
-            <p className="text-slate-500 font-sans">
+            <DialogDescription className="text-slate-500 font-sans">
               {isPreviewMode
                 ? "โปรดตรวจสอบรายละเอียดทั้งหมดให้ถูกต้องก่อนเผยแพร่"
                 : "กรุณากรอกรายละเอียดของทรัพย์สินที่พบ"}
-            </p>
+            </DialogDescription>
           </DialogHeader>
 
           {/* Conditional Rendering: Form vs Preview */}
@@ -128,12 +190,14 @@ export default function AddItemModal({
               onSubmit={handleFormSubmit}
               onFileChange={handleFileChange}
               fileName={fileName}
+              isUploading={isUploading}
             />
           ) : (
             <AddItemPreview
               item={previewItem}
               onBack={() => setIsPreviewMode(false)}
               onConfirm={handleFormSubmit}
+              isUploading={isUploading}
             />
           )}
         </div>

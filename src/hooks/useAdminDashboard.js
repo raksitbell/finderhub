@@ -103,17 +103,23 @@ export function useAdminDashboard() {
       const publicUrl = await uploadImage(file);
       if (publicUrl) {
         setNewItem({ ...newItem, image: publicUrl });
+        return publicUrl;
       }
     }
+    return null;
   };
 
-  const handleAddItem = async (e) => {
-    e.preventDefault();
+  const handleAddItem = async (e, overrideData = {}) => {
+    if (e && e.preventDefault) e.preventDefault();
+
+    // Merge newItem with any override data (like the just-uploaded image URL)
+    const itemData = { ...newItem, ...overrideData };
+
     const itemToAdd = {
-      ...newItem,
-      image: newItem.image || "https://placehold.co/300x200?text=No+Image",
+      ...itemData,
+      image: itemData.image || "https://placehold.co/300x200?text=No+Image",
       status: true,
-      date: new Date(newItem.date).getTime(),
+      date: new Date(itemData.date).getTime(),
     };
     await DataManager.addItem(itemToAdd);
     loadData();

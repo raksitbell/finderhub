@@ -12,7 +12,7 @@ export const metadata = {
   description: "FinderHub Lost & Found System",
 };
 
-import PrelineScript from "@/components/PrelineScript";
+import PrelineScript from "@/components/common/PrelineScript";
 
 export default function RootLayout({ children }) {
   return (

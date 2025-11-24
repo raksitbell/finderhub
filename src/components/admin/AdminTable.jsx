@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Filter, Plus } from "lucide-react";
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/components/items/SearchBar";
 import AdminTableFilters from "./AdminTableFilters";
 import AdminTableRow from "./AdminTableRow";
 import AdminMobileCard from "./AdminMobileCard";

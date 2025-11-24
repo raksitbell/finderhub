@@ -5,8 +5,8 @@ import {
   Home,
   User,
 } from "lucide-react";
-import KeyMetrics from "@/components/KeyMetrics";
-import FinderHubLogo from "@/components/FinderHubLogo";
+import KeyMetrics from "@/components/dashboard/KeyMetrics";
+import FinderHubLogo from "@/components/common/FinderHubLogo";
 
 export default function AdminHeader({ stats, userEmail, onLogout }) {
   return (
