@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import PublicHeader from "@/components/PublicHeader";
-import Footer from "@/components/Footer";
-import CategoryFilter from "@/components/CategoryFilter";
+import PublicHeader from "@/components/layout/PublicHeader";
+import Footer from "@/components/layout/Footer";
+import CategoryFilter from "@/components/items/CategoryFilter";
 import ItemCardSkeleton from "@/components/ui/ItemCardSkeleton";
-import ItemCard from "@/components/ItemCard";
+import ItemCard from "@/components/items/ItemCard";
 import ItemModal from "@/components/modals/ItemModal";
 import FoundItemModal from "@/components/modals/FoundItemModal";
 import { useItems } from "@/hooks/useItems";

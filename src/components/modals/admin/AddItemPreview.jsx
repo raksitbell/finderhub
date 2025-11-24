@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check } from "lucide-react";
-import ItemCard from "@/components/ItemCard";
+import ItemCard from "@/components/items/ItemCard";
 
 /**
  * AddItemPreview Component

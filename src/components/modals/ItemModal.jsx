@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { getRelativeTime } from "@/lib/utils";
-import ItemDetailRow from "@/components/ItemDetailRow";
+import ItemDetailRow from "@/components/items/ItemDetailRow";
 
 export default function ItemModal({ item, isOpen, onClose }) {
   if (!item) return null;

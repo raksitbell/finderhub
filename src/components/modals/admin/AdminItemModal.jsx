@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import ItemDetailRow from "@/components/ItemDetailRow";
+import ItemDetailRow from "@/components/items/ItemDetailRow";
 import ClaimerInfoCard from "./ClaimerInfoCard";
 
 /**
