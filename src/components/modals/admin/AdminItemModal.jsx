@@ -60,7 +60,7 @@ export default function AdminItemModal({
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           <DialogClose className="absolute right-4 top-4 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md border border-white/10 transition-colors z-10 p-2">
             <X className="h-5 w-5" />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">ปิด</span>
           </DialogClose>
         </div>
 
@@ -80,14 +80,14 @@ export default function AdminItemModal({
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200 border-0"
                 }
               >
-                {item.status === true ? "Found" : "Returned"}
+                {item.status === true ? "เจอแล้ว" : "คืนแล้ว"}
               </Badge>
             </div>
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
             </DialogTitle>
             <DialogDescription className="sr-only">
-              Admin details for {item.name}
+              รายละเอียดสำหรับผู้ดูแลระบบ: {item.name}
             </DialogDescription>
           </DialogHeader>
 
@@ -95,7 +95,7 @@ export default function AdminItemModal({
             {/* Location Details */}
             <ItemDetailRow
               icon={MapPin}
-              label="Location"
+              label="สถานที่พบ"
               value={item.location}
               iconColor="text-red-500"
             />
@@ -103,15 +103,15 @@ export default function AdminItemModal({
             {/* Description Details */}
             <ItemDetailRow
               icon={Tag}
-              label="Description"
-              value={item.description || "No additional description provided."}
+              label="รายละเอียด"
+              value={item.description || "ไม่มีรายละเอียดเพิ่มเติม"}
               iconColor="text-purple-500"
             />
 
             {/* Date Found Details */}
             <ItemDetailRow
               icon={Calendar}
-              label="Date Found"
+              label="วันที่พบ"
               value={new Date(item.date).toLocaleDateString("th-TH", {
                 weekday: "long",
                 year: "numeric",
@@ -139,17 +139,20 @@ export default function AdminItemModal({
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white h-12 rounded-xl shadow-lg shadow-emerald-100"
                 >
                   <CheckCircle className="h-4 w-4 mr-2" />
-                  Claim Item
+                  ยืนยันการคืน
                 </Button>
               )}
 
               <Button
                 variant="destructive"
-                onClick={() => onDelete(item.id)}
+                onClick={async () => {
+                  await onDelete(item.id);
+                  onOpenChange(false);
+                }}
                 className="flex-1 bg-red-50 text-red-600 hover:bg-red-100 border-0 shadow-none h-12 rounded-xl"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete
+                ลบรายการ
               </Button>
             </div>
           </div>

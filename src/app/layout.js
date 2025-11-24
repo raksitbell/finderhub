@@ -1,10 +1,15 @@
-import { Noto_Sans_Thai } from "next/font/google";
+import { Kanit, Geist } from "next/font/google";
 import "./globals.css";
 
-const notoSansThai = Noto_Sans_Thai({
+const kanit = Kanit({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["thai", "latin"],
-  variable: "--font-noto-sans-thai",
+  variable: "--font-kanit",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
 });
 
 export const metadata = {
@@ -18,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${notoSansThai.variable} font-sans antialiased bg-slate-50`}
+        className={`${kanit.variable} ${geist.variable} font-sans antialiased bg-slate-50`}
       >
         {children}
         <PrelineScript />

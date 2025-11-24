@@ -35,13 +35,13 @@ export default function AdminTableFilters({
           <SelectTrigger className="h-9 bg-white border-slate-200 w-full">
             <div className="flex items-center gap-2 truncate">
               <span className="text-xs text-slate-500 flex-shrink-0">
-                Category:
+                หมวดหมู่:
               </span>
-              <SelectValue placeholder="All" />
+              <SelectValue placeholder="ทั้งหมด" />
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
+            <SelectItem value="all">ทั้งหมด</SelectItem>
             <SelectItem value="it_gadget">โทรศัพท์ / ไอที</SelectItem>
             <SelectItem value="personal">ของใช้ส่วนตัว</SelectItem>
             <SelectItem value="stationery">หนังสือ / เครื่องเขียน</SelectItem>
@@ -56,21 +56,21 @@ export default function AdminTableFilters({
           <SelectTrigger className="h-9 bg-white border-slate-200 w-full">
             <div className="flex items-center gap-2 truncate">
               <span className="text-xs text-slate-500 flex-shrink-0">
-                Sort:
+                เรียงตาม:
               </span>
-              <SelectValue placeholder="Newest" />
+              <SelectValue placeholder="ล่าสุด" />
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="date_newest">Date: Newest</SelectItem>
-            <SelectItem value="date_oldest">Date: Oldest</SelectItem>
-            <SelectItem value="name_asc">Name: A-Z</SelectItem>
-            <SelectItem value="name_desc">Name: Z-A</SelectItem>
-            <SelectItem value="category_asc">Category: A-Z</SelectItem>
-            <SelectItem value="category_desc">Category: Z-A</SelectItem>
-            <SelectItem value="status_found">Status: Found First</SelectItem>
+            <SelectItem value="date_newest">วันที่: ล่าสุด</SelectItem>
+            <SelectItem value="date_oldest">วันที่: เก่าสุด</SelectItem>
+            <SelectItem value="name_asc">ชื่อ: ก-ฮ</SelectItem>
+            <SelectItem value="name_desc">ชื่อ: ฮ-ก</SelectItem>
+            <SelectItem value="category_asc">หมวดหมู่: ก-ฮ</SelectItem>
+            <SelectItem value="category_desc">หมวดหมู่: ฮ-ก</SelectItem>
+            <SelectItem value="status_found">สถานะ: เจอแล้วก่อน</SelectItem>
             <SelectItem value="status_returned">
-              Status: Returned First
+              สถานะ: คืนแล้วก่อน
             </SelectItem>
           </SelectContent>
         </Select>
@@ -80,13 +80,13 @@ export default function AdminTableFilters({
       <div className="flex-1 min-w-[160px]">
         <div className="h-9 bg-white border border-slate-200 rounded-md flex items-center px-3 w-full">
           <span className="text-xs text-slate-500 mr-2 flex-shrink-0">
-            Location:
+            สถานที่:
           </span>
           <input
             type="text"
             value={filterLocation}
             onChange={(e) => setFilterLocation(e.target.value)}
-            placeholder="Any"
+            placeholder="ระบุสถานที่..."
             className="bg-transparent text-sm w-full focus:outline-none min-w-0"
           />
         </div>
@@ -98,15 +98,15 @@ export default function AdminTableFilters({
           <SelectTrigger className="h-9 bg-white border-slate-200 w-full">
             <div className="flex items-center gap-2 truncate">
               <span className="text-xs text-slate-500 flex-shrink-0">
-                Status:
+                สถานะ:
               </span>
-              <SelectValue placeholder="All" />
+              <SelectValue placeholder="ทั้งหมด" />
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="found">Found</SelectItem>
-            <SelectItem value="returned">Returned</SelectItem>
+            <SelectItem value="all">ทั้งหมด</SelectItem>
+            <SelectItem value="found">เจอแล้ว</SelectItem>
+            <SelectItem value="returned">คืนแล้ว</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -118,7 +118,7 @@ export default function AdminTableFilters({
           size="sm"
           onClick={onClearFilters}
           className="h-9 text-slate-500 hover:text-slate-700 px-2"
-          title="Clear Filters"
+          title="ล้างตัวกรอง"
         >
           <X className="h-4 w-4" />
         </Button>
