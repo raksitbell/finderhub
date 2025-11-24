@@ -37,6 +37,8 @@ export default function AddItemModal({
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   // State to store the original filename of the uploaded image for display purposes
   const [fileName, setFileName] = useState("");
+  // State to track upload progress
+  const [isUploading, setIsUploading] = useState(false);
 
   /**
    * Handles the form submission.
@@ -60,11 +62,16 @@ export default function AddItemModal({
    *
    * @param {Event} e - The file input change event.
    */
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       setFileName(file.name);
-      onImageUpload(e);
+      setIsUploading(true);
+      try {
+        await onImageUpload(e);
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -128,6 +135,7 @@ export default function AddItemModal({
               onSubmit={handleFormSubmit}
               onFileChange={handleFileChange}
               fileName={fileName}
+              isUploading={isUploading}
             />
           ) : (
             <AddItemPreview
