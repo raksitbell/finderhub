@@ -7,7 +7,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-<<<<<<< Updated upstream
+## [2.2.0] - 2025-11-24
+
+### Added
+
+- **Localization**: Translated Admin Dashboard modals and filters to Thai.
+- **Typography**: Switched global font to **Kanit** for better Thai language support.
+- **Typography**: Added **Geist** font specifically for the FinderHub logo.
+
+### Fixed
+
+- **Admin Modal**: Fixed an issue where the Admin Item Modal would not close automatically after deleting an item.
+
+### Changed
+
+- **UI/UX**: Improved font consistency across the application.
+
 ## [2.1.1] - 2025-11-24
 
 ### Changed
@@ -53,42 +68,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Image Upload**: Integration with Supabase Storage for item images.
 - **Responsive UI**: Modern, responsive interface built with Tailwind CSS and Shadcn UI.
 - **Supabase Integration**: `DataManager` class for abstracting database interactions.
-=======
-## [2.2.0] - 2025-11-24
-
-### Added
-
-- **Localization**: Translated Admin Dashboard modals and filters to Thai.
-- **Typography**: Switched global font to **Kanit** for better Thai language support.
-- **Typography**: Added **Geist** font specifically for the FinderHub logo.
-
-### Fixed
-
-- **Admin Modal**: Fixed an issue where the Admin Item Modal would not close automatically after deleting an item.
-
-### Changed
-
-- **UI/UX**: Improved font consistency across the application.
-
-## [2.1.1] - 2025-11-24
-
-### Fixed
-
-- Fixed double upload issue.
-- Fixed dev server lock issue.
-- Improved accessibility.
-- Fixed source map warnings.
-
-## [2.1.0] - 2025-11-24
-
-### Added
-
-- **Image Upload**: Redesigned image upload system with deferred upload and instant preview.
-- **UI**: Improved UI for item cards and modals.
-
-## [2.0.0] - 2025-11-24
-
-### Changed
-
-- Major project restructure.
->>>>>>> Stashed changes
