@@ -1,5 +1,7 @@
 # บันทึกการเปลี่ยนแปลง (Changelog)
 
+[![English](https://img.shields.io/badge/lang-English-blue.svg)](CHANGELOG.md)
+
 การเปลี่ยนแปลงที่สำคัญทั้งหมดในโปรเจกต์นี้จะถูกบันทึกไว้ในไฟล์นี้
 
 รูปแบบอ้างอิงจาก [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
