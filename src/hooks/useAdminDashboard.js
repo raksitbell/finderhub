@@ -19,6 +19,7 @@ export function useAdminDashboard() {
   const [inventoryItems, setInventoryItems] = useState([]);
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Filters & Sorting
   const [filterStatus, setFilterStatus] = useState("all");
@@ -31,6 +32,7 @@ export function useAdminDashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [isPurgeModalOpen, setIsPurgeModalOpen] = useState(false);
 
   // Selected Item
   const [selectedItem, setSelectedItem] = useState(null);
@@ -73,8 +75,13 @@ export function useAdminDashboard() {
     }
   };
 
-  const loadData = async () => {
-    setIsLoading(true);
+  const loadData = async (isBackground = false) => {
+    if (isBackground) {
+      setIsRefreshing(true);
+    } else {
+      setIsLoading(true);
+    }
+
     const allItems = await DataManager.getAllItems();
     setInventoryItems(allItems);
     setStats({
@@ -82,7 +89,12 @@ export function useAdminDashboard() {
       found: allItems.filter((i) => i.status === true).length,
       returned: allItems.filter((i) => i.status === false).length,
     });
-    setIsLoading(false);
+
+    if (isBackground) {
+      setIsRefreshing(false);
+    } else {
+      setIsLoading(false);
+    }
   };
 
   const handleLogout = async (e) => {
@@ -165,6 +177,16 @@ export function useAdminDashboard() {
     }
   };
 
+  const handlePurge = async (days) => {
+    const result = await DataManager.purgeItems(days);
+    if (result.error) {
+      alert(`Error purging items: ${result.error}`);
+    } else {
+      alert(`Successfully purged ${result.count} items.`);
+      loadData();
+    }
+  };
+
   const openViewModal = (item) => {
     setSelectedItem(item);
     setIsViewModalOpen(true);
@@ -237,6 +259,7 @@ export function useAdminDashboard() {
     userEmail,
     stats,
     isLoading,
+    isRefreshing,
     filteredItems,
     // Filter State
     filterStatus,
@@ -256,6 +279,8 @@ export function useAdminDashboard() {
     setIsViewModalOpen,
     isClaimModalOpen,
     setIsClaimModalOpen,
+    isPurgeModalOpen,
+    setIsPurgeModalOpen,
     // Selection & Forms
     selectedItem,
     newItem,
@@ -268,6 +293,8 @@ export function useAdminDashboard() {
     handleImageUpload,
     handleAddItem,
     handleClaimItem,
+    handlePurge,
+    refreshData: () => loadData(true),
     openViewModal,
     openClaimModal,
   };

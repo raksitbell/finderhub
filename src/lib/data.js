@@ -96,4 +96,26 @@ export const DataManager = {
       return false;
     }
   },
+
+  /**
+   * Purges items that are found and older than the specified number of days.
+   * @param {number} days - The number of days threshold.
+   * @returns {Promise<Object>} The result of the purge operation.
+   */
+  purgeItems: async (days) => {
+    try {
+      const response = await fetch("/api/items/purge", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ days }),
+      });
+      if (!response.ok) throw new Error("Failed to purge items");
+      return await response.json();
+    } catch (error) {
+      console.error("Error purging items:", error);
+      return { error: error.message };
+    }
+  },
 };
