@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/select";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Upload, MapPin, User, ArrowRight } from "lucide-react";
+import DateTimePicker from "@/components/ui/DateTimePicker";
 
 /**
  * AddItemForm Component
@@ -34,14 +35,6 @@ export default function AddItemForm({
   fileName,
   isUploading,
 }) {
-  /**
-   * Sets the date field to the current date and time.
-   */
-  const setNow = () => {
-    const now = new Date();
-    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-    setNewItem({ ...newItem, date: now.toISOString().slice(0, 16) });
-  };
 
   return (
     <>
@@ -153,28 +146,13 @@ export default function AddItemForm({
               <Label htmlFor="dateFound" className="text-slate-900 font-medium">
                 วันที่ & เวลาที่พบ
               </Label>
-              <div className="flex gap-2">
-                <Input
-                  id="dateFound"
-                  type="datetime-local"
-                  value={newItem.date}
-                  onChange={(e) =>
-                    setNewItem({ ...newItem, date: e.target.value })
-                  }
-                  required
-                  disabled={isUploading}
-                  className="flex-1 bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={setNow}
-                  disabled={isUploading}
-                  className="h-12 rounded-xl border-slate-200"
-                >
-                  ตอนนี้
-                </Button>
-              </div>
+              {/* Initialize Preline Datepicker */}
+              <DateTimePicker
+                value={newItem.date}
+                onChange={(date) => setNewItem({ ...newItem, date })}
+                required
+                disabled={isUploading}
+              />
             </div>
           </div>
 
