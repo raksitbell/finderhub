@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogClose,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ItemStatusBadge from "@/components/items/ItemStatusBadge";
@@ -49,15 +50,37 @@ export default function AdminItemModal({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto p-0 gap-0 bg-slate-50 border-slate-100 text-slate-900">
         {/* Item Image Header */}
+        {/* Item Image Header */}
         <div className="relative h-72 w-full bg-slate-50">
-          <Image
-            src={item.image || "https://placehold.co/600x400?text=No+Image"}
-            alt={item.name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, 600px"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="relative h-full w-full cursor-pointer group">
+                <Image
+                  src={item.image || "https://placehold.co/600x400?text=No+Image"}
+                  alt={item.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 600px"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+              </div>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl p-0 bg-transparent border-none shadow-none">
+              <DialogTitle className="sr-only">{item.name}</DialogTitle>
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  src={item.image || "https://placehold.co/600x400?text=No+Image"}
+                  alt={item.name}
+                  className="max-w-full max-h-[90vh] rounded-lg shadow-2xl"
+                />
+                <DialogClose className="absolute -top-10 right-0 rounded-full bg-white/10 hover:bg-white/20 text-white p-2 transition-colors">
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">ปิด</span>
+                </DialogClose>
+              </div>
+            </DialogContent>
+          </Dialog>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
           <DialogClose className="absolute right-4 top-4 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-md border border-white/10 transition-colors z-10 p-2">
             <X className="h-5 w-5" />
             <span className="sr-only">ปิด</span>
