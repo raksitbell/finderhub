@@ -7,6 +7,77 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-11-25
+
+### Added
+
+- **UI/UX**: Enhanced image viewing experience.
+  - Added clickable full-size image modals for "Proof of Return" in Admin Dashboard.
+  - Added clickable full-size image modals for item headers in both Public and Admin views.
+- **Accessibility**: Added `DialogTitle` to image modals for screen reader support.
+- **Loading States**: Added visual feedback (spinner and disabled inputs) to the "Confirm Return" modal (`ClaimItemModal`).
+
+### Changed
+
+- **Dev Portal**: Set default language to Thai (`th`) and added API documentation visibility in Thai view.
+- **Documentation**: Standardized header notes in `CHANGELOG` and `DEVELOPMENT` guides.
+- **Schema**: Added `UPDATE` and `DELETE` policies for the `claim-evidence` bucket to ensure full admin control.
+
+## [3.2.0] - 2025-11-25
+
+### Added
+
+- **Localization**: Translated the Login page (`/login`) to Thai.
+
+### Changed
+
+- **UX/Loading**: Refined the "Refresh" behavior in the Admin Dashboard. It now triggers a background refresh with a table-only loading indicator instead of a full page reload.
+
+## [3.1.0] - 2025-11-25
+
+### Added
+
+- **Admin Tools**: New tools for administrators.
+  - **Purge**: Functionality to permanently delete "Found" items older than a specified number of days (default 90).
+  - **Refresh**: Button to reload table data without refreshing the page.
+- **UI**: Added Refresh and Purge buttons to the Admin Table header.
+
+## [3.0.0] - 2025-11-25
+
+### Added
+
+- **Claimer Info Log**: Comprehensive claimer information logging system.
+  - Added "Social Media Contact" and "Proof Evidence (Image)" fields to the return flow.
+  - Display claimer details and proof image in returned item details.
+- **Database**: Added `claims` table and `claim-evidence` storage bucket.
+- **API**: Updated `items` API to handle claim data insertion and retrieval.
+
+### Changed
+
+- **Admin UI**: Updated `ClaimItemModal` and `ClaimerInfoCard` to support new data fields.
+
+## [2.3.1] - 2025-11-25
+
+### Added
+
+- **Admin Header**: Mobile responsive dropdown menu with full-screen overlay for better accessibility on small screens.
+- **Logout**: Added a loading screen indicator during the logout process for better user feedback.
+
+### Changed
+
+- **UI/UX**: Global color update from Green/Teal to Blue/Indigo for a more professional and consistent theme.
+  - Updated Admin Header, Public Header, Status Badges, and Dashboard Metrics.
+
+### Refactoring
+
+- **Cleanup**: Removed duplicate `ItemStatusBadge 2.jsx` file.
+- **Organization**: Moved `ItemStatusBadge.jsx` from `src/components/shared` to `src/components/items` and removed the empty `shared` directory.
+
+### Fixed
+
+- **Mobile Menu**: Resolved stacking context and overflow issues that prevented the mobile menu from being clickable.
+- **Logout**: Fixed a runtime error ("undefined is not an object") when logging out from the mobile menu.
+
 ## [2.2.0] - 2025-11-24
 
 ### Added

@@ -91,3 +91,57 @@ CREATE POLICY "Authenticated users can delete images" ON storage.objects
     bucket_id = 'item-images' AND
     auth.role() = 'authenticated'
 );
+
+-- ==========================================
+-- 4. Claims & Evidence
+-- ==========================================
+
+-- Create claims table
+CREATE TABLE IF NOT EXISTS claims (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  item_id BIGINT REFERENCES items(id) ON DELETE CASCADE,
+  claimer_name TEXT,
+  claimer_phone TEXT,
+  claimer_social TEXT,
+  proof_image_url TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+
+-- Enable RLS for claims
+ALTER TABLE claims ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public claims are viewable by everyone" ON claims
+  FOR SELECT USING (true);
+
+CREATE POLICY "Authenticated users can insert claims" ON claims
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+-- Create storage bucket for claim evidence
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('claim-evidence', 'claim-evidence', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Policy to allow public read access to claim-evidence
+CREATE POLICY "Public Access to claim-evidence" ON storage.objects
+  FOR SELECT USING ( bucket_id = 'claim-evidence' );
+
+-- Policy to allow authenticated uploads
+CREATE POLICY "Authenticated users can upload claim evidence" ON storage.objects
+  FOR INSERT WITH CHECK (
+    bucket_id = 'claim-evidence' AND
+    auth.role() = 'authenticated'
+);
+
+-- Allow authenticated users to update their uploaded files
+CREATE POLICY "Authenticated users can update claim evidence" ON storage.objects
+  FOR UPDATE USING (
+    bucket_id = 'claim-evidence' AND
+    auth.role() = 'authenticated'
+);
+
+-- Allow authenticated users to delete files
+CREATE POLICY "Authenticated users can delete claim evidence" ON storage.objects
+  FOR DELETE USING (
+    bucket_id = 'claim-evidence' AND
+    auth.role() = 'authenticated'
+);

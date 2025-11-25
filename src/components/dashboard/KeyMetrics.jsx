@@ -52,8 +52,8 @@ export default function KeyMetrics({ stats, variant = "public" }) {
       {/* Found Items */}
       <div className="bg-white/10 backdrop-blur rounded-2xl p-4 border border-white/20 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-green-400/20 rounded-lg flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-green-200" />
+          <div className="w-10 h-10 bg-indigo-400/20 rounded-lg flex items-center justify-center">
+            <CheckCircle className="w-5 h-5 text-indigo-200" />
           </div>
           <div>
             <div className="text-white/70 text-xs font-medium font-sans">

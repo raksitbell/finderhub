@@ -15,7 +15,7 @@ export default function PublicHeader({
   onFoundItemClick,
 }) {
   return (
-    <header className="relative overflow-hidden bg-teal-800 bg-[url('/images/dashboard.png')] bg-cover rounded-3xl mb-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <header className="relative overflow-hidden bg-blue-900 bg-[url('/images/dashboard.png')] bg-cover rounded-3xl mb-8 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] z-0"></div>
       {/* Navigation */}
       <nav className="relative z-10 flex items-center justify-between px-6 lg:px-8 pt-6">
