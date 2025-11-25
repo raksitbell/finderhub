@@ -144,6 +144,7 @@ export function useAdminDashboard() {
       });
       loadData();
       setIsClaimModalOpen(false);
+      setIsViewModalOpen(false);
       setClaimData({ claimerName: "", claimerPhone: "" });
     }
   };

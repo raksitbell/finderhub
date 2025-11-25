@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { MapPin, Calendar } from "lucide-react";
+import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
 
 export default function AdminMobileCard({ item, onView }) {
   return (
@@ -23,15 +24,10 @@ export default function AdminMobileCard({ item, onView }) {
             <h4 className="font-semibold text-slate-900 truncate pr-2">
               {item.name}
             </h4>
-            <span
-              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium font-sans whitespace-nowrap ${
-                item.status === true
-                  ? "bg-emerald-100 text-emerald-800"
-                  : "bg-slate-100 text-slate-600"
-              }`}
-            >
-              {item.status === true ? "Found" : "Returned"}
-            </span>
+            <ItemStatusBadge
+              status={item.status}
+              className="text-[10px] px-2 py-0.5"
+            />
           </div>
 
           <div className="flex items-center text-xs text-slate-500">

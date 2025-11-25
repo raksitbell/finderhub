@@ -16,8 +16,8 @@ import {
   DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
 import ItemDetailRow from "@/components/items/ItemDetailRow";
 import ClaimerInfoCard from "./ClaimerInfoCard";
 
@@ -72,6 +72,7 @@ export default function AdminItemModal({
                 {item.categories?.label || item.category}
               </span>
               {/* Status Badge */}
+<<<<<<< Updated upstream
               <Badge
                 variant={item.status === true ? "default" : "secondary"}
                 className={
@@ -82,6 +83,9 @@ export default function AdminItemModal({
               >
                 {item.status === true ? "Found" : "Returned"}
               </Badge>
+=======
+              <ItemStatusBadge status={item.status} />
+>>>>>>> Stashed changes
             </div>
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}
