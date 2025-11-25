@@ -131,3 +131,17 @@ CREATE POLICY "Authenticated users can upload claim evidence" ON storage.objects
     bucket_id = 'claim-evidence' AND
     auth.role() = 'authenticated'
 );
+
+-- Allow authenticated users to update their uploaded files
+CREATE POLICY "Authenticated users can update claim evidence" ON storage.objects
+  FOR UPDATE USING (
+    bucket_id = 'claim-evidence' AND
+    auth.role() = 'authenticated'
+);
+
+-- Allow authenticated users to delete files
+CREATE POLICY "Authenticated users can delete claim evidence" ON storage.objects
+  FOR DELETE USING (
+    bucket_id = 'claim-evidence' AND
+    auth.role() = 'authenticated'
+);

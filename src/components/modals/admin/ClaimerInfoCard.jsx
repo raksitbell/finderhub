@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogClose,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { X } from "lucide-react";
 
 /**
  * ClaimerInfoCard Component
@@ -50,11 +58,29 @@ export default function ClaimerInfoCard({
               หลักฐานการรับคืน
             </span>
             <div className="relative h-48 w-full rounded-lg overflow-hidden border border-blue-200">
-              <img
-                src={proofImageUrl}
-                alt="หลักฐานการรับคืน"
-                className="object-cover w-full h-full"
-              />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <img
+                    src={proofImageUrl}
+                    alt="หลักฐานการรับคืน"
+                    className="object-cover w-full h-full cursor-pointer hover:opacity-90 transition-opacity"
+                  />
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl p-0 bg-transparent border-none shadow-none">
+                  <DialogTitle className="sr-only">หลักฐานการรับคืน</DialogTitle>
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <img
+                      src={proofImageUrl}
+                      alt="หลักฐานการรับคืน"
+                      className="max-w-full max-h-[85vh] rounded-lg shadow-2xl"
+                    />
+                    <DialogClose className="absolute -top-10 right-0 rounded-full bg-white/10 hover:bg-white/20 text-white p-2 transition-colors">
+                      <X className="h-6 w-6" />
+                      <span className="sr-only">ปิด</span>
+                    </DialogClose>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         )}
