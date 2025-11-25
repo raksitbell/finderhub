@@ -7,6 +7,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-11-24
+
+### Added
+
+- **Localization**: Translated Admin Dashboard modals and filters to Thai.
+- **Typography**: Switched global font to **Kanit** for better Thai language support.
+- **Typography**: Added **Geist** font specifically for the FinderHub logo.
+
+### Fixed
+
+- **Admin Modal**: Fixed an issue where the Admin Item Modal would not close automatically after deleting an item.
+
+### Changed
+
+- **UI/UX**: Improved font consistency across the application.
+
 ## [2.1.1] - 2025-11-24
 
 ### Changed
