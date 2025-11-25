@@ -1,7 +1,10 @@
 # 📘 FinderHub Development Guide
 
 > [!NOTE]
-> This document provides a deep dive into the FinderHub codebase. For the Thai version, please see [คู่มือการพัฒนา (Thai Version)](./DEVELOPMENT.th.md).
+> This document provides a deep dive into the FinderHub codebase.
+>
+> - For the Thai version, please see [คู่มือการพัฒนา (Thai Version)](./DEVELOPMENT.th.md).
+> - For API documentation, please see [API Docs](./API.md).
 
 This guide offers a comprehensive overview of the FinderHub architecture, explaining the intricate workings of key components, data flows, and utility functions to facilitate seamless future development and maintenance.
 

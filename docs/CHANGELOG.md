@@ -1,11 +1,45 @@
 # Changelog
 
-[![Thai](https://img.shields.io/badge/lang-Thai-blue.svg)](CHANGELOG.th.md)
-
-All notable changes to this project will be documented in this file.
+> [!NOTE]
+> All notable changes to this project will be documented in this file.
+>
+> - For the Thai version, please see [บันทึกการเปลี่ยนแปลง (Thai Version)](./CHANGELOG.th.md).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [3.2.0] - 2025-11-25
+
+### Added
+
+- **Localization**: Translated the Login page (`/login`) to Thai.
+
+### Changed
+
+- **UX/Loading**: Refined the "Refresh" behavior in the Admin Dashboard. It now triggers a background refresh with a table-only loading indicator instead of a full page reload.
+
+## [3.1.0] - 2025-11-25
+
+### Added
+
+- **Admin Tools**: New tools for administrators.
+  - **Purge**: Functionality to permanently delete "Found" items older than a specified number of days (default 90).
+  - **Refresh**: Button to reload table data without refreshing the page.
+- **UI**: Added Refresh and Purge buttons to the Admin Table header.
+
+## [3.0.0] - 2025-11-25
+
+### Added
+
+- **Claimer Info Log**: Comprehensive claimer information logging system.
+  - Added "Social Media Contact" and "Proof Evidence (Image)" fields to the return flow.
+  - Display claimer details and proof image in returned item details.
+- **Database**: Added `claims` table and `claim-evidence` storage bucket.
+- **API**: Updated `items` API to handle claim data insertion and retrieval.
+
+### Changed
+
+- **Admin UI**: Updated `ClaimItemModal` and `ClaimerInfoCard` to support new data fields.
 
 ## [2.3.1] - 2025-11-25
 

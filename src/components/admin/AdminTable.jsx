@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Filter, Plus } from "lucide-react";
+import { Filter, Plus, RefreshCw, Trash2, Loader2 } from "lucide-react";
 import SearchBar from "@/components/items/SearchBar";
 import AdminTableFilters from "./AdminTableFilters";
 import AdminTableRow from "./AdminTableRow";
 import AdminMobileCard from "./AdminMobileCard";
 
-export default function AdminTable({ items, onView, onAddItem, filterProps }) {
+export default function AdminTable({
+  items,
+  onView,
+  onAddItem,
+  filterProps,
+  onRefresh,
+  onPurgeClick,
+  isRefreshing,
+}) {
   const {
     setFilterStatus,
     setFilterCategory,
@@ -58,6 +66,29 @@ export default function AdminTable({ items, onView, onAddItem, filterProps }) {
             <span className="hidden sm:inline">ตัวกรอง</span>
           </button>
           <button
+            onClick={onRefresh}
+            disabled={isRefreshing}
+            className="flex items-center justify-center px-3 py-2 text-xs font-medium text-slate-600 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors font-sans h-9 w-9 sm:w-auto disabled:opacity-50"
+            title="รีเฟรชข้อมูล"
+          >
+            <RefreshCw
+              className={`w-3.5 h-3.5 sm:mr-2 ${
+                isRefreshing ? "animate-spin" : ""
+              }`}
+            />
+            <span className="hidden sm:inline">
+              {isRefreshing ? "กำลังโหลด..." : "รีเฟรช"}
+            </span>
+          </button>
+          <button
+            onClick={onPurgeClick}
+            className="flex items-center justify-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors font-sans h-9 w-9 sm:w-auto"
+            title="ล้างข้อมูลเก่า"
+          >
+            <Trash2 className="w-3.5 h-3.5 sm:mr-2" />
+            <span className="hidden sm:inline">ล้างข้อมูล</span>
+          </button>
+          <button
             onClick={onAddItem}
             className="flex items-center space-x-2 px-3 py-2 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-sans h-9 whitespace-nowrap"
           >
@@ -101,6 +132,18 @@ export default function AdminTable({ items, onView, onAddItem, filterProps }) {
           <AdminMobileCard key={item.id} item={item} onView={onView} />
         ))}
       </div>
+
+      {/* Loading Overlay */}
+      {isRefreshing && (
+        <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] flex items-center justify-center z-10">
+          <div className="flex flex-col items-center bg-white p-4 rounded-xl shadow-lg border border-slate-100">
+            <Loader2 className="w-8 h-8 text-blue-600 animate-spin mb-2" />
+            <span className="text-sm font-medium text-slate-600">
+              กำลังอัปเดตข้อมูล...
+            </span>
+          </div>
+        </div>
+      )}
     </div>
 
   );

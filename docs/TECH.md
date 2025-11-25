@@ -123,6 +123,11 @@ export function useAdminDashboard() {
 }
 ```
 
+### 🛠️ Admin Tools Implementation
+
+- **Purge System**: ใช้ API Route `DELETE /api/items/purge` เพื่อลบข้อมูลเก่าตามเงื่อนไข (Found > 90 days) โดยมีการยืนยันผ่าน Modal เพื่อความปลอดภัย
+- **Smart Refresh**: ใช้ `isRefreshing` state แยกจาก `isLoading` เพื่อให้สามารถดึงข้อมูลใหม่ได้โดยไม่ต้องแสดง Full-screen loader
+
 ---
 
 ## 3. 🚀 DevOps & Deployment Workflow
@@ -313,6 +318,22 @@ SELECT
 FROM items
 LEFT JOIN categories ON items.category = categories.id
 ORDER BY items.date DESC;
+```
+
+### 🗂️ Claims Schema
+
+ตาราง `claims` ใช้สำหรับเก็บข้อมูลประวัติการรับคืน:
+
+```sql
+CREATE TABLE claims (
+  id UUID PRIMARY KEY,
+  item_id BIGINT REFERENCES items(id),
+  claimer_name TEXT,
+  claimer_phone TEXT,
+  claimer_social TEXT,
+  proof_image_url TEXT, -- URL ของรูปภาพหลักฐาน
+  created_at TIMESTAMPTZ
+);
 ```
 
 ### 🛡️ RLS Policy Example

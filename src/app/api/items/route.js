@@ -46,15 +46,38 @@ export async function GET() {
 
     const { data: items, error } = await supabase
       .from("items")
-      .select("*, categories(label)")
-      .order("date", { ascending: false });
+      .select(
+        `
+        *,
+        categories(label),
+        claims(
+          claimer_name,
+          claimer_phone,
+          claimer_social,
+          proof_image_url
+        )
+      `
+      )
+      .order("created_at", { ascending: false });
 
     if (error) {
       console.error("Supabase Query Error:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(items, { status: 200 });
+    // Map claims data to item object for easier frontend consumption
+    const itemsWithClaims = items.map((item) => {
+      const claim = item.claims?.[0]; // Assuming one claim per item
+      return {
+        ...item,
+        claimer_name: claim?.claimer_name || item.claimer_name, // Fallback to item field if exists
+        claimer_phone: claim?.claimer_phone || item.claimer_phone,
+        claimer_social: claim?.claimer_social,
+        proof_image_url: claim?.proof_image_url,
+      };
+    });
+
+    return NextResponse.json(itemsWithClaims, { status: 200 });
   } catch (error) {
     console.error("GET API Error:", error);
     logError(error);

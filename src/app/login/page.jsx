@@ -41,26 +41,26 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Admin Login</CardTitle>
+          <CardTitle className="text-2xl text-center">เข้าสู่ระบบ (สำหรับผู้ดูแล)</CardTitle>
           <CardDescription className="text-center">
-            Enter your credentials to access the dashboard
+            กรุณากรอกรหัสผ่านและอีเมลเพื่อเข้าสู่ระบบ
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">อีเมล</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="admin@example.com"
+                placeholder="demo@test.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">รหัสผ่าน</Label>
               <Input
                 id="password"
                 type="password"
@@ -75,11 +75,11 @@ export default function LoginPage() {
               </div>
             )}
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
             </Button>
             <div className="text-center mt-2">
               <Link href="/" className="text-sm text-slate-500 hover:text-slate-800">
-                Back to Home
+                หากเป็นผู้ใช้ทั่วไป กรุณากลับไปยังหน้าหลัก
               </Link>
             </div>
           </form>

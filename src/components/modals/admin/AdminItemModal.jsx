@@ -119,6 +119,8 @@ export default function AdminItemModal({
               <ClaimerInfoCard
                 claimerName={item.claimer_name}
                 claimerPhone={item.claimer_phone}
+                claimerSocial={item.claimer_social}
+                proofImageUrl={item.proof_image_url}
               />
             )}
 

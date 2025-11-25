@@ -6,6 +6,7 @@ import AdminTable from "@/components/admin/AdminTable";
 import AddItemModal from "@/components/modals/admin/AddItemModal";
 import AdminItemModal from "@/components/modals/admin/AdminItemModal";
 import ClaimItemModal from "@/components/modals/admin/ClaimItemModal";
+import PurgeModal from "@/components/modals/admin/PurgeModal";
 import { useAdminDashboard } from "@/hooks/useAdminDashboard";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 
@@ -43,6 +44,11 @@ export default function AdminPage()  {
     handleClaimItem,
     openViewModal,
     openClaimModal,
+    isPurgeModalOpen,
+    setIsPurgeModalOpen,
+    handlePurge,
+    refreshData,
+    isRefreshing,
   } = useAdminDashboard();
 
   if (isLoading) {
@@ -60,10 +66,13 @@ export default function AdminPage()  {
         />
 
 
-        <AdminTable
+      <AdminTable
           items={filteredItems}
           onView={openViewModal}
           onAddItem={() => setIsAddModalOpen(true)}
+          onRefresh={refreshData}
+          onPurgeClick={() => setIsPurgeModalOpen(true)}
+          isRefreshing={isRefreshing}
           filterProps={{
             filterStatus,
             setFilterStatus,
@@ -103,6 +112,12 @@ export default function AdminPage()  {
         claimData={claimData}
         setClaimData={setClaimData}
         onClaimItem={handleClaimItem}
+      />
+
+      <PurgeModal
+        isOpen={isPurgeModalOpen}
+        onOpenChange={setIsPurgeModalOpen}
+        onPurge={handlePurge}
       />
     </div>
   );
