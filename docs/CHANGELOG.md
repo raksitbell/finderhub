@@ -7,6 +7,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2025-11-25
+
+### Added
+
+- **Admin Header**: Mobile responsive dropdown menu with full-screen overlay for better accessibility on small screens.
+- **Logout**: Added a loading screen indicator during the logout process for better user feedback.
+
+### Changed
+
+- **UI/UX**: Global color update from Green/Teal to Blue/Indigo for a more professional and consistent theme.
+  - Updated Admin Header, Public Header, Status Badges, and Dashboard Metrics.
+
+### Refactoring
+
+- **Cleanup**: Removed duplicate `ItemStatusBadge 2.jsx` file.
+- **Organization**: Moved `ItemStatusBadge.jsx` from `src/components/shared` to `src/components/items` and removed the empty `shared` directory.
+
+### Fixed
+
+- **Mobile Menu**: Resolved stacking context and overflow issues that prevented the mobile menu from being clickable.
+- **Logout**: Fixed a runtime error ("undefined is not an object") when logging out from the mobile menu.
+
 ## [2.2.0] - 2025-11-24
 
 ### Added

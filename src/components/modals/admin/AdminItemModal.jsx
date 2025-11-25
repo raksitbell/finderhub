@@ -17,7 +17,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
+import ItemStatusBadge from "@/components/items/ItemStatusBadge";
 import ItemDetailRow from "@/components/items/ItemDetailRow";
 import ClaimerInfoCard from "./ClaimerInfoCard";
 
