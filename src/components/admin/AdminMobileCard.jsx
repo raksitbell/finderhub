@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { MapPin, Calendar } from "lucide-react";
-import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
+import ItemStatusBadge from "@/components/items/ItemStatusBadge";
 
 export default function AdminMobileCard({ item, onView }) {
   return (

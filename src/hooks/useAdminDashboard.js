@@ -84,7 +84,8 @@ export function useAdminDashboard() {
   };
 
   const handleLogout = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+    setIsLoading(true);
     await supabase.auth.signOut();
     router.push("/");
   };

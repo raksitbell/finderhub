@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { MapPin, Calendar } from "lucide-react";
-import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
+import ItemStatusBadge from "@/components/items/ItemStatusBadge";
 import { getRelativeTime } from "@/lib/utils";
 
 export default function AdminTableRow({ item, onView }) {
@@ -21,7 +21,7 @@ export default function AdminTableRow({ item, onView }) {
               sizes="40px"
             />
           </div>
-          <span className="font-medium font-sans text-slate-900 group-hover:text-emerald-600 transition-colors">
+          <span className="font-medium font-sans text-slate-900 group-hover:text-blue-600 transition-colors">
             {item.name}
           </span>
         </div>

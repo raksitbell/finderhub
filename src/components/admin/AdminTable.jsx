@@ -59,7 +59,7 @@ export default function AdminTable({ items, onView, onAddItem, filterProps }) {
           </button>
           <button
             onClick={onAddItem}
-            className="flex items-center space-x-2 px-3 py-2 text-xs font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition-colors font-sans h-9 whitespace-nowrap"
+            className="flex items-center space-x-2 px-3 py-2 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-sans h-9 whitespace-nowrap"
           >
             <Plus className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">เพิ่มรายการ</span>
