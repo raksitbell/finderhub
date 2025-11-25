@@ -40,7 +40,7 @@ export const convertImageToWebP = async (file) => {
           }
         },
         "image/webp",
-        0.6
+        0.4
       );
     };
     img.onerror = (error) => reject(error);
