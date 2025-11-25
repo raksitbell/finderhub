@@ -7,6 +7,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-11-25
+
+### Added
+
+- **UI/UX**: Enhanced image viewing experience.
+  - Added clickable full-size image modals for "Proof of Return" in Admin Dashboard.
+  - Added clickable full-size image modals for item headers in both Public and Admin views.
+- **Accessibility**: Added `DialogTitle` to image modals for screen reader support.
+- **Loading States**: Added visual feedback (spinner and disabled inputs) to the "Confirm Return" modal (`ClaimItemModal`).
+
+### Changed
+
+- **Dev Portal**: Set default language to Thai (`th`) and added API documentation visibility in Thai view.
+- **Documentation**: Standardized header notes in `CHANGELOG` and `DEVELOPMENT` guides.
+- **Schema**: Added `UPDATE` and `DELETE` policies for the `claim-evidence` bucket to ensure full admin control.
+
 ## [3.2.0] - 2025-11-25
 
 ### Added

@@ -80,14 +80,16 @@ export default function AdminTable({
               {isRefreshing ? "กำลังโหลด..." : "รีเฟรช"}
             </span>
           </button>
-          <button
-            onClick={onPurgeClick}
-            className="flex items-center justify-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors font-sans h-9 w-9 sm:w-auto"
-            title="ล้างข้อมูลเก่า"
-          >
-            <Trash2 className="w-3.5 h-3.5 sm:mr-2" />
-            <span className="hidden sm:inline">ล้างข้อมูล</span>
-          </button>
+          {false && (
+            <button
+              onClick={onPurgeClick}
+              className="flex items-center justify-center px-3 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors font-sans h-9 w-9 sm:w-auto"
+              title="ล้างข้อมูลเก่า"
+            >
+              <Trash2 className="w-3.5 h-3.5 sm:mr-2" />
+              <span className="hidden sm:inline">ล้างข้อมูล</span>
+            </button>
+          )}
           <button
             onClick={onAddItem}
             className="flex items-center space-x-2 px-3 py-2 text-xs font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-sans h-9 whitespace-nowrap"
