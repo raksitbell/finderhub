@@ -62,15 +62,15 @@ export default function AdminTableFilters({
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="date_newest">Date: Newest</SelectItem>
-            <SelectItem value="date_oldest">Date: Oldest</SelectItem>
-            <SelectItem value="name_asc">Name: A-Z</SelectItem>
-            <SelectItem value="name_desc">Name: Z-A</SelectItem>
-            <SelectItem value="category_asc">Category: A-Z</SelectItem>
-            <SelectItem value="category_desc">Category: Z-A</SelectItem>
-            <SelectItem value="status_found">Status: Found First</SelectItem>
+            <SelectItem value="date_newest">วันที่: ล่าสุด</SelectItem>
+            <SelectItem value="date_oldest">วันที่: เก่าสุด</SelectItem>
+            <SelectItem value="name_asc">ชื่อ: ก-ฮ</SelectItem>
+            <SelectItem value="name_desc">ชื่อ: ฮ-ก</SelectItem>
+            <SelectItem value="category_asc">หมวดหมู่: ก-ฮ</SelectItem>
+            <SelectItem value="category_desc">หมวดหมู่: ฮ-ก</SelectItem>
+            <SelectItem value="status_found">สถานะ: ยังอยู่</SelectItem>
             <SelectItem value="status_returned">
-              Status: Returned First
+              สถานะ: คืนแล้ว
             </SelectItem>
           </SelectContent>
         </Select>
@@ -104,9 +104,9 @@ export default function AdminTableFilters({
             </div>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All</SelectItem>
-            <SelectItem value="found">Found</SelectItem>
-            <SelectItem value="returned">Returned</SelectItem>
+            <SelectItem value="all">ทั้งหมด</SelectItem>
+            <SelectItem value="found">ยังอยู่</SelectItem>
+            <SelectItem value="returned">คืนแล้ว</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { CheckCircle, MapPin, Calendar } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
+import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
 import { getRelativeTime } from "@/lib/utils";
 
 export default function AdminTableRow({ item, onView }) {
@@ -54,25 +55,7 @@ export default function AdminTableRow({ item, onView }) {
         </div>
       </td>
       <td className="px-6 py-4">
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium font-sans ${
-            item.status === true
-              ? "bg-emerald-100 text-emerald-800"
-              : "bg-slate-100 text-slate-600"
-          }`}
-        >
-          {item.status === true ? (
-            <>
-              <CheckCircle className="w-3 h-3 mr-1" />
-              ยังอยู่
-            </>
-          ) : (
-            <>
-              <CheckCircle className="w-3 h-3 mr-1" />
-              ส่งคืนแล้ว
-            </>
-          )}
-        </span>
+        <ItemStatusBadge status={item.status} showIcon={true} />
       </td>
     </tr>
   );

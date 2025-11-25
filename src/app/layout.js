@@ -12,6 +12,7 @@ export const metadata = {
   description: "FinderHub Lost & Found System",
 };
 
+import { Analytics } from "@vercel/analytics/react";
 import PrelineScript from "@/components/common/PrelineScript";
 
 export default function RootLayout({ children }) {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       >
         {children}
         <PrelineScript />
+        <Analytics />
       </body>
     </html>
   );

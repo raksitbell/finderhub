@@ -5,8 +5,6 @@ import {
   Tag,
   X,
   Clock,
-  CheckCircle,
-  XCircle,
 } from "lucide-react";
 import {
   Dialog,
@@ -23,15 +21,7 @@ import ItemDetailRow from "@/components/items/ItemDetailRow";
 export default function ItemModal({ item, isOpen, onClose }) {
   if (!item) return null;
 
-  const isFound = item.status === true;
-  const statusText = isFound ? "Found" : "Returned";
-  const statusColor = isFound ? "text-slate-900" : "text-slate-500";
-  const statusBg = isFound ? "bg-slate-100" : "bg-slate-100";
-  const statusIcon = isFound ? (
-    <CheckCircle className="w-4 h-4" />
-  ) : (
-    <XCircle className="w-4 h-4" />
-  );
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
