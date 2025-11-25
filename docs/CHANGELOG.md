@@ -7,6 +7,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2025-11-25
+
+### Added
+
+- **UI/UX**: Improved Date/Time Picker experience.
+  - Implemented a custom `DateTimePicker` component with validation logic.
+  - Added visual error feedback (red border and text) for invalid future dates.
+  - Added browser alert for invalid date selection.
+  - Auto-set the date/time picker to the current time on load if empty.
+- **Bug Fixes**:
+  - Fixed `undefined is not an object` error related to Preline UI overlay initialization.
+  - Fixed CSS import issues for Preline Datepicker.
+
 ## [3.3.0] - 2025-11-25
 
 ### Added
