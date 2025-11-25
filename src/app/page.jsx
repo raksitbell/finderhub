@@ -69,7 +69,7 @@ export default function Home() {
         ) : (
           <div className="text-center py-12">
             <p className="text-xl text-slate-400">
-              No items found matching your criteria.
+              ไม่พบอุปกรณ์ที่ตรงกับเงื่อนไข
             </p>
           </div>
         )}

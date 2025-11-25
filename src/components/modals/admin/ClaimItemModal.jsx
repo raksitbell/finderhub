@@ -22,14 +22,14 @@ export default function ClaimItemModal({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Confirm Return</DialogTitle>
+          <DialogTitle>ยืนยันการส่งคืนเจ้าของ</DialogTitle>
           <DialogDescription>
-            Please enter the claimer's details to confirm the return.
+            กรุณากรอกรายละเอียดเพื่อยืนยันการส่งคืน
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={onClaimItem} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="claimerName">Claimer Name</Label>
+            <Label htmlFor="claimerName">ชื่อผู้รับคืน</Label>
             <Input
               id="claimerName"
               value={claimData.claimerName}
@@ -40,7 +40,7 @@ export default function ClaimItemModal({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="claimerPhone">Phone Number</Label>
+            <Label htmlFor="claimerPhone">เบอร์โทรศัพท์</Label>
             <Input
               id="claimerPhone"
               value={claimData.claimerPhone}
@@ -51,7 +51,7 @@ export default function ClaimItemModal({
             />
           </div>
           <DialogFooter>
-            <Button type="submit">Confirm Return</Button>
+            <Button type="submit">ยืนยันการส่งคืนเจ้าของ</Button>
           </DialogFooter>
         </form>
       </DialogContent>

@@ -16,8 +16,8 @@ import {
   DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import ItemStatusBadge from "@/components/shared/ItemStatusBadge";
 import ItemDetailRow from "@/components/items/ItemDetailRow";
 import ClaimerInfoCard from "./ClaimerInfoCard";
 
@@ -72,16 +72,7 @@ export default function AdminItemModal({
                 {item.categories?.label || item.category}
               </span>
               {/* Status Badge */}
-              <Badge
-                variant={item.status === true ? "default" : "secondary"}
-                className={
-                  item.status === true
-                    ? "bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-0"
-                    : "bg-slate-100 text-slate-600 hover:bg-slate-200 border-0"
-                }
-              >
-                {item.status === true ? "เจอแล้ว" : "คืนแล้ว"}
-              </Badge>
+              <ItemStatusBadge status={item.status} />
             </div>
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
               {item.name}

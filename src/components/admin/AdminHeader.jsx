@@ -4,6 +4,7 @@ import {
   LogOut,
   Home,
   User,
+  Code,
 } from "lucide-react";
 import KeyMetrics from "@/components/dashboard/KeyMetrics";
 import FinderHubLogo from "@/components/common/FinderHubLogo";
@@ -23,6 +24,15 @@ export default function AdminHeader({ stats, userEmail, onLogout }) {
         </div>
 
         <div className="flex items-center space-x-4">
+          <Link
+            href="/dev"
+            className="flex items-center gap-2 px-3 py-2 md:px-4 text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"
+            title="Developer Documentation"
+          >
+            <Code className="h-4 w-4" />
+            <span className="hidden sm:inline">Dev</span>
+          </Link>
+
           <Link
             href="/"
             className="flex items-center gap-2 px-3 py-2 md:px-4 text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95"

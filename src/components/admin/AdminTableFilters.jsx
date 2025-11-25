@@ -68,9 +68,9 @@ export default function AdminTableFilters({
             <SelectItem value="name_desc">ชื่อ: ฮ-ก</SelectItem>
             <SelectItem value="category_asc">หมวดหมู่: ก-ฮ</SelectItem>
             <SelectItem value="category_desc">หมวดหมู่: ฮ-ก</SelectItem>
-            <SelectItem value="status_found">สถานะ: เจอแล้วก่อน</SelectItem>
+            <SelectItem value="status_found">สถานะ: ยังอยู่</SelectItem>
             <SelectItem value="status_returned">
-              สถานะ: คืนแล้วก่อน
+              สถานะ: คืนแล้ว
             </SelectItem>
           </SelectContent>
         </Select>
@@ -105,7 +105,7 @@ export default function AdminTableFilters({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">ทั้งหมด</SelectItem>
-            <SelectItem value="found">เจอแล้ว</SelectItem>
+            <SelectItem value="found">ยังอยู่</SelectItem>
             <SelectItem value="returned">คืนแล้ว</SelectItem>
           </SelectContent>
         </Select>
