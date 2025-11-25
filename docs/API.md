@@ -28,6 +28,10 @@
   "date": "number (timestamp)",
   "location": "string",
   "status": "boolean (true=Found, false=Returned)",
-  "image": "string (url)"
+  "image": "string (url)",
+  "claimer_name": "string (optional)",
+  "claimer_phone": "string (optional)",
+  "claimer_social": "string (optional)",
+  "proof_image_url": "string (url, optional)"
 }
 ```

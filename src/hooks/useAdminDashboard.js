@@ -49,6 +49,8 @@ export function useAdminDashboard() {
   const [claimData, setClaimData] = useState({
     claimerName: "",
     claimerPhone: "",
+    claimerSocial: "",
+    proofEvidence: null,
   });
 
   // --- Effects ---
@@ -139,14 +141,27 @@ export function useAdminDashboard() {
   const handleClaimItem = async (e) => {
     e.preventDefault();
     if (selectedItem) {
+      let proofImageUrl = "";
+      if (claimData.proofEvidence) {
+        const { uploadClaimEvidence } = await import("@/lib/claims");
+        proofImageUrl = await uploadClaimEvidence(claimData.proofEvidence);
+      }
+
       await DataManager.updateItemStatus(selectedItem.id, false, {
         claimer_name: claimData.claimerName,
         claimer_phone: claimData.claimerPhone,
+        claimer_social: claimData.claimerSocial,
+        proof_image_url: proofImageUrl,
       });
       loadData();
       setIsClaimModalOpen(false);
       setIsViewModalOpen(false);
-      setClaimData({ claimerName: "", claimerPhone: "" });
+      setClaimData({
+        claimerName: "",
+        claimerPhone: "",
+        claimerSocial: "",
+        proofEvidence: null,
+      });
     }
   };
 

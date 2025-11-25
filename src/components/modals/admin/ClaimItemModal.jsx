@@ -50,6 +50,28 @@ export default function ClaimItemModal({
               required
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="claimerSocial">ช่องทางติดต่อโซเชียลมีเดีย</Label>
+            <Input
+              id="claimerSocial"
+              value={claimData.claimerSocial}
+              onChange={(e) =>
+                setClaimData({ ...claimData, claimerSocial: e.target.value })
+              }
+              placeholder="เช่น Facebook, Line ID"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="proofEvidence">หลักฐานการรับคืน (รูปภาพ)</Label>
+            <Input
+              id="proofEvidence"
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setClaimData({ ...claimData, proofEvidence: e.target.files[0] })
+              }
+            />
+          </div>
           <DialogFooter>
             <Button type="submit">ยืนยันการส่งคืนเจ้าของ</Button>
           </DialogFooter>

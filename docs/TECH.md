@@ -315,6 +315,22 @@ LEFT JOIN categories ON items.category = categories.id
 ORDER BY items.date DESC;
 ```
 
+### 🗂️ Claims Schema
+
+ตาราง `claims` ใช้สำหรับเก็บข้อมูลประวัติการรับคืน:
+
+```sql
+CREATE TABLE claims (
+  id UUID PRIMARY KEY,
+  item_id BIGINT REFERENCES items(id),
+  claimer_name TEXT,
+  claimer_phone TEXT,
+  claimer_social TEXT,
+  proof_image_url TEXT, -- URL ของรูปภาพหลักฐาน
+  created_at TIMESTAMPTZ
+);
+```
+
 ### 🛡️ RLS Policy Example
 
 ```sql

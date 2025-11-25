@@ -7,6 +7,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2025-11-25
+
+### Added
+
+- **Claimer Info Log**: Comprehensive claimer information logging system.
+  - Added "Social Media Contact" and "Proof Evidence (Image)" fields to the return flow.
+  - Display claimer details and proof image in returned item details.
+- **Database**: Added `claims` table and `claim-evidence` storage bucket.
+- **API**: Updated `items` API to handle claim data insertion and retrieval.
+
+### Changed
+
+- **Admin UI**: Updated `ClaimItemModal` and `ClaimerInfoCard` to support new data fields.
+
 ## [2.3.1] - 2025-11-25
 
 ### Added
