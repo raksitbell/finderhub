@@ -14,18 +14,18 @@ export default function ClaimerInfoCard({ claimerName, claimerPhone }) {
   return (
     <div className="bg-blue-50 p-5 rounded-2xl border border-blue-100">
       <h4 className="text-sm font-bold text-blue-900 mb-3">
-        Claimer Information
+        ชื่อผู้รับสิ่งของคืน
       </h4>
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
           <span className="text-blue-500 block text-xs font-medium mb-1">
-            Name
+            ชื่อ
           </span>
           <span className="text-blue-900 font-bold">{claimerName || "-"}</span>
         </div>
         <div>
           <span className="text-blue-500 block text-xs font-medium mb-1">
-            Phone
+            เบอร์โทรศัพท์
           </span>
           <span className="text-blue-900 font-bold">{claimerPhone || "-"}</span>
         </div>
