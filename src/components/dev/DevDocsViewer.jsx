@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import {
   Card,
@@ -10,49 +10,24 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, ArrowRight, Home, LayoutDashboard, Globe } from "lucide-react";
+import { FileText, ArrowRight, Home, LayoutDashboard } from "lucide-react";
 
 export default function DevDocsViewer({ docs }) {
-  const [language, setLanguage] = useState("th"); // 'en' or 'th'
-
-  const filteredDocs = docs.filter((doc) => {
-    if (language === "th") {
-      return doc.slug.endsWith(".th") || doc.slug === "API";
-    } else {
-      return !doc.slug.endsWith(".th");
-    }
-  });
-
   const translations = {
-    en: {
-      backHome: "Back to Home",
-      adminDashboard: "Admin Dashboard",
-      title: "Developer Documentation",
-      description:
-        "Technical guides, architecture overviews, and project standards for FinderHub.",
-      readMore: "Read more",
-      sitemapTitle: "Sitemap Viewer",
-      sitemapDesc:
-        "Interactive sitemap and architecture diagrams for the FinderHub project.",
-      viewDiagrams: "View Diagrams",
-      toolBadge: "Tool",
-    },
-    th: {
-      backHome: "กลับหน้าหลัก",
-      adminDashboard: "แดชบอร์ดผู้ดูแล",
-      title: "เอกสารสำหรับนักพัฒนา",
-      description:
-        "คู่มือทางเทคนิค ภาพรวมสถาปัตยกรรม และมาตรฐานโครงการสำหรับ FinderHub",
-      readMore: "อ่านเพิ่มเติม",
-      sitemapTitle: "ดูแผนผังเว็บไซต์",
-      sitemapDesc:
-        "แผนผังเว็บไซต์แบบโต้ตอบและแผนภาพสถาปัตยกรรมสำหรับโครงการ FinderHub",
-      viewDiagrams: "ดูแผนภาพ",
-      toolBadge: "เครื่องมือ",
-    },
+    backHome: "กลับสู่หน้าหลัก",
+    adminDashboard: "แดชบอร์ดผู้ดูแล",
+    title: "เอกสารสำหรับผู้พัฒนา",
+    description:
+      "เอกสารที่มีรายละเอียดเกี่ยวกับโครงสร้างโปรเจคและมาตรฐานการพัฒนา",
+    readMore: "อ่านเพิ่มเติม",
+    sitemapTitle: "ผังเว็บไซต์",
+    sitemapDesc:
+      "ผังเว็บไซต์และแผนผังโครงสร้างโปรเจคสำหรับFinderHub",
+    viewDiagrams: "ดูแผนผัง",
+    toolBadge: "เครื่องมือ",
   };
 
-  const t = translations[language];
+  const t = translations;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -73,30 +48,6 @@ export default function DevDocsViewer({ docs }) {
             {t.adminDashboard}
           </Link>
         </div>
-
-        {/* Language Toggle */}
-        <div className="flex items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm border border-gray-200 dark:border-gray-700">
-          <button
-            onClick={() => setLanguage("en")}
-            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-              language === "en"
-                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-            }`}
-          >
-            English
-          </button>
-          <button
-            onClick={() => setLanguage("th")}
-            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-              language === "th"
-                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
-                : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
-            }`}
-          >
-            ไทย
-          </button>
-        </div>
       </div>
 
       <div className="max-w-5xl mx-auto">
@@ -110,7 +61,7 @@ export default function DevDocsViewer({ docs }) {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredDocs.map((doc) => (
+          {docs.map((doc) => (
             <Link href={`/dev/${doc.slug}`} key={doc.slug} className="group">
               <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800">
                 <CardHeader>

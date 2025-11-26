@@ -8,6 +8,18 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2025-11-26
+
+### Added
+
+- **Documentation**: Added a Table of Contents to the developer documentation pages (`/dev/[slug]`) for better navigation.
+
+### Changed
+
+- **Dev Portal**: Removed the language selector from the main developer portal page (`/dev`). All documentation is now listed together.
+- **Documentation**: Cleaned up documentation files (`DEVELOPMENT.md`, `TECH.md`, `DEVELOPMENT.th.md`) by removing emojis from headings and updating the Table of Contents structure for a cleaner, more professional look.
+- **Documentation**: Improved Table of Contents generation to correctly support Thai characters and manual IDs.
+
 ## [3.4.0] - 2025-11-25
 
 ### Added

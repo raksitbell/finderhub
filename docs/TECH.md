@@ -1,28 +1,28 @@
-# 🛠️ Technical Deep Dive
+# Technical Deep Dive
 
 เอกสารนี้อธิบายการทำงานเชิงลึกของระบบ FinderHub โดยเน้นที่ตรรกะเบื้องหลัง (Logic), การจัดการข้อมูล (Data Handling), และความปลอดภัย (Security)
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [1. 💻 Tech Stack & Rationale](#1--tech-stack--rationale)
-- [2. 🧩 Component-Based Architecture & Hooks](#2--component-based-architecture--hooks)
-- [3. 🚀 DevOps & Deployment Workflow](#3--devops--deployment-workflow)
-- [4. 🔍 Search & Filter Logic](#4--search--filter-logic)
-- [5. 🔃 Sorting Mechanism](#5--sorting-mechanism)
-- [6. 🔐 Admin Authentication](#6--admin-authentication)
-- [7. 🌐 API & Data Architecture](#7--api--data-architecture)
-- [8. 🌊 Data Flow Diagram](#8--data-flow-diagram)
-- [9. 🗄️ Database Schema & Security](#9--database-schema--security)
+- [1. Tech Stack & Rationale](#1--tech-stack--rationale)
+- [2. Component-Based Architecture & Hooks](#2--component-based-architecture--hooks)
+- [3. DevOps & Deployment Workflow](#3--devops--deployment-workflow)
+- [4. Search & Filter Logic](#4--search--filter-logic)
+- [5. Sorting Mechanism](#5--sorting-mechanism)
+- [6. Admin Authentication](#6--admin-authentication)
+- [7. API & Data Architecture](#7--api--data-architecture)
+- [8. Data Flow Diagram](#8--data-flow-diagram)
+- [9. Database Schema & Security](#9--database-schema--security)
 
 ---
 
-## 1. 💻 Tech Stack & Rationale
+## 1. Tech Stack & Rationale
 
 เหตุผลในการเลือกใช้เทคโนโลยีต่างๆ ในโปรเจกต์นี้ เพื่อให้มั่นใจในประสิทธิภาพ (Performance), ความสามารถในการขยายตัว (Scalability), และประสบการณ์ของผู้พัฒนา (DX):
 
-### ⚛️ React 19 & Next.js 16
+### React 19 & Next.js 16
 
 - **Why**: รองรับ Server Components และ Server Actions เพื่อลดการส่ง JavaScript ไปยัง Client
 - **Code Example (Server Action)**:
@@ -38,7 +38,7 @@
   }
   ```
 
-### 🎨 Tailwind CSS 4
+### Tailwind CSS 4
 
 - **Why**: Styling ที่รวดเร็วและไม่มี Runtime Overhead
 - **Code Example**:
@@ -49,7 +49,7 @@
   </button>
   ```
 
-### ⚡ Supabase
+### Supabase
 
 - **Why**: ครบจบในที่เดียว (DB, Auth, Storage)
 - **Code Example (Client Initialization)**:
@@ -63,18 +63,18 @@
   );
   ```
 
-### 🐙 GitHub & Vercel
+### GitHub & Vercel
 
 - **Why**: CI/CD Pipeline ที่สมบูรณ์แบบ
 - **Integration**: Push to `main` -> GitHub Actions (Test) -> Vercel (Deploy)
 
 ---
 
-## 2. 🧩 Component-Based Architecture & Hooks
+## 2. Component-Based Architecture & Hooks
 
 FinderHub ถูกออกแบบโดยยึดหลัก **Component-Based Architecture** ซึ่งเป็นหัวใจสำคัญของ React
 
-### 🧱 Component Structure
+### Component Structure
 
 **ตัวอย่างการใช้งาน Component (`ItemCard`):**
 
@@ -98,7 +98,7 @@ export default function ItemCard({ item }) {
 }
 ```
 
-### 🎣 React Hooks Strategy
+### React Hooks Strategy
 
 **ตัวอย่าง Custom Hook (`useAdminDashboard`):**
 
@@ -123,18 +123,18 @@ export function useAdminDashboard() {
 }
 ```
 
-### 🛠️ Admin Tools Implementation
+### Admin Tools Implementation
 
 - **Purge System**: ใช้ API Route `DELETE /api/items/purge` เพื่อลบข้อมูลเก่าตามเงื่อนไข (Found > 90 days) โดยมีการยืนยันผ่าน Modal เพื่อความปลอดภัย
 - **Smart Refresh**: ใช้ `isRefreshing` state แยกจาก `isLoading` เพื่อให้สามารถดึงข้อมูลใหม่ได้โดยไม่ต้องแสดง Full-screen loader
 
 ---
 
-## 3. 🚀 DevOps & Deployment Workflow
+## 3. DevOps & Deployment Workflow
 
 กระบวนการ CI/CD Pipeline อัตโนมัติ
 
-### 🔄 Workflow Configuration
+### Workflow Configuration
 
 **ตัวอย่าง GitHub Actions (`.github/workflows/ci.yml`):**
 
@@ -162,11 +162,11 @@ jobs:
 
 ---
 
-## 4. 🔍 ระบบค้นหาและกรอง (Search & Filter Logic)
+## 4. ระบบค้นหาและกรอง (Search & Filter Logic)
 
 ระบบการค้นหาและกรองข้อมูลทำงานแบบ **Client-Side Filtering**
 
-### 🧠 อัลกอริทึมการทำงาน
+### อัลกอริทึมการทำงาน
 
 ```javascript
 const filteredItems = items.filter((item) => {
@@ -191,11 +191,11 @@ const filteredItems = items.filter((item) => {
 
 ---
 
-## 5. 🔃 ระบบเรียงลำดับ (Sorting Mechanism)
+## 5. ระบบเรียงลำดับ (Sorting Mechanism)
 
 การเรียงลำดับทำงานบนผลลัพธ์ที่ผ่านการกรองแล้ว
 
-### ⚙️ Sorting Function
+### Sorting Function
 
 ```javascript
 const sortedItems = [...filteredItems].sort((a, b) => {
@@ -217,11 +217,11 @@ const sortedItems = [...filteredItems].sort((a, b) => {
 
 ---
 
-## 6. 🔐 ระบบยืนยันตัวตน (Admin Authentication)
+## 6. ระบบยืนยันตัวตน (Admin Authentication)
 
 ระบบใช้ **Supabase Auth** ในการจัดการ Session
 
-### 🛡️ Session Check Implementation
+### Session Check Implementation
 
 ```javascript
 // src/app/admin/page.jsx
@@ -242,11 +242,11 @@ useEffect(() => {
 
 ---
 
-## 7. 🌐 API & Data Architecture
+## 7. API & Data Architecture
 
 ใช้ **Supabase Client Library** เชื่อมต่อกับ Database โดยตรงผ่าน DAO Pattern
 
-### 🏗️ DataManager Class (`src/lib/data.js`)
+### DataManager Class (`src/lib/data.js`)
 
 ```javascript
 class DataManager {
@@ -276,11 +276,11 @@ class DataManager {
 
 ---
 
-## 8. 🌊 Data Flow Diagram
+## 8. Data Flow Diagram
 
 แผนภาพแสดงการไหลของข้อมูลในระบบ (Data Flow)
 
-### 🔄 Data Flow Sequence
+### Data Flow Sequence
 
 ```mermaid
 sequenceDiagram
@@ -301,11 +301,11 @@ sequenceDiagram
 
 ---
 
-## 9. 🗄️ Database Schema & Security
+## 9. Database Schema & Security
 
 โครงสร้างฐานข้อมูลและการรักษาความปลอดภัย
 
-### 🔗 SQL Join Query
+### SQL Join Query
 
 ```sql
 -- ตัวอย่าง Query ที่ Supabase ทำให้อัตโนมัติเมื่อใช้ .select('*, categories(label)')
@@ -320,7 +320,7 @@ LEFT JOIN categories ON items.category = categories.id
 ORDER BY items.date DESC;
 ```
 
-### 🗂️ Claims Schema
+### Claims Schema
 
 ตาราง `claims` ใช้สำหรับเก็บข้อมูลประวัติการรับคืน:
 
@@ -336,7 +336,7 @@ CREATE TABLE claims (
 );
 ```
 
-### 🛡️ RLS Policy Example
+### RLS Policy Example
 
 ```sql
 -- อนุญาตให้ทุกคนอ่านข้อมูลได้ (Public Read)
