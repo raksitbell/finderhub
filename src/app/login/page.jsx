@@ -32,7 +32,6 @@ export default function LoginPage() {
       router.push("/admin");
     } catch (error) {
       setError(error.message);
-    } finally {
       setIsLoading(false);
     }
   };

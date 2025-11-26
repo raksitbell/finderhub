@@ -1,8 +1,9 @@
 # Changelog
 
-[![Thai](https://img.shields.io/badge/lang-Thai-blue.svg)](CHANGELOG.th.md)
-
-All notable changes to this project will be documented in this file.
+> [!NOTE]
+> All notable changes to this project will be documented in this file.
+>
+> - For the Thai version, please see [บันทึกการเปลี่ยนแปลง (Thai Version)](./CHANGELOG.th.md).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -11,32 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Admin Features**: Added "Update Item" functionality.
-  - Admins can now edit existing items (name, category, date, location, description, contact info, image) directly from the dashboard.
-  - Reused the "Add Item" form logic for a consistent editing experience.
-- **Database**: Added `contact_detail` column to `items` table to separate return location from contact instructions.
-- **Developer**: Added GitHub repository link to the Developer Portal (`/dev`).
+- **Documentation**: Added a Table of Contents to the developer documentation pages (`/dev/[slug]`) for better navigation.
 
 ### Changed
 
-- **UI/UX**: Separated "Contact" field into "Return Location" and "Contact Details" in the Add/Edit Item form for better clarity.
-- **UI/UX**: Refined `ItemModal` (Public View):
-  - Hidden "Contact Details" from public view.
-  - Made "Return Info" section collapsible.
-  - Standardized all contact information (Location, Name, Phone, Time) to use consistent `ItemDetailRow` components.
-  - Changed default values for missing contact info to "-".
-  - Removed generic "Please contact..." text.
-- **UI/UX**: Updated `AdminItemModal` to match the public `ItemModal` design:
-  - Implemented collapsible "Return Info" section.
-  - Used `ItemDetailRow` for consistent contact information display.
-  - Ensured mobile responsiveness.
-- **UI/UX**: Improved `AddItemForm` by changing the "Contact Details" input to a larger `Textarea` for better usability.
-- **Public UI**: Hidden the "Description" field from the public Item Modal to protect sensitive details. It remains visible in the Admin Dashboard.
-
-### Fixed
-
-- **Code Quality**: Resolved an "Argument name clash" error in `AddItemModal.jsx` that caused build warnings.
-- **Bug Fixes**: Fixed an issue where the date picker would reset to the current date when editing an item. It now correctly displays the original date from the database.
+- **Dev Portal**: Removed the language selector from the main developer portal page (`/dev`). All documentation is now listed together.
+- **Documentation**: Cleaned up documentation files (`DEVELOPMENT.md`, `TECH.md`, `DEVELOPMENT.th.md`) by removing emojis from headings and updating the Table of Contents structure for a cleaner, more professional look.
+- **Documentation**: Improved Table of Contents generation to correctly support Thai characters and manual IDs.
 
 ## [3.4.0] - 2025-11-25
 

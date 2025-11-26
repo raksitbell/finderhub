@@ -1,33 +1,36 @@
 # 📘 FinderHub Development Guide
 
 > [!NOTE]
-> This document provides a deep dive into the FinderHub codebase. For the Thai version, please see [คู่มือการพัฒนา (Thai Version)](./DEVELOPMENT.th.md).
+> This document provides a deep dive into the FinderHub codebase.
+>
+> - For the Thai version, please see [คู่มือการพัฒนา (Thai Version)](./DEVELOPMENT.th.md).
+> - For API documentation, please see [API Docs](./API.md).
 
 This guide offers a comprehensive overview of the FinderHub architecture, explaining the intricate workings of key components, data flows, and utility functions to facilitate seamless future development and maintenance.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-1.  [🏗️ Project Structure](#-project-structure)
-2.  [🧩 Key Components](#-key-components)
+1.  [Project Structure](#project-structure)
+2.  [Key Components](#key-components)
     - [Admin Dashboard](#admin-dashboard)
     - [Modals & Wizards](#modals--wizards)
     - [Loading Strategies](#loading-strategies)
     - [Shared UI Elements](#shared-ui-elements)
-3.  [🧠 State Management](#-state-management)
-4.  [💾 Data Layer & Supabase](#-data-layer--supabase)
-5.  [🛠️ Scripts & Tooling](#-scripts--tooling)
-6.  [🎨 Styling & UI System](#-styling--ui-system)
-7.  [📜 Changelog](#-changelog)
+3.  [State Management](#state-management)
+4.  [Data Layer & Supabase](#data-layer--supabase)
+5.  [Scripts & Tooling](#scripts--tooling)
+6.  [Styling & UI System](#styling--ui-system)
+7.  [Changelog](#changelog)
 
 ---
 
-## 🏗️ Project Structure
+## Project Structure
 
 The project adheres to a robust **Next.js App Router** architecture, ensuring scalability and maintainability.
 
-### 🖼️ Image Handling
+### Image Handling
 
 The system implements an efficient image handling strategy to minimize server and storage load:
 
@@ -35,7 +38,7 @@ The system implements an efficient image handling strategy to minimize server an
 2.  **Deferred Upload**: The actual upload only happens when the user clicks "Confirm" in the final step.
 3.  **Optimization**: Images are automatically converted to WebP before being saved to Supabase Storage to reduce file size.
 
-### 📂 Root Directory
+### Root Directory
 
 Key configuration files and documentation located at the top level:
 
@@ -44,7 +47,7 @@ Key configuration files and documentation located at the top level:
 - `📄 README.md`: Getting started documentation.
 - `📂 public/`: Static assets (images, icons).
 
-### 📂 Source Code (src/)
+### Source Code (src/)
 
 The core application code resides entirely within the `src/` directory:
 
@@ -66,13 +69,13 @@ src/
 
 ---
 
-## 🧩 Key Components
+## Key Components
 
-### 🛡️ Admin Dashboard
+### Admin Dashboard
 
 The **Admin Dashboard** (`src/app/admin/page.jsx`) serves as the central interface for item management.
 
-#### 🧠 `useAdminDashboard` Hook
+#### `useAdminDashboard` Hook
 
 This custom hook (`src/hooks/useAdminDashboard.js`) acts as the **brain** of the dashboard, decoupling logic from the UI.
 
@@ -83,7 +86,7 @@ This custom hook (`src/hooks/useAdminDashboard.js`) acts as the **brain** of the
   - 📍 Status (Found/Returned)
 - **State Control**: Manages the visibility of all modals (Add, View, Claim).
 
-#### 📊 `AdminTable` & `AdminMobileCard`
+#### `AdminTable` & `AdminMobileCard`
 
 We implement a **Responsive Design** strategy here to ensure optimal UX/UI across all devices:
 
@@ -95,15 +98,15 @@ Key sub-components include:
 - **`AdminTableFilters`**: Manages the UI for searching, category filtering, and status filtering.
 - **`AdminTableRow`**: Responsible for rendering individual table rows.
 
-### 🪄 Modals & Wizards
+### Modals & Wizards
 
 We use modals to handle complex workflows without navigating away from the main context.
 
-#### ➕ `AddItemModal` (The Wizard)
+#### `AddItemModal` (The Wizard)
 
 A 2-step process for adding new items:
 
-1.  **📝 Step 1: Data Entry (`AddItemForm`)**
+1.  **Step 1: Data Entry (`AddItemForm`)**
 
     - Captures item details (Name, Category, Location).
     - **Smart Upload**: Supports native Camera 📷, Gallery 🖼️, and File 📁 selection.
@@ -111,26 +114,26 @@ A 2-step process for adding new items:
 
     ⬇️ _Next_
 
-2.  **👁️ Step 2: Verification (`AddItemPreview`)**
+2.  **Step 2: Verification (`AddItemPreview`)**
     - Displays a live preview of the `ItemCard` exactly as it will appear publicly.
     - Allows users to **Confirm** ✅ or **Back** ↩️ to edit.
 
-#### 📢 `FoundItemModal`
+#### `FoundItemModal`
 
 A modal for public users to report found items (similar to `AddItemModal` but for the public facing side).
 
-#### 📄 `ItemModal`
+#### `ItemModal`
 
 A detailed view modal for public users, displaying full item information and large images.
 
-#### 🔍 `AdminItemModal` & `ClaimItemModal`
+#### `AdminItemModal` & `ClaimItemModal`
 
 Views and management tools for administrators:
 
 - **`AdminItemModal`**: Detailed item inspection with action buttons.
 - **`ClaimItemModal`**: Form for recording claimer details (Name, Phone) when changing status to "Returned".
 
-### 🧱 Shared UI Elements
+### Shared UI Elements
 
 Located in `src/components/ui`, we have a set of base components built with **Radix UI** and **Tailwind CSS**:
 
@@ -142,7 +145,7 @@ Located in `src/components/ui`, we have a set of base components built with **Ra
 - **`Table`**: Responsive table structure.
 - **`Select`**: Dropdown menus.
 
-### ⏳ Data Loading
+### Data Loading
 
 We employ best-practice initial data loading strategies:
 
@@ -152,7 +155,7 @@ We employ best-practice initial data loading strategies:
 
 ---
 
-## 🧠 State Management
+## State Management
 
 We prioritize **Simplicity** and **Local State** over complex global stores.
 
@@ -162,7 +165,7 @@ We prioritize **Simplicity** and **Local State** over complex global stores.
 
 ---
 
-## 💾 Data Layer & Supabase
+## Data Layer & Supabase
 
 The application interacts directly with **Supabase** for backend services.
 
@@ -179,9 +182,9 @@ A static class acting as an abstraction layer over the Supabase SDK.
 
 ---
 
-## 🛠️ Scripts & Tooling
+## Scripts & Tooling
 
-### 🤖 `scripts/supabase-init.js`
+### `scripts/supabase-init.js`
 
 **Intelligent Setup Assistant & Dev Server Launcher**
 
@@ -204,7 +207,7 @@ This approach eliminates common "command not found" errors and ensures the datab
 >
 > This command automatically kills stale processes and removes lock files.
 
-## 🎨 Styling & UI System
+## Styling & UI System
 
 Our design system is built on a modern stack for speed and consistency.
 
