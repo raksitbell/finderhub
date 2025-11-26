@@ -49,6 +49,8 @@ export default function AdminPage()  {
     handlePurge,
     refreshData,
     isRefreshing,
+    handleEditItem,
+    editingItemId,
   } = useAdminDashboard();
 
   if (isLoading) {
@@ -95,6 +97,7 @@ export default function AdminPage()  {
         setNewItem={setNewItem}
         onAddItem={handleAddItem}
         onImageUpload={handleImageUpload}
+        isEditing={!!editingItemId}
       />
 
       <AdminItemModal
@@ -103,7 +106,7 @@ export default function AdminPage()  {
         item={selectedItem}
         onClaim={openClaimModal}
         onDelete={handleDelete}
-        onEdit={(item) => console.log("Edit item:", item)}
+        onEdit={handleEditItem}
       />
 
       <ClaimItemModal

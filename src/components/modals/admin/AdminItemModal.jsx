@@ -7,6 +7,7 @@ import {
   Trash2,
   X,
   Tag,
+  Edit,
 } from "lucide-react";
 import {
   Dialog,
@@ -158,6 +159,18 @@ export default function AdminItemModal({
                   ยืนยันการคืน
                 </Button>
               )}
+
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onEdit(item);
+                  onOpenChange(false);
+                }}
+                className="flex-1 bg-white hover:bg-slate-50 border-slate-200 text-slate-700 h-12 rounded-xl"
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                แก้ไข
+              </Button>
 
               <Button
                 variant="destructive"

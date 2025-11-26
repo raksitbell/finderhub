@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import {
   MapPin,
@@ -5,6 +6,8 @@ import {
   Tag,
   X,
   Clock,
+  User,
+  Phone,
 } from "lucide-react";
 import {
   Dialog,
@@ -90,12 +93,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
               iconColor="text-red-500"
             />
 
-            <ItemDetailRow
-              icon={Tag}
-              label="รายละเอียด"
-              value={item.description || "No additional description provided."}
-              iconColor="text-purple-500"
-            />
+
 
             <ItemDetailRow
               icon={Calendar}
@@ -116,16 +114,31 @@ export default function ItemModal({ item, isOpen, onClose }) {
               <h4 className="font-bold text-slate-900 mb-4">วิธีในการรับคืน?</h4>
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
                 <p className="text-sm text-slate-700 mb-4 leading-relaxed font-medium">
-                  โปรดติดต่อที่ห้องควบคุม พร้อมนำบัตรประจำตัว และหลักฐานอื่นๆ เพื่อแสดงความเป็นเจ้าของทรัพย์สิน
+                  โปรดติดต่อที่{item.contact || "ห้องควบคุม"}
                 </p>
                 <div className="space-y-2">
                   <div className="flex items-center gap-3 text-sm text-slate-600">
                     <MapPin className="w-4 h-4 opacity-70" />
-                    <span>อาคาร 11 ชั้น 1 (ห้องควบคุม)</span>
+                    <span>{item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}</span>
                   </div>
+                  
+                  {item.contact_name && (
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <User className="w-4 h-4 opacity-70" />
+                      <span>ติดต่อ: {item.contact_name}</span>
+                    </div>
+                  )}
+
+                  {item.contact_tel && (
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <Phone className="w-4 h-4 opacity-70" />
+                      <span>เบอร์โทร: {item.contact_tel}</span>
+                    </div>
+                  )}
+
                   <div className="flex items-center gap-3 text-sm text-slate-600">
                     <Clock className="w-4 h-4 opacity-70" />
-                    <span>เวลาทำการ: 08:30 - 16:30</span>
+                    <span>เวลาทำการ: {item.contact_time || "08:30 - 16:30"}</span>
                   </div>
                 </div>
               </div>

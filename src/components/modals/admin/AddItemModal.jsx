@@ -32,7 +32,9 @@ export default function AddItemModal({
   newItem,
   setNewItem,
   onAddItem,
+
   onImageUpload,
+  isEditing = false,
 }) {
   // State to track if the user is in the preview step
   const [isPreviewMode, setIsPreviewMode] = useState(false);
@@ -173,11 +175,17 @@ export default function AddItemModal({
           {/* Modal Header */}
           <DialogHeader className="px-8 pt-10 pb-2 text-left shrink-0">
             <DialogTitle className="text-3xl font-bold text-slate-900 mb-2 font-sans">
-              {isPreviewMode ? "ตรวจสอบรายละเอียด" : "เพิ่มรายการทรัพย์สิน"}
+              {isPreviewMode
+                ? "ตรวจสอบรายละเอียด"
+                : isEditing
+                ? "แก้ไขรายการทรัพย์สิน"
+                : "เพิ่มรายการทรัพย์สิน"}
             </DialogTitle>
             <DialogDescription className="text-slate-500 font-sans">
               {isPreviewMode
-                ? "โปรดตรวจสอบรายละเอียดทั้งหมดให้ถูกต้องก่อนเผยแพร่"
+                ? "โปรดตรวจสอบรายละเอียดทั้งหมดให้ถูกต้องก่อนบันทึก"
+                : isEditing
+                ? "แก้ไขรายละเอียดของทรัพย์สิน"
                 : "กรุณากรอกรายละเอียดของทรัพย์สินที่พบ"}
             </DialogDescription>
           </DialogHeader>

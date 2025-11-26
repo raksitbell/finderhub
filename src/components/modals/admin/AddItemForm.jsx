@@ -196,23 +196,74 @@ export default function AddItemForm({
           </div>
 
           {/* Contact / Return Location */}
-          <div className="space-y-2">
-            <Label htmlFor="contact" className="text-slate-900 font-medium">
-              สถานที่รับของคืน
-            </Label>
-            <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <Input
-                id="contact"
-                value={newItem.contact}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, contact: e.target.value })
-                }
-                placeholder="ห้อง Control Room ชั้น 1"
-                required
-                disabled={isUploading}
-                className="pl-10 bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
-              />
+          {/* Contact / Return Location */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="contact" className="text-slate-900 font-medium">
+                สถานที่รับของคืน / รายละเอียดการติดต่อ
+              </Label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <Input
+                  id="contact"
+                  value={newItem.contact}
+                  onChange={(e) =>
+                    setNewItem({ ...newItem, contact: e.target.value })
+                  }
+                  placeholder="พร้อมนำบัตรประจำตัว และหลักฐานอื่นๆ เพื่อแสดงความเป็นเจ้าของทรัพย์สิน"
+                  required
+                  disabled={isUploading}
+                  className="pl-10 bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="contactName" className="text-slate-900 font-medium">
+                  ชื่อผู้ติดต่อ
+                </Label>
+                <Input
+                  id="contactName"
+                  value={newItem.contact_name}
+                  onChange={(e) =>
+                    setNewItem({ ...newItem, contact_name: e.target.value })
+                  }
+                  placeholder="ชื่อ-นามสกุล"
+                  disabled={isUploading}
+                  className="bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactTel" className="text-slate-900 font-medium">
+                  เบอร์โทรศัพท์
+                </Label>
+                <Input
+                  id="contactTel"
+                  value={newItem.contact_tel}
+                  onChange={(e) =>
+                    setNewItem({ ...newItem, contact_tel: e.target.value })
+                  }
+                  placeholder="0xx-xxx-xxxx"
+                  disabled={isUploading}
+                  className="bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactTime" className="text-slate-900 font-medium">
+                  เวลาทำการ
+                </Label>
+                <Input
+                  id="contactTime"
+                  value={newItem.contact_time}
+                  onChange={(e) =>
+                    setNewItem({ ...newItem, contact_time: e.target.value })
+                  }
+                  placeholder="08:30 - 16:30"
+                  disabled={isUploading}
+                  className="bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
+                />
+              </div>
             </div>
           </div>
         </form>

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getDocs } from '@/lib/docs';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { FileText, ArrowRight, Home, LayoutDashboard } from 'lucide-react';
+import { FileText, ArrowRight, Home, LayoutDashboard, Github } from 'lucide-react';
 
 export default function DevDocsPage() {
   const docs = getDocs();
@@ -84,6 +84,31 @@ export default function DevDocsPage() {
                   </div>
                 </CardContent>
               </Card>
+          </Link>
+          <Link href="https://github.com/raksitbell/finderhub" target="_blank" rel="noopener noreferrer" className="group">
+            <Card className="h-full transition-all duration-300 hover:shadow-lg hover:-translate-y-1 border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg group-hover:bg-gray-200 dark:group-hover:bg-gray-700 transition-colors">
+                    <Github className="w-6 h-6 text-gray-900 dark:text-white" />
+                  </div>
+                  <Badge variant="secondary" className="bg-gray-100 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300">
+                    Source
+                  </Badge>
+                </div>
+                <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  GitHub Repository
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="line-clamp-3 text-gray-600 dark:text-gray-300">
+                  Explore the source code, contribute, and track issues on GitHub.
+                </CardDescription>
+                <div className="mt-4 flex items-center text-sm font-medium text-gray-900 dark:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  View Code <ArrowRight className="ml-1 w-4 h-4" />
+                </div>
+              </CardContent>
+            </Card>
           </Link>
         </div>
       </div>
