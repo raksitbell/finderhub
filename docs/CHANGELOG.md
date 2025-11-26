@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Standardized all contact information (Location, Name, Phone, Time) to use consistent `ItemDetailRow` components.
   - Changed default values for missing contact info to "-".
   - Removed generic "Please contact..." text.
+- **UI/UX**: Updated `AdminItemModal` to match the public `ItemModal` design:
+  - Implemented collapsible "Return Info" section.
+  - Used `ItemDetailRow` for consistent contact information display.
+  - Ensured mobile responsiveness.
 - **UI/UX**: Improved `AddItemForm` by changing the "Contact Details" input to a larger `Textarea` for better usability.
 - **Public UI**: Hidden the "Description" field from the public Item Modal to protect sensitive details. It remains visible in the Admin Dashboard.
 
