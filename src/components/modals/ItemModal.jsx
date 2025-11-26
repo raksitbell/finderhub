@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import {
   MapPin,
@@ -5,7 +6,11 @@ import {
   Tag,
   X,
   Clock,
+  User,
+  Phone,
+  ChevronDown,
 } from "lucide-react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -21,6 +26,8 @@ import { getRelativeTime } from "@/lib/utils";
 import ItemDetailRow from "@/components/items/ItemDetailRow";
 
 export default function ItemModal({ item, isOpen, onClose }) {
+  const [isReturnInfoOpen, setIsReturnInfoOpen] = useState(false);
+
   if (!item) return null;
 
 
@@ -90,12 +97,7 @@ export default function ItemModal({ item, isOpen, onClose }) {
               iconColor="text-red-500"
             />
 
-            <ItemDetailRow
-              icon={Tag}
-              label="รายละเอียด"
-              value={item.description || "No additional description provided."}
-              iconColor="text-purple-500"
-            />
+
 
             <ItemDetailRow
               icon={Calendar}
@@ -112,20 +114,60 @@ export default function ItemModal({ item, isOpen, onClose }) {
             />
 
             {/* Return Info */}
+            {/* Return Info */}
             <div className="mt-8 pt-6 border-t border-slate-200">
-              <h4 className="font-bold text-slate-900 mb-4">วิธีในการรับคืน?</h4>
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
-                <p className="text-sm text-slate-700 mb-4 leading-relaxed font-medium">
-                  โปรดติดต่อที่ห้องควบคุม พร้อมนำบัตรประจำตัว และหลักฐานอื่นๆ เพื่อแสดงความเป็นเจ้าของทรัพย์สิน
-                </p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3 text-sm text-slate-600">
-                    <MapPin className="w-4 h-4 opacity-70" />
-                    <span>อาคาร 11 ชั้น 1 (ห้องควบคุม)</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-600">
-                    <Clock className="w-4 h-4 opacity-70" />
-                    <span>เวลาทำการ: 08:30 - 16:30</span>
+              <button
+                onClick={() => setIsReturnInfoOpen(!isReturnInfoOpen)}
+                className="w-full flex items-center justify-between group"
+              >
+                <h4 className="font-bold text-slate-900 text-lg group-hover:text-blue-600 transition-colors">
+                  วิธีในการรับคืน?
+                </h4>
+                <ChevronDown
+                  className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${
+                    isReturnInfoOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  isReturnInfoOpen
+                    ? "grid-rows-[1fr] opacity-100 mt-4"
+                    : "grid-rows-[0fr] opacity-0"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                    <div className="space-y-2">
+                      <ItemDetailRow
+                        icon={MapPin}
+                        label="สถานที่รับของคืน"
+                        value={item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={User}
+                        label="ผู้ติดต่อ"
+                        value={item.contact_name || "-"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={Phone}
+                        label="เบอร์โทรศัพท์"
+                        value={item.contact_tel || "-"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={Clock}
+                        label="เวลาทำการ"
+                        value={item.contact_time || "08:30 - 16:30"}
+                        iconColor="text-slate-400"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

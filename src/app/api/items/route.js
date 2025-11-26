@@ -48,15 +48,15 @@ export async function GET() {
       .from("items")
       .select(
         `
-        *,
-        categories(label),
-        claims(
-          claimer_name,
-          claimer_phone,
-          claimer_social,
-          proof_image_url
-        )
-      `
+          *,
+          categories(label),
+          claims(
+            claimer_name,
+            claimer_phone,
+            claimer_social,
+            proof_image_url
+          )
+        `
       )
       .order("created_at", { ascending: false });
 

@@ -56,6 +56,29 @@ export const DataManager = {
   },
 
   /**
+   * Updates an existing item in the database.
+   * @param {string|number} id - The ID of the item to update.
+   * @param {Object} itemData - The updated item data.
+   * @returns {Promise<Object|null>} A promise that resolves to the updated item or null if failed.
+   */
+  updateItem: async (id, itemData) => {
+    try {
+      const response = await fetch(`/api/items/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itemData),
+      });
+      if (!response.ok) throw new Error("Failed to update item");
+      return await response.json();
+    } catch (error) {
+      console.error("Error updating item:", error);
+      return null;
+    }
+  },
+
+  /**
    * Updates the status of an item (e.g., marking it as returned).
    * @param {string|number} id - The ID of the item to update.
    * @param {boolean} status - The new status (true for Found, false for Returned).

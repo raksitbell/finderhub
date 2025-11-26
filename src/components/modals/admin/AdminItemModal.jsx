@@ -7,7 +7,13 @@ import {
   Trash2,
   X,
   Tag,
+  Edit,
+  User,
+  Phone,
+  Clock,
+  ChevronDown,
 } from "lucide-react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -44,6 +50,8 @@ export default function AdminItemModal({
   onDelete,
   onEdit,
 }) {
+  const [isReturnInfoOpen, setIsReturnInfoOpen] = useState(false);
+
   if (!item) return null;
 
   return (
@@ -147,6 +155,74 @@ export default function AdminItemModal({
               />
             )}
 
+            {/* Return Info */}
+            <div className="mt-8 pt-6 border-t border-slate-200">
+              <button
+                onClick={() => setIsReturnInfoOpen(!isReturnInfoOpen)}
+                className="w-full flex items-center justify-between group"
+              >
+                <h4 className="font-bold text-slate-900 text-lg group-hover:text-blue-600 transition-colors">
+                  วิธีในการรับคืน?
+                </h4>
+                <ChevronDown
+                  className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${
+                    isReturnInfoOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  isReturnInfoOpen
+                    ? "grid-rows-[1fr] opacity-100 mt-4"
+                    : "grid-rows-[0fr] opacity-0"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                    <div className="space-y-2">
+                      <ItemDetailRow
+                        icon={MapPin}
+                        label="สถานที่รับของคืน"
+                        value={item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={User}
+                        label="ผู้ติดต่อ"
+                        value={item.contact_name || "-"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={Phone}
+                        label="เบอร์โทรศัพท์"
+                        value={item.contact_tel || "-"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={Clock}
+                        label="เวลาทำการ"
+                        value={item.contact_time || "08:30 - 16:30"}
+                        iconColor="text-slate-400"
+                      />
+
+                      {item.contact_detail && (
+                        <div className="pt-4 mt-2 border-t border-slate-100">
+                          <h5 className="text-sm font-bold text-slate-900 mb-2">รายละเอียดเพิ่มเติม</h5>
+                          <p className="text-sm text-slate-600 leading-relaxed">
+                            {item.contact_detail}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Admin Actions */}
             <div className="mt-8 pt-6 border-t border-slate-200 flex gap-3">
               {item.status === true && (
@@ -158,6 +234,18 @@ export default function AdminItemModal({
                   ยืนยันการคืน
                 </Button>
               )}
+
+              <Button
+                variant="outline"
+                onClick={() => {
+                  onEdit(item);
+                  onOpenChange(false);
+                }}
+                className="flex-1 bg-white hover:bg-slate-50 border-slate-200 text-slate-700 h-12 rounded-xl"
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                แก้ไข
+              </Button>
 
               <Button
                 variant="destructive"

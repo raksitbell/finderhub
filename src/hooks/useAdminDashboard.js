@@ -36,6 +36,7 @@ export function useAdminDashboard() {
 
   // Selected Item
   const [selectedItem, setSelectedItem] = useState(null);
+  const [editingItemId, setEditingItemId] = useState(null);
 
   // Forms
   const [newItem, setNewItem] = useState({
@@ -45,6 +46,10 @@ export function useAdminDashboard() {
     location: "",
     description: "",
     contact: "ห้อง Control Room ชั้น 1",
+    contact_detail: "",
+    contact_name: "",
+    contact_time: "",
+    contact_tel: "",
     image: "",
   });
 
@@ -130,15 +135,23 @@ export function useAdminDashboard() {
     // Merge newItem with any override data (like the just-uploaded image URL)
     const itemData = { ...newItem, ...overrideData };
 
-    const itemToAdd = {
+    const itemToSave = {
       ...itemData,
       image: itemData.image || "https://placehold.co/300x200?text=No+Image",
-      status: true,
+      // Only set default status if adding new item, otherwise keep existing or let API handle it
+      ...(editingItemId ? {} : { status: true }),
       date: new Date(itemData.date).getTime(),
     };
-    await DataManager.addItem(itemToAdd);
+
+    if (editingItemId) {
+      await DataManager.updateItem(editingItemId, itemToSave);
+    } else {
+      await DataManager.addItem(itemToSave);
+    }
+
     loadData();
     setIsAddModalOpen(false);
+    setEditingItemId(null); // Reset editing state
     setNewItem({
       name: "",
       category: "it_gadget",
@@ -146,8 +159,37 @@ export function useAdminDashboard() {
       location: "",
       description: "",
       contact: "ห้อง Control Room ชั้น 1",
+      contact_detail: "",
+      contact_name: "",
+      contact_time: "",
+      contact_tel: "",
       image: "",
     });
+  };
+
+  const handleEditItem = (item) => {
+    setEditingItemId(item.id);
+
+    // Format date for datetime-local input (YYYY-MM-DDTHH:mm)
+    const dateObj = new Date(item.date);
+    dateObj.setMinutes(dateObj.getMinutes() - dateObj.getTimezoneOffset());
+    const formattedDate = dateObj.toISOString().slice(0, 16);
+
+    setNewItem({
+      name: item.name,
+      category: item.category,
+      date: formattedDate,
+      location: item.location,
+      description: item.description || "",
+      contact: item.contact || "",
+      contact_detail: item.contact_detail || "",
+      contact_name: item.contact_name || "",
+      contact_time: item.contact_time || "",
+      contact_tel: item.contact_tel || "",
+      image: item.image || "",
+    });
+    setIsAddModalOpen(true);
+    setIsViewModalOpen(false); // Close view modal if open
   };
 
   const handleClaimItem = async (e) => {
@@ -292,6 +334,8 @@ export function useAdminDashboard() {
     handleDelete,
     handleImageUpload,
     handleAddItem,
+    handleEditItem,
+    editingItemId,
     handleClaimItem,
     handlePurge,
     refreshData: () => loadData(true),
