@@ -5,6 +5,12 @@
 >
 > - สำหรับเวอร์ชันภาษาอังกฤษ โปรดดู [English Version](./CHANGELOG.md)
 
+## [3.5.1] - 2025-11-26
+
+### 🐛 แก้ไข (Fixed)
+
+- **Build Error**: แก้ไขข้อผิดพลาด `ReferenceError: Link is not defined` ในหน้าเอกสารสำหรับนักพัฒนา (`/dev`)
+
 ## [3.5.0] - 2025-11-26
 
 ### เพิ่มเติม (Added)

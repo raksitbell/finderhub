@@ -1,6 +1,7 @@
 import { getDocs } from '@/lib/docs';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 import { FileText, ArrowRight, Home, LayoutDashboard, Github } from 'lucide-react';
 
 export default function DevDocsPage() {
