@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS items (
   image TEXT,
   status BOOLEAN DEFAULT true, -- true = found, false = returned
   contact TEXT,
+  contact_detail TEXT,
   contact_name TEXT,
   contact_time TEXT,
   contact_tel TEXT,

@@ -8,6 +8,7 @@ import {
   X,
   Tag,
   Edit,
+  User,
 } from "lucide-react";
 import {
   Dialog,
@@ -146,6 +147,29 @@ export default function AdminItemModal({
                 claimerSocial={item.claimer_social}
                 proofImageUrl={item.proof_image_url}
               />
+            )}
+
+            {/* Contact Details */}
+            <div className="flex items-start gap-3 text-slate-600">
+              <MapPin className="w-5 h-5 mt-0.5 shrink-0 text-slate-400" />
+              <div>
+                <span className="font-medium text-slate-900 block mb-1">
+                  สถานที่รับของคืน
+                </span>
+                {item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}
+              </div>
+            </div>
+
+            {item.contact_detail && (
+              <div className="flex items-start gap-3 text-slate-600">
+                <User className="w-5 h-5 mt-0.5 shrink-0 text-slate-400" />
+                <div>
+                  <span className="font-medium text-slate-900 block mb-1">
+                    รายละเอียดการติดต่อ
+                  </span>
+                  {item.contact_detail}
+                </div>
+              </div>
             )}
 
             {/* Admin Actions */}

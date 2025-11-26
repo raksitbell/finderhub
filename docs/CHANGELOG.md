@@ -14,10 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Admin Features**: Added "Update Item" functionality.
   - Admins can now edit existing items (name, category, date, location, description, contact info, image) directly from the dashboard.
   - Reused the "Add Item" form logic for a consistent editing experience.
+- **Database**: Added `contact_detail` column to `items` table to separate return location from contact instructions.
 - **Developer**: Added GitHub repository link to the Developer Portal (`/dev`).
 
 ### Changed
 
+- **UI/UX**: Separated "Contact" field into "Return Location" and "Contact Details" in the Add/Edit Item form for better clarity.
+- **UI/UX**: Refined `ItemModal` (Public View):
+  - Hidden "Contact Details" from public view.
+  - Made "Return Info" section collapsible.
+  - Standardized all contact information (Location, Name, Phone, Time) to use consistent `ItemDetailRow` components.
+  - Changed default values for missing contact info to "-".
+  - Removed generic "Please contact..." text.
+- **UI/UX**: Improved `AddItemForm` by changing the "Contact Details" input to a larger `Textarea` for better usability.
 - **Public UI**: Hidden the "Description" field from the public Item Modal to protect sensitive details. It remains visible in the Admin Dashboard.
 
 ### Fixed

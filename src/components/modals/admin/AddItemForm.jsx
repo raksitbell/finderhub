@@ -198,23 +198,42 @@ export default function AddItemForm({
           {/* Contact / Return Location */}
           {/* Contact / Return Location */}
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="contact" className="text-slate-900 font-medium">
-                สถานที่รับของคืน / รายละเอียดการติดต่อ
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                <Input
-                  id="contact"
-                  value={newItem.contact}
-                  onChange={(e) =>
-                    setNewItem({ ...newItem, contact: e.target.value })
-                  }
-                  placeholder="พร้อมนำบัตรประจำตัว และหลักฐานอื่นๆ เพื่อแสดงความเป็นเจ้าของทรัพย์สิน"
-                  required
-                  disabled={isUploading}
-                  className="pl-10 bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="contact" className="text-slate-900 font-medium">
+                  สถานที่รับของคืน
+                </Label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <Input
+                    id="contact"
+                    value={newItem.contact}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, contact: e.target.value })
+                    }
+                    placeholder="ระบุสถานที่รับของคืน"
+                    required
+                    disabled={isUploading}
+                    className="pl-10 bg-white border-slate-200 focus:border-slate-400 rounded-xl h-12"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactDetail" className="text-slate-900 font-medium">
+                  รายละเอียดการติดต่อ / สิ่งที่ต้องเตรียม
+                </Label>
+                <div className="relative">
+                  <Textarea
+                    id="contactDetail"
+                    value={newItem.contact_detail}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, contact_detail: e.target.value })
+                    }
+                    placeholder="เช่น เตรียมบัตรประชาชน"
+                    disabled={isUploading}
+                    className="bg-white border-slate-200 focus:border-slate-400 rounded-xl min-h-[100px] resize-none"
+                  />
+                </div>
               </div>
             </div>
 
