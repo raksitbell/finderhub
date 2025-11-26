@@ -28,8 +28,7 @@ export default function DateTimePicker({ value, onChange, disabled, required, cl
     onChange(selectedDate);
 
     if (selectedDate > maxDate) {
-      setDateError("คุณไม่สามารถเลือกวันที่ในอนาคตได้");
-      // alert("Value must be less than or equal to current time");
+      setDateError("วันที่ไม่ถูกต้อง");
     } else {
       setDateError("");
     }

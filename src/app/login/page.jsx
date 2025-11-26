@@ -31,7 +31,11 @@ export default function LoginPage() {
 
       router.push("/admin");
     } catch (error) {
-      setError(error.message);
+      if (error.message === "Invalid login credentials") {
+        setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+      } else {
+        setError(error.message);
+      }
       setIsLoading(false);
     }
   };

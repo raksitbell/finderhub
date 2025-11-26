@@ -9,6 +9,7 @@ import {
   User,
   Phone,
   ChevronDown,
+  FileText,
 } from "lucide-react";
 import { useState } from "react";
 import {
@@ -144,6 +145,13 @@ export default function ItemModal({ item, isOpen, onClose }) {
                         icon={MapPin}
                         label="สถานที่รับของคืน"
                         value={item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}
+                        iconColor="text-slate-400"
+                      />
+
+                      <ItemDetailRow
+                        icon={FileText}
+                        label="สิ่งที่ต้องเตรียมเพื่อยืนยันความเป็นเจ้าของ"
+                        value={item.contact_detail || "-"}
                         iconColor="text-slate-400"
                       />
 
