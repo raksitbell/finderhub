@@ -49,6 +49,11 @@
   </button>
   ```
 
+### Sonner (Toast Notifications)
+
+- **Why**: การแจ้งเตือนที่สวยงามและใช้งานง่าย (Toast)
+- **Usage**: แสดงสถานะความสำเร็จหรือข้อผิดพลาดของการกระทำต่างๆ (เช่น อัปโหลดรูปภาพเสร็จสิ้น, ลบรายการสำเร็จ)
+
 ### Supabase
 
 - **Why**: ครบจบในที่เดียว (DB, Auth, Storage)
@@ -102,26 +107,29 @@ export default function ItemCard({ item }) {
 
 **ตัวอย่าง Custom Hook (`useAdminDashboard`):**
 
+````javascript
 ```javascript
 // src/hooks/useAdminDashboard.js
 export function useAdminDashboard() {
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // ... State management ...
 
-  const loadData = async () => {
-    setIsLoading(true);
-    const data = await DataManager.getAllItems();
-    setItems(data);
-    setIsLoading(false);
+  // แยก Logic การกรองและการกระทำออกเป็น Hooks ย่อยเพื่อความสะอาดของโค้ด
+  const { filteredItems, ...filterState } = useItemFilters(inventoryItems);
+  const actions = useItemActions(loadData);
+
+  return {
+    filteredItems,
+    ...filterState,
+    ...actions,
+    // ... UI State ...
   };
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  return { items, isLoading, loadData };
 }
-```
+````
+
+**Custom Hooks ย่อย:**
+
+- `useItemFilters`: จัดการ State และ Logic ของการกรอง (Status, Category, Location) และการเรียงลำดับ
+- `useItemActions`: จัดการ API Calls (CRUD) และการแสดงผล Notification (Toast) ผ่าน `sonner`
 
 ### Admin Tools Implementation
 

@@ -19,6 +19,7 @@ export const metadata = {
 
 import { Analytics } from "@vercel/analytics/react";
 import PrelineScript from "@/components/common/PrelineScript";
+import { Toaster } from "sonner";
 
 export default function RootLayout({ children }) {
   return (
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       >
         {children}
         <PrelineScript />
+        <Toaster position="top-right" richColors />
         <Analytics />
       </body>
     </html>

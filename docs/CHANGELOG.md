@@ -8,6 +8,21 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2025-11-28
+
+### Added
+
+- **Notifications**: Implemented toast notifications (using `sonner`) for key actions:
+  - Item Upload, Add, Edit, Delete, Claim, and Purge.
+  - Image Upload progress feedback.
+
+### Changed
+
+- **Image Handling**: Implemented automatic deletion of old images from Supabase storage when an item's image is replaced or the item is deleted.
+- **Refactoring**: Refactored `useAdminDashboard` hook into smaller, more manageable hooks:
+  - `useItemFilters`: Manages filtering and sorting logic.
+  - `useItemActions`: Encapsulates API interactions and notifications.
+
 ## [3.5.1] - 2025-11-26
 
 ### Fixed

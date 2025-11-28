@@ -69,7 +69,39 @@ export async function PUT(request, { params }) {
       ...itemUpdates
     } = body;
 
-    // 1. Update item status and other fields
+    // 1. Check for image replacement and delete old image if necessary
+    if (itemUpdates.image) {
+      const { data: currentItem, error: fetchError } = await supabase
+        .from("items")
+        .select("image")
+        .eq("id", id)
+        .single();
+
+      if (!fetchError && currentItem?.image) {
+        const oldImageUrl = currentItem.image;
+        const newImageUrl = itemUpdates.image;
+
+        // Only delete if the image URL has actually changed
+        if (oldImageUrl !== newImageUrl) {
+          const parts = oldImageUrl.split("item-images/");
+          if (parts.length === 2) {
+            const filePath = parts[1];
+            const { error: storageError } = await supabase.storage
+              .from("item-images")
+              .remove([filePath]);
+
+            if (storageError) {
+              console.error(
+                "Error deleting old image from storage:",
+                storageError
+              );
+            }
+          }
+        }
+      }
+    }
+
+    // 2. Update item status and other fields
     const { data: updatedItem, error: itemError } = await supabase
       .from("items")
       .update({ status, ...itemUpdates })

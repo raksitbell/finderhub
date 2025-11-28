@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DataManager } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
+import { useItemFilters } from "./useItemFilters";
+import { useItemActions } from "./useItemActions";
 
 /**
  * Custom hook to manage the state and logic for the Admin Dashboard.
@@ -20,13 +22,6 @@ export function useAdminDashboard() {
   const [stats, setStats] = useState({ total: 0, found: 0, returned: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  // Filters & Sorting
-  const [filterStatus, setFilterStatus] = useState("all");
-  const [filterCategory, setFilterCategory] = useState("all");
-  const [filterLocation, setFilterLocation] = useState("");
-  const [sortOrder, setSortOrder] = useState("date_newest");
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Modals
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -102,6 +97,26 @@ export function useAdminDashboard() {
     }
   };
 
+  // --- Hooks ---
+
+  const {
+    filterStatus,
+    setFilterStatus,
+    filterCategory,
+    setFilterCategory,
+    filterLocation,
+    setFilterLocation,
+    sortOrder,
+    setSortOrder,
+    searchQuery,
+    setSearchQuery,
+    filteredItems,
+  } = useItemFilters(inventoryItems);
+
+  const actions = useItemActions(() => loadData(true));
+
+  // --- Event Handlers ---
+
   const handleLogout = async (e) => {
     if (e && e.preventDefault) e.preventDefault();
     setIsLoading(true);
@@ -110,19 +125,15 @@ export function useAdminDashboard() {
   };
 
   const handleDelete = async (id) => {
-    if (confirm("Are you sure you want to delete this item?")) {
-      await DataManager.deleteItem(id);
-      loadData();
-    }
+    await actions.deleteItem(id);
   };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const { uploadImage } = await import("@/lib/supabase");
-      const publicUrl = await uploadImage(file);
+      const publicUrl = await actions.uploadImage(file);
       if (publicUrl) {
-        setNewItem({ ...newItem, image: publicUrl });
+        setNewItem((prev) => ({ ...prev, image: publicUrl }));
         return publicUrl;
       }
     }
@@ -141,15 +152,11 @@ export function useAdminDashboard() {
       // Only set default status if adding new item, otherwise keep existing or let API handle it
       ...(editingItemId ? {} : { status: true }),
       date: new Date(itemData.date).getTime(),
+      id: editingItemId, // Pass ID if editing
     };
 
-    if (editingItemId) {
-      await DataManager.updateItem(editingItemId, itemToSave);
-    } else {
-      await DataManager.addItem(itemToSave);
-    }
+    await actions.saveItem(itemToSave, !!editingItemId);
 
-    loadData();
     setIsAddModalOpen(false);
     setEditingItemId(null); // Reset editing state
     setNewItem({
@@ -195,19 +202,8 @@ export function useAdminDashboard() {
   const handleClaimItem = async (e) => {
     e.preventDefault();
     if (selectedItem) {
-      let proofImageUrl = "";
-      if (claimData.proofEvidence) {
-        const { uploadClaimEvidence } = await import("@/lib/claims");
-        proofImageUrl = await uploadClaimEvidence(claimData.proofEvidence);
-      }
+      await actions.claimItem(selectedItem.id, claimData);
 
-      await DataManager.updateItemStatus(selectedItem.id, false, {
-        claimer_name: claimData.claimerName,
-        claimer_phone: claimData.claimerPhone,
-        claimer_social: claimData.claimerSocial,
-        proof_image_url: proofImageUrl,
-      });
-      loadData();
       setIsClaimModalOpen(false);
       setIsViewModalOpen(false);
       setClaimData({
@@ -220,13 +216,7 @@ export function useAdminDashboard() {
   };
 
   const handlePurge = async (days) => {
-    const result = await DataManager.purgeItems(days);
-    if (result.error) {
-      alert(`Error purging items: ${result.error}`);
-    } else {
-      alert(`Successfully purged ${result.count} items.`);
-      loadData();
-    }
+    await actions.purgeItems(days);
   };
 
   const openViewModal = (item) => {
@@ -238,63 +228,6 @@ export function useAdminDashboard() {
     setSelectedItem(item);
     setIsClaimModalOpen(true);
   };
-
-  // --- Derived State (Filtered Items) ---
-
-  const filteredItems = inventoryItems
-    .filter((item) => {
-      const matchesStatus =
-        filterStatus === "all"
-          ? true
-          : filterStatus === "found"
-          ? item.status === true
-          : item.status === false;
-
-      const matchesCategory =
-        filterCategory === "all" ? true : item.category === filterCategory;
-
-      const matchesLocation =
-        filterLocation === "" ||
-        item.location.toLowerCase().includes(filterLocation.toLowerCase());
-
-      const matchesSearch =
-        searchQuery === "" ||
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (item.categories?.label || item.category)
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-
-      return (
-        matchesStatus && matchesCategory && matchesLocation && matchesSearch
-      );
-    })
-    .sort((a, b) => {
-      switch (sortOrder) {
-        case "name_asc":
-          return a.name.localeCompare(b.name);
-        case "name_desc":
-          return b.name.localeCompare(a.name);
-        case "category_asc":
-          return (a.categories?.label || a.category).localeCompare(
-            b.categories?.label || b.category
-          );
-        case "category_desc":
-          return (b.categories?.label || b.category).localeCompare(
-            a.categories?.label || a.category
-          );
-        case "date_newest":
-          return new Date(b.date) - new Date(a.date);
-        case "date_oldest":
-          return new Date(a.date) - new Date(b.date);
-        case "status_found":
-          return a.status === b.status ? 0 : a.status ? -1 : 1;
-        case "status_returned":
-          return a.status === b.status ? 0 : a.status ? 1 : -1;
-        default:
-          return new Date(b.date) - new Date(a.date);
-      }
-    });
 
   return {
     // State
