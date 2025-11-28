@@ -33,7 +33,7 @@ export default function ItemCard({ item, onClick }) {
       className="flex-1 overflow-hidden bg-white border-slate-100 border rounded-[2.2rem] relative shadow-2xl cursor-pointer group hover:border-slate-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
     >
       {/* Hero image */}
-      <div className="relative h-64 w-full shadow-inner bg-slate-100">
+      <div className="relative h-48 sm:h-64 w-full shadow-inner bg-slate-100">
         {isImageLoading && (
           <div className="absolute inset-0 z-10 animate-pulse bg-slate-200" />
         )}
@@ -61,7 +61,7 @@ export default function ItemCard({ item, onClick }) {
       </div>
 
       {/* Content under hero */}
-      <div className="mt-6 pr-6 pb-6 pl-6 space-y-6">
+      <div className="mt-4 sm:mt-6 pr-4 sm:pr-6 pb-4 sm:pb-6 pl-4 sm:pl-6 space-y-4 sm:space-y-6">
         <div className="space-y-2 border-b border-slate-100 pb-5">
           <p className="text-xs font-bold text-slate-900 uppercase tracking-[0.15em] font-sans">
             {item.categories?.label || item.category}

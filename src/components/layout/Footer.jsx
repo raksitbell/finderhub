@@ -1,4 +1,5 @@
 import Link from "next/link";
+import packageInfo from "../../../package.json";
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
         <p className="text-slate-600 mb-2">
           &copy; 2025 FinderHub. All rights reserved.
         </p>
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-4 items-center">
           <Link
             href="/admin"
             className="text-sm text-slate-400 hover:text-slate-600 transition-colors"
@@ -21,6 +22,8 @@ export default function Footer() {
           >
             สำหรับนักพัฒนา
           </Link>
+          <span className="text-slate-300">|</span>
+          <span className="text-sm text-slate-400">v{packageInfo.version}</span>
         </div>
       </div>
     </footer>
