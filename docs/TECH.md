@@ -269,7 +269,12 @@ class DataManager {
 
   // Create
   static async addItem(itemData) {
-    return await supabase.from("items").insert([itemData]);
+    const response = await fetch("/api/items", { ... });
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to add item");
+    }
+    return await response.json();
   }
 
   // Update

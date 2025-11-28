@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
       >
         {children}
         <PrelineScript />
-        <Toaster position="top-right" richColors />
+        <Toaster position="top-right" richColors closeButton />
         <Analytics />
       </body>
     </html>

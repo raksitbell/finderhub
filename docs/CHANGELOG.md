@@ -8,6 +8,19 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.1] - 2025-11-28
+
+### Fixed
+
+- **Add Item Error**: Fixed "Failed to add item" error by improving error handling in `DataManager` to expose specific server errors.
+- **Null ID Error**: Fixed "null value in column id" error by conditionally omitting the `id` field for new items.
+- **Orphaned Images**: Implemented automatic image deletion if item creation fails.
+
+### Improved
+
+- **Preview Interaction**: Enabled clicking on the item card in the preview step to view full details via `ItemModal`.
+- **Error Reporting**: `DataManager` now throws specific error messages from the API response for better debugging.
+
 ## [3.6.0] - 2025-11-28
 
 ### Added

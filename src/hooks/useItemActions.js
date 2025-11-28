@@ -1,5 +1,6 @@
 import { DataManager } from "@/lib/data";
 import { toast } from "sonner";
+import { MESSAGES } from "@/constants/messages";
 
 /**
  * Custom hook to manage item actions (CRUD, Image Upload, Claims).
@@ -8,15 +9,15 @@ import { toast } from "sonner";
  */
 export function useItemActions(onSuccess) {
   const deleteItem = async (id) => {
-    if (confirm("Are you sure you want to delete this item?")) {
+    if (confirm(MESSAGES.DELETE.CONFIRM)) {
       const promise = DataManager.deleteItem(id);
       toast.promise(promise, {
-        loading: "Deleting item...",
+        loading: MESSAGES.DELETE.LOADING,
         success: () => {
           if (onSuccess) onSuccess();
-          return "Item deleted successfully";
+          return MESSAGES.DELETE.SUCCESS;
         },
-        error: "Failed to delete item",
+        error: MESSAGES.DELETE.ERROR,
       });
     }
   };
@@ -33,9 +34,9 @@ export function useItemActions(onSuccess) {
       })();
 
       toast.promise(uploadPromise, {
-        loading: "Uploading image...",
-        success: "Image uploaded successfully",
-        error: "Failed to upload image",
+        loading: MESSAGES.UPLOAD.LOADING,
+        success: MESSAGES.UPLOAD.SUCCESS,
+        error: MESSAGES.UPLOAD.ERROR,
       });
 
       return uploadPromise;
@@ -45,22 +46,39 @@ export function useItemActions(onSuccess) {
 
   const saveItem = async (itemData, isEditing) => {
     const actionPromise = (async () => {
-      if (isEditing) {
-        await DataManager.updateItem(itemData.id, itemData);
-        return "Item updated successfully";
-      } else {
-        await DataManager.addItem(itemData);
-        return "Item added successfully";
+      try {
+        if (isEditing) {
+          await DataManager.updateItem(itemData.id, itemData);
+          return MESSAGES.SAVE.UPDATE_SUCCESS;
+        } else {
+          await DataManager.addItem(itemData);
+          return MESSAGES.SAVE.ADD_SUCCESS;
+        }
+      } catch (error) {
+        // If adding a new item fails and there's an image, delete it to prevent orphans
+        if (
+          !isEditing &&
+          itemData.image &&
+          itemData.image.includes("supabase")
+        ) {
+          console.warn(
+            "Item save failed, cleaning up image...",
+            itemData.image
+          );
+          const { deleteImage } = await import("@/lib/supabase");
+          await deleteImage(itemData.image);
+        }
+        throw error; // Re-throw to trigger toast error
       }
     })();
 
     toast.promise(actionPromise, {
-      loading: isEditing ? "Updating item..." : "Adding item...",
+      loading: isEditing ? MESSAGES.SAVE.UPDATING : MESSAGES.SAVE.ADDING,
       success: (data) => {
         if (onSuccess) onSuccess();
         return data;
       },
-      error: "Failed to save item",
+      error: MESSAGES.SAVE.ERROR,
     });
 
     return actionPromise;
@@ -83,12 +101,12 @@ export function useItemActions(onSuccess) {
     })();
 
     toast.promise(claimPromise, {
-      loading: "Processing claim...",
+      loading: MESSAGES.CLAIM.LOADING,
       success: () => {
         if (onSuccess) onSuccess();
-        return "Item claimed successfully";
+        return MESSAGES.CLAIM.SUCCESS;
       },
-      error: "Failed to claim item",
+      error: MESSAGES.CLAIM.ERROR,
     });
 
     return claimPromise;
@@ -97,13 +115,13 @@ export function useItemActions(onSuccess) {
   const purgeItems = async (days) => {
     const promise = DataManager.purgeItems(days);
     toast.promise(promise, {
-      loading: "Purging items...",
+      loading: MESSAGES.PURGE.LOADING,
       success: (result) => {
         if (result.error) throw new Error(result.error);
         if (onSuccess) onSuccess();
-        return `Successfully purged ${result.count} items.`;
+        return MESSAGES.PURGE.SUCCESS(result.count);
       },
-      error: (err) => `Error purging items: ${err.message}`,
+      error: (err) => MESSAGES.PURGE.ERROR(err.message),
     });
   };
 

@@ -152,7 +152,7 @@ export function useAdminDashboard() {
       // Only set default status if adding new item, otherwise keep existing or let API handle it
       ...(editingItemId ? {} : { status: true }),
       date: new Date(itemData.date).getTime(),
-      id: editingItemId, // Pass ID if editing
+      ...(editingItemId ? { id: editingItemId } : {}), // Pass ID only if editing
     };
 
     await actions.saveItem(itemToSave, !!editingItemId);

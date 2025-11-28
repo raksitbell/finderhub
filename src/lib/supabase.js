@@ -52,3 +52,23 @@ export const uploadImage = async (file) => {
     return null;
   }
 };
+
+export const deleteImage = async (imageUrl) => {
+  try {
+    const url = new URL(imageUrl);
+    const pathParts = url.pathname.split("/");
+    const fileName = pathParts[pathParts.length - 1];
+
+    const { error } = await supabase.storage
+      .from("item-images")
+      .remove([fileName]);
+
+    if (error) {
+      throw error;
+    }
+    return true;
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    return false;
+  }
+};
