@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import { getRelativeTime } from "@/lib/utils";
 import ItemDetailRow from "@/components/items/ItemDetailRow";
 
-export default function ItemModal({ item, isOpen, onClose }) {
+export default function ItemModal({ item, isOpen, onClose, isAdmin = false }) {
   const [isReturnInfoOpen, setIsReturnInfoOpen] = useState(false);
 
   if (!item) return null;
@@ -114,7 +114,15 @@ export default function ItemModal({ item, isOpen, onClose }) {
               iconColor="text-blue-500"
             />
 
-            {/* Return Info */}
+            {isAdmin && item.description && (
+              <ItemDetailRow
+                icon={FileText}
+                label="รายละเอียดเพิ่มเติม"
+                value={item.description}
+                iconColor="text-slate-400"
+              />
+            )}
+
             {/* Return Info */}
             <div className="mt-8 pt-6 border-t border-slate-200">
               <button
@@ -141,40 +149,69 @@ export default function ItemModal({ item, isOpen, onClose }) {
                 <div className="overflow-hidden">
                   <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
                     <div className="space-y-2">
-                      <ItemDetailRow
-                        icon={MapPin}
-                        label="สถานที่รับของคืน"
-                        value={item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)"}
-                        iconColor="text-slate-400"
-                      />
+                    <div className="space-y-2">
+                      {(() => {
+                        const shouldShow = (value) => {
+                          if (!value) return false;
+                          const normalized = String(value).trim().toLowerCase();
+                          return normalized !== "-" && normalized !== "none";
+                        };
 
-                      <ItemDetailRow
-                        icon={FileText}
-                        label="สิ่งที่ต้องเตรียมเพื่อยืนยันความเป็นเจ้าของ"
-                        value={item.contact_detail || "-"}
-                        iconColor="text-slate-400"
-                      />
+                        const contactLocation =
+                          item.contact || "อาคาร 11 ชั้น 1 (ห้องควบคุม)";
+                        const contactTime =
+                          item.contact_time || "08:30 - 16:30";
 
-                      <ItemDetailRow
-                        icon={User}
-                        label="ผู้ติดต่อ"
-                        value={item.contact_name || "-"}
-                        iconColor="text-slate-400"
-                      />
+                        return (
+                          <>
+                            {shouldShow(contactLocation) && (
+                              <ItemDetailRow
+                                icon={MapPin}
+                                label="สถานที่รับของคืน"
+                                value={contactLocation}
+                                iconColor="text-slate-400"
+                              />
+                            )}
 
-                      <ItemDetailRow
-                        icon={Phone}
-                        label="เบอร์โทรศัพท์"
-                        value={item.contact_tel || "-"}
-                        iconColor="text-slate-400"
-                      />
+                            {shouldShow(item.contact_detail) && (
+                              <ItemDetailRow
+                                icon={FileText}
+                                label="สิ่งที่ต้องเตรียมเพื่อยืนยันความเป็นเจ้าของ"
+                                value={item.contact_detail}
+                                iconColor="text-slate-400"
+                              />
+                            )}
 
-                      <ItemDetailRow
-                        icon={Clock}
-                        label="เวลาทำการ"
-                        value={item.contact_time || "08:30 - 16:30"}
-                        iconColor="text-slate-400"
-                      />
+                            {shouldShow(item.contact_name) && (
+                              <ItemDetailRow
+                                icon={User}
+                                label="ผู้ติดต่อ"
+                                value={item.contact_name}
+                                iconColor="text-slate-400"
+                              />
+                            )}
+
+                            {shouldShow(item.contact_tel) && (
+                              <ItemDetailRow
+                                icon={Phone}
+                                label="เบอร์โทรศัพท์"
+                                value={item.contact_tel}
+                                iconColor="text-slate-400"
+                              />
+                            )}
+
+                            {shouldShow(contactTime) && (
+                              <ItemDetailRow
+                                icon={Clock}
+                                label="เวลาทำการ"
+                                value={contactTime}
+                                iconColor="text-slate-400"
+                              />
+                            )}
+                          </>
+                        );
+                      })()}
+                    </div>
                     </div>
                   </div>
                 </div>

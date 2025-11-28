@@ -78,6 +78,7 @@ export default function AddItemPreview({
         item={item}
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
+        isAdmin={true}
       />
     </>
   );

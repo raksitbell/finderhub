@@ -5,7 +5,7 @@ import PublicHeader from "@/components/layout/PublicHeader";
 import Footer from "@/components/layout/Footer";
 import CategoryFilter from "@/components/items/CategoryFilter";
 import ItemCardSkeleton from "@/components/ui/ItemCardSkeleton";
-import ItemCard from "@/components/items/ItemCard";
+import PublicItemCard from "@/components/items/PublicItemCard";
 import ItemModal from "@/components/modals/ItemModal";
 import FoundItemModal from "@/components/modals/FoundItemModal";
 import { useItems } from "@/hooks/useItems";
@@ -59,7 +59,7 @@ export default function Home() {
         ) : filteredItems.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.map((item) => (
-              <ItemCard
+              <PublicItemCard
                 key={item.id}
                 item={item}
                 onClick={() => setSelectedItem(item)}
