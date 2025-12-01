@@ -10,7 +10,7 @@ import PurgeModal from "@/components/modals/admin/PurgeModal";
 import { useAdminDashboard } from "@/hooks/useAdminDashboard";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 
-export default function AdminPage()  {
+export default function AdminPage() {
   const {
     userEmail,
     stats,
@@ -51,6 +51,7 @@ export default function AdminPage()  {
     isRefreshing,
     handleEditItem,
     editingItemId,
+    openAddModal,
   } = useAdminDashboard();
 
   if (isLoading) {
@@ -68,10 +69,10 @@ export default function AdminPage()  {
         />
 
 
-      <AdminTable
+        <AdminTable
           items={filteredItems}
           onView={openViewModal}
-          onAddItem={() => setIsAddModalOpen(true)}
+          onAddItem={openAddModal}
           onRefresh={refreshData}
           onPurgeClick={() => setIsPurgeModalOpen(true)}
           isRefreshing={isRefreshing}

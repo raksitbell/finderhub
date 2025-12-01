@@ -8,6 +8,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.3] - 2025-12-01
+
+### Fixed
+
+- **Admin Form State**: Fixed an issue where the "Add Item" form would retain data from a previously edited item. The form now correctly resets to a blank state when opening the "Add Item" modal.
+
 ## [3.6.2] - 2025-11-28
 
 ### Improved

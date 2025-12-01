@@ -274,5 +274,22 @@ export function useAdminDashboard() {
     refreshData: () => loadData(true),
     openViewModal,
     openClaimModal,
+    openAddModal: () => {
+      setEditingItemId(null);
+      setNewItem({
+        name: "",
+        category: "it_gadget",
+        date: "",
+        location: "",
+        description: "",
+        contact: "ห้อง Control Room ชั้น 1",
+        contact_detail: "",
+        contact_name: "",
+        contact_time: "",
+        contact_tel: "",
+        image: "",
+      });
+      setIsAddModalOpen(true);
+    },
   };
 }
