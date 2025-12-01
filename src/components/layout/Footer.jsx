@@ -23,7 +23,14 @@ export default function Footer() {
             สำหรับนักพัฒนา
           </Link>
           <span className="text-slate-300">|</span>
-          <span className="text-sm text-slate-400">v{packageInfo.version}</span>
+          <Link
+            href="https://github.com/raksitbell/finderhub"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-slate-400 hover:text-slate-600 transition-colors"
+          >
+            v{packageInfo.version}
+          </Link>
         </div>
       </div>
     </footer>
